@@ -3,6 +3,8 @@ import { createContext } from './context';
 import { schema } from './schema';
 import express from 'express';
 import expressPlayground from 'graphql-playground-middleware-express';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const server = new ApolloServer({ schema, context: createContext() });
 
