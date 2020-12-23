@@ -8,26 +8,33 @@ datasource db {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  name    String
-  social  Social
-  token   String?
-  login   String?
-  profile Profile?
-  review  Review[]
+  id            Int       @id @default(autoincrement())
+  name          String
+  avatar        String?
+  social        Social
+  token         String
+  login         String
+  profile       Profile?
+  reviews       Review[]
+  comments      Comment[]
+  alerts        Alert[]
+  taggedComment Comment[] @relation("tagged")
+  likedReview   Review[]  @relation("liked")
 }
 
 model Review {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   title      String
   content    String
-  writerId   Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
   movieTitle String
   posterPath String
   rating     Float
-  writer     User     @relation(fields: [writerId], references: [id])
+  writerId   Int
+  writer     User      @relation(fields: [writerId], references: [id])
+  comments   Comment[]
+  likedUser  User[]    @relation("liked")
 }
 
 model Profile {
@@ -41,6 +48,36 @@ model Profile {
 model Genre {
   id   Int    @id
   name String
+}
+
+model Comment {
+  id         Int      @id
+  content    String
+  reviewId   Int
+  review     Review   @relation(fields: [reviewId], references: [id])
+  writerId   Int
+  writer     User     @relation(fields: [writerId], references: [id])
+  taggedUser User[]   @relation("tagged")
+  alerts     Alert[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Alert {
+  id        Int       @id
+  type      AlertType
+  message   String
+  check     Boolean   @default(false)
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  commentId Int?
+  comment   Comment?  @relation(fields: [commentId], references: [id])
+  createdAt DateTime  @default(now())
+}
+
+enum AlertType {
+  LIKE
+  COMMENT
 }
 
 enum Social {

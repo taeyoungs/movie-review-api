@@ -19,9 +19,23 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  AlertWhereUniqueInput: { // input type
+    id?: number | null; // Int
+  }
+  CommentWhereUniqueInput: { // input type
+    id?: number | null; // Int
+  }
+  ReviewWhereUniqueInput: { // input type
+    id?: number | null; // Int
+  }
+  UserWhereUniqueInput: { // input type
+    id?: number | null; // Int
+  }
 }
 
 export interface NexusGenEnums {
+  AlertType: "COMMENT" | "LIKE"
+  Social: "GITHUB" | "GOOGLE"
 }
 
 export interface NexusGenScalars {
@@ -30,50 +44,368 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  DateTime: any
 }
 
 export interface NexusGenObjects {
+  Alert: { // root type
+    check: boolean; // Boolean!
+    commentId?: number | null; // Int
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    message: string; // String!
+    type: NexusGenEnums['AlertType']; // AlertType!
+    userId: number; // Int!
+  }
+  Comment: { // root type
+    content: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    reviewId: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    writerId: number; // Int!
+  }
+  Genre: { // root type
+    id: number; // Int!
+    name: string; // String!
+  }
+  MovieFetch: { // root type
+    backdrop_path: string; // String!
+    genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
+    id: number; // Int!
+    overview: string; // String!
+    poster_path: string; // String!
+    release_date: string; // String!
+    title: string; // String!
+    vote_average: number; // Float!
+  }
+  Network: { // root type
+    id: number; // Int!
+    logo_path?: string | null; // String
+    name: string; // String!
+  }
+  Profile: { // root type
+    bio?: string | null; // String
+    email?: string | null; // String
+    id: number; // Int!
+    userId: number; // Int!
+  }
   Query: {};
+  Review: { // root type
+    content: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    movieTitle: string; // String!
+    posterPath: string; // String!
+    rating: number; // Float!
+    title: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    writerId: number; // Int!
+  }
+  ShowFetch: { // root type
+    backdrop_path: string; // String!
+    first_air_date: string; // String!
+    genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
+    id: number; // Int!
+    name: string; // String!
+    networks?: NexusGenRootTypes['Network'][] | null; // [Network!]
+    overview: string; // String!
+    poster_path: string; // String!
+    vote_average: number; // Float!
+  }
+  User: { // root type
+    id: number; // Int!
+    login: string; // String!
+    name: string; // String!
+    social: NexusGenEnums['Social']; // Social!
+    token: string; // String!
+  }
 }
 
 export interface NexusGenInterfaces {
+  IFetch: NexusGenRootTypes['MovieFetch'] | NexusGenRootTypes['ShowFetch'];
 }
 
 export interface NexusGenUnions {
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Alert: { // field return type
+    check: boolean; // Boolean!
+    comment: NexusGenRootTypes['Comment'] | null; // Comment
+    commentId: number | null; // Int
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    message: string; // String!
+    type: NexusGenEnums['AlertType']; // AlertType!
+    user: NexusGenRootTypes['User']; // User!
+    userId: number; // Int!
+  }
+  Comment: { // field return type
+    alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
+    content: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    review: NexusGenRootTypes['Review']; // Review!
+    reviewId: number; // Int!
+    taggedUser: NexusGenRootTypes['User'][]; // [User!]!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    writer: NexusGenRootTypes['User']; // User!
+    writerId: number; // Int!
+  }
+  Genre: { // field return type
+    id: number; // Int!
+    name: string; // String!
+  }
+  MovieFetch: { // field return type
+    backdrop_path: string; // String!
+    genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
+    id: number; // Int!
+    overview: string; // String!
+    poster_path: string; // String!
+    release_date: string; // String!
+    title: string; // String!
+    vote_average: number; // Float!
+  }
+  Network: { // field return type
+    id: number; // Int!
+    logo_path: string | null; // String
+    name: string; // String!
+  }
+  Profile: { // field return type
+    bio: string | null; // String
+    email: string | null; // String
+    id: number; // Int!
+    user: NexusGenRootTypes['User']; // User!
+    userId: number; // Int!
+  }
   Query: { // field return type
     ok: boolean; // Boolean!
+  }
+  Review: { // field return type
+    content: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    likedUser: NexusGenRootTypes['User'][]; // [User!]!
+    movieTitle: string; // String!
+    posterPath: string; // String!
+    rating: number; // Float!
+    title: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    writer: NexusGenRootTypes['User']; // User!
+    writerId: number; // Int!
+  }
+  ShowFetch: { // field return type
+    backdrop_path: string; // String!
+    first_air_date: string; // String!
+    genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
+    id: number; // Int!
+    name: string; // String!
+    networks: NexusGenRootTypes['Network'][] | null; // [Network!]
+    overview: string; // String!
+    poster_path: string; // String!
+    vote_average: number; // Float!
+  }
+  User: { // field return type
+    alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
+    comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
+    id: number; // Int!
+    likedReview: NexusGenRootTypes['Review'][]; // [Review!]!
+    login: string; // String!
+    name: string; // String!
+    profile: NexusGenRootTypes['Profile'] | null; // Profile
+    reviews: NexusGenRootTypes['Review'][]; // [Review!]!
+    social: NexusGenEnums['Social']; // Social!
+    taggedComment: NexusGenRootTypes['Comment'][]; // [Comment!]!
+    token: string; // String!
+  }
+  IFetch: { // field return type
+    backdrop_path: string; // String!
+    genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
+    id: number; // Int!
+    overview: string; // String!
+    poster_path: string; // String!
+    vote_average: number; // Float!
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Alert: { // field return type name
+    check: 'Boolean'
+    comment: 'Comment'
+    commentId: 'Int'
+    createdAt: 'DateTime'
+    id: 'Int'
+    message: 'String'
+    type: 'AlertType'
+    user: 'User'
+    userId: 'Int'
+  }
+  Comment: { // field return type name
+    alerts: 'Alert'
+    content: 'String'
+    createdAt: 'DateTime'
+    id: 'Int'
+    review: 'Review'
+    reviewId: 'Int'
+    taggedUser: 'User'
+    updatedAt: 'DateTime'
+    writer: 'User'
+    writerId: 'Int'
+  }
+  Genre: { // field return type name
+    id: 'Int'
+    name: 'String'
+  }
+  MovieFetch: { // field return type name
+    backdrop_path: 'String'
+    genres: 'Genre'
+    id: 'Int'
+    overview: 'String'
+    poster_path: 'String'
+    release_date: 'String'
+    title: 'String'
+    vote_average: 'Float'
+  }
+  Network: { // field return type name
+    id: 'Int'
+    logo_path: 'String'
+    name: 'String'
+  }
+  Profile: { // field return type name
+    bio: 'String'
+    email: 'String'
+    id: 'Int'
+    user: 'User'
+    userId: 'Int'
+  }
   Query: { // field return type name
     ok: 'Boolean'
+  }
+  Review: { // field return type name
+    content: 'String'
+    createdAt: 'DateTime'
+    id: 'Int'
+    likedUser: 'User'
+    movieTitle: 'String'
+    posterPath: 'String'
+    rating: 'Float'
+    title: 'String'
+    updatedAt: 'DateTime'
+    writer: 'User'
+    writerId: 'Int'
+  }
+  ShowFetch: { // field return type name
+    backdrop_path: 'String'
+    first_air_date: 'String'
+    genres: 'Genre'
+    id: 'Int'
+    name: 'String'
+    networks: 'Network'
+    overview: 'String'
+    poster_path: 'String'
+    vote_average: 'Float'
+  }
+  User: { // field return type name
+    alerts: 'Alert'
+    comments: 'Comment'
+    id: 'Int'
+    likedReview: 'Review'
+    login: 'String'
+    name: 'String'
+    profile: 'Profile'
+    reviews: 'Review'
+    social: 'Social'
+    taggedComment: 'Comment'
+    token: 'String'
+  }
+  IFetch: { // field return type name
+    backdrop_path: 'String'
+    genres: 'Genre'
+    id: 'Int'
+    overview: 'String'
+    poster_path: 'String'
+    vote_average: 'Float'
   }
 }
 
 export interface NexusGenArgTypes {
+  Comment: {
+    alerts: { // args
+      after?: NexusGenInputs['AlertWhereUniqueInput'] | null; // AlertWhereUniqueInput
+      before?: NexusGenInputs['AlertWhereUniqueInput'] | null; // AlertWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    taggedUser: { // args
+      after?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
+      before?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
+  Review: {
+    likedUser: { // args
+      after?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
+      before?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
+  User: {
+    alerts: { // args
+      after?: NexusGenInputs['AlertWhereUniqueInput'] | null; // AlertWhereUniqueInput
+      before?: NexusGenInputs['AlertWhereUniqueInput'] | null; // AlertWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    comments: { // args
+      after?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
+      before?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    likedReview: { // args
+      after?: NexusGenInputs['ReviewWhereUniqueInput'] | null; // ReviewWhereUniqueInput
+      before?: NexusGenInputs['ReviewWhereUniqueInput'] | null; // ReviewWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    reviews: { // args
+      after?: NexusGenInputs['ReviewWhereUniqueInput'] | null; // ReviewWhereUniqueInput
+      before?: NexusGenInputs['ReviewWhereUniqueInput'] | null; // ReviewWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    taggedComment: { // args
+      after?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
+      before?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
+  IFetch: "MovieFetch" | "ShowFetch"
 }
 
 export interface NexusGenTypeInterfaces {
+  MovieFetch: "IFetch"
+  ShowFetch: "IFetch"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
-export type NexusGenInterfaceNames = never;
+export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
@@ -81,7 +413,7 @@ export type NexusGenUnionNames = never;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
-export type NexusGenAbstractsUsingStrategyResolveType = never;
+export type NexusGenAbstractsUsingStrategyResolveType = "IFetch";
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {
