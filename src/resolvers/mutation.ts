@@ -16,6 +16,7 @@ const Mutation = objectType({
         t.crud.createOneComment({
             resolve: async (root, args, ctx, info, originalResolve) => {
                 const reviewId = args.data.review.connect?.id?.valueOf();
+
                 const res = await originalResolve(root, args, ctx, info);
                 // ToDo: comment # 위치
                 // ToDo: create tag
@@ -130,7 +131,7 @@ const Mutation = objectType({
         // 2. create alert func (V)
 
         // Comment ToDo:
-        // 1. user tag func 
+        // 1. user tag func
         // 2. create alert func (V)
 
         // Alert ToDo:

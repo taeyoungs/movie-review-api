@@ -30,6 +30,7 @@ const Query = objectType({
                 id: nonNull(intArg()),
             },
             resolve: async (_, args, ctx) => {
+                console.log(ctx.user);
                 const id = args.id;
                 const movie = await api.get(`movie/${id}?append_to_response=videos`).then((res) => {
                     return res.data;

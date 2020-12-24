@@ -12,7 +12,7 @@ model User {
   name          String
   avatar        String?
   social        Social
-  token         String
+  token         String              @unique
   login         String              @unique
   profile       Profile?
   reviews       Review[]

@@ -1197,6 +1197,7 @@ export interface NexusGenInputs {
   UserWhereUniqueInput: { // input type
     id?: number | null; // Int
     login?: string | null; // String
+    token?: string | null; // String
   }
 }
 

@@ -6,7 +6,23 @@ import expressPlayground from 'graphql-playground-middleware-express';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const server = new ApolloServer({ schema, context: createContext() });
+const server = new ApolloServer({
+    schema,
+    context: async ({ req }) => {
+        const token = req && req.headers.authorization;
+        const { prisma } = createContext();
+        if (token) {
+            const user = await prisma.user.findUnique({
+                where: {
+                    token,
+                },
+            });
+            return { prisma, user };
+        } else {
+            return { prisma };
+        }
+    },
+});
 
 const app = express();
 

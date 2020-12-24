@@ -1535,6 +1535,7 @@ input UserUpsertWithoutTaggedCommentInput {
 input UserWhereUniqueInput {
   id: Int
   login: String
+  token: String
 }
 
 type Video {
