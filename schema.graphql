@@ -160,6 +160,11 @@ input AlertWhereUniqueInput {
   id: Int
 }
 
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
 input BoolFieldUpdateOperationsInput {
   set: Boolean
 }
@@ -576,6 +581,7 @@ type Mutation {
   createOneReview(data: ReviewCreateInput!): Review!
   deleteOneComment(where: CommentWhereUniqueInput!): Comment
   deleteOneReview(where: ReviewWhereUniqueInput!): Review
+  githutAuth(code: String!, social: Social!): AuthPayload
   signUp(data: UserCreateInput!): User!
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile
@@ -773,6 +779,7 @@ input ReviewCreateInput {
   comments: CommentCreateManyWithoutReviewInput
   content: String!
   createdAt: DateTime
+  likeCount: Int
   likedUser: UserCreateManyWithoutLikedReviewInput
   movieTitle: String!
   posterPath: String!
@@ -818,6 +825,7 @@ input ReviewCreateOrConnectWithoutwriterInput {
 input ReviewCreateWithoutCommentsInput {
   content: String!
   createdAt: DateTime
+  likeCount: Int
   likedUser: UserCreateManyWithoutLikedReviewInput
   movieTitle: String!
   posterPath: String!
@@ -831,6 +839,7 @@ input ReviewCreateWithoutLikedUserInput {
   comments: CommentCreateManyWithoutReviewInput
   content: String!
   createdAt: DateTime
+  likeCount: Int
   movieTitle: String!
   posterPath: String!
   rating: Float!
@@ -843,6 +852,7 @@ input ReviewCreateWithoutWriterInput {
   comments: CommentCreateManyWithoutReviewInput
   content: String!
   createdAt: DateTime
+  likeCount: Int
   likedUser: UserCreateManyWithoutLikedReviewInput
   movieTitle: String!
   posterPath: String!
@@ -856,6 +866,7 @@ input ReviewScalarWhereInput {
   content: StringFilter
   createdAt: DateTimeFilter
   id: IntFilter
+  likeCount: IntFilter
   movieTitle: StringFilter
   NOT: [ReviewScalarWhereInput!]
   OR: [ReviewScalarWhereInput!]
@@ -870,6 +881,7 @@ input ReviewUpdateInput {
   comments: CommentUpdateManyWithoutReviewInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
+  likeCount: IntFieldUpdateOperationsInput
   likedUser: UserUpdateManyWithoutLikedReviewInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
@@ -882,6 +894,7 @@ input ReviewUpdateInput {
 input ReviewUpdateManyMutationInput {
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
+  likeCount: IntFieldUpdateOperationsInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
   rating: FloatFieldUpdateOperationsInput
@@ -936,6 +949,7 @@ input ReviewUpdateOneRequiredWithoutCommentsInput {
 input ReviewUpdateWithoutCommentsInput {
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
+  likeCount: IntFieldUpdateOperationsInput
   likedUser: UserUpdateManyWithoutLikedReviewInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
@@ -949,6 +963,7 @@ input ReviewUpdateWithoutLikedUserInput {
   comments: CommentUpdateManyWithoutReviewInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
+  likeCount: IntFieldUpdateOperationsInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
   rating: FloatFieldUpdateOperationsInput
@@ -961,6 +976,7 @@ input ReviewUpdateWithoutWriterInput {
   comments: CommentUpdateManyWithoutReviewInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
+  likeCount: IntFieldUpdateOperationsInput
   likedUser: UserUpdateManyWithoutLikedReviewInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
@@ -1054,6 +1070,7 @@ input StringNullableFilter {
 
 type User {
   alerts(after: AlertWhereUniqueInput, before: AlertWhereUniqueInput, first: Int, last: Int): [Alert!]!
+  avatar: String
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   id: Int!
   likedReview(after: ReviewWhereUniqueInput, before: ReviewWhereUniqueInput, first: Int, last: Int): [Review!]!
@@ -1428,6 +1445,7 @@ input UserUpsertWithWhereUniqueWithoutTaggedCommentInput {
 
 input UserWhereUniqueInput {
   id: Int
+  login: String
 }
 
 type Video {

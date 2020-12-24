@@ -13,7 +13,7 @@ model User {
   avatar        String?
   social        Social
   token         String
-  login         String
+  login         String    @unique
   profile       Profile?
   reviews       Review[]
   comments      Comment[]
@@ -31,6 +31,7 @@ model Review {
   movieTitle String
   posterPath String
   rating     Float
+  likeCount  Int       @default(0)
   writerId   Int
   writer     User      @relation(fields: [writerId], references: [id])
   comments   Comment[]

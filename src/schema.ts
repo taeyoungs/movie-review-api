@@ -1,6 +1,6 @@
 import { enumType, intArg, interfaceType, makeSchema, nonNull, objectType, stringArg } from 'nexus';
 import { nexusPrisma } from 'nexus-plugin-prisma';
-import api from './api';
+import api, { getGithubToken, getGithubUser } from './api';
 
 const Social = enumType({
     name: 'Social',
@@ -18,6 +18,7 @@ const User = objectType({
         t.model.id();
         t.model.name();
         t.model.token();
+        t.model.avatar();
         t.model.login();
         t.model.social();
         t.model.reviews();
@@ -161,6 +162,16 @@ const ShowFetch = objectType({
     },
 });
 
+const AuthPayload = objectType({
+    name: 'AuthPayload',
+    definition(t) {
+        t.nonNull.string('token');
+        t.nonNull.field('user', {
+            type: User,
+        });
+    },
+});
+
 const Query = objectType({
     name: 'Query',
     definition(t) {
@@ -272,9 +283,43 @@ const Mutation = objectType({
         t.crud.deleteOneComment();
         t.crud.updateOneComment();
 
+        // ToDo:
+        // Query, Mutation 분리
+
         // User ToDo:
-        // 1. github, google login (token)
+        // 1. github(V), google login (token)
+        t.field('githutAuth', {
+            type: 'AuthPayload',
+            args: {
+                code: nonNull(stringArg()),
+                social: nonNull('Social'),
+            },
+            resolve: async (_, { code, social }, ctx) => {
+                const { access_token } = await getGithubToken(code);
+                const { login, avatar_url, name } = await getGithubUser(access_token);
+                const data = {
+                    name,
+                    avatar: avatar_url,
+                    token: access_token,
+                    login,
+                    social,
+                };
+                const user = await ctx.prisma.user.upsert({
+                    where: { login },
+                    update: data,
+                    create: data,
+                });
+                return { user, token: access_token };
+            },
+        });
+
         // 2. review like func, comment tag func
+        /*
+        t.field('likeReview', {
+            type: 'Review',
+            
+        })
+        */
         // 3. admin ?
 
         // Review ToDo:
@@ -308,6 +353,7 @@ export const schema = makeSchema({
         Comment,
         Query,
         Mutation,
+        AuthPayload,
     ],
     plugins: [nexusPrisma({ experimentalCRUD: true })],
     outputs: {

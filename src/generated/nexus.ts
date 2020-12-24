@@ -588,6 +588,7 @@ export interface NexusGenInputs {
     comments?: NexusGenInputs['CommentCreateManyWithoutReviewInput'] | null; // CommentCreateManyWithoutReviewInput
     content: string; // String!
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    likeCount?: number | null; // Int
     likedUser?: NexusGenInputs['UserCreateManyWithoutLikedReviewInput'] | null; // UserCreateManyWithoutLikedReviewInput
     movieTitle: string; // String!
     posterPath: string; // String!
@@ -626,6 +627,7 @@ export interface NexusGenInputs {
   ReviewCreateWithoutCommentsInput: { // input type
     content: string; // String!
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    likeCount?: number | null; // Int
     likedUser?: NexusGenInputs['UserCreateManyWithoutLikedReviewInput'] | null; // UserCreateManyWithoutLikedReviewInput
     movieTitle: string; // String!
     posterPath: string; // String!
@@ -638,6 +640,7 @@ export interface NexusGenInputs {
     comments?: NexusGenInputs['CommentCreateManyWithoutReviewInput'] | null; // CommentCreateManyWithoutReviewInput
     content: string; // String!
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    likeCount?: number | null; // Int
     movieTitle: string; // String!
     posterPath: string; // String!
     rating: number; // Float!
@@ -649,6 +652,7 @@ export interface NexusGenInputs {
     comments?: NexusGenInputs['CommentCreateManyWithoutReviewInput'] | null; // CommentCreateManyWithoutReviewInput
     content: string; // String!
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    likeCount?: number | null; // Int
     likedUser?: NexusGenInputs['UserCreateManyWithoutLikedReviewInput'] | null; // UserCreateManyWithoutLikedReviewInput
     movieTitle: string; // String!
     posterPath: string; // String!
@@ -661,6 +665,7 @@ export interface NexusGenInputs {
     content?: NexusGenInputs['StringFilter'] | null; // StringFilter
     createdAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
     id?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    likeCount?: NexusGenInputs['IntFilter'] | null; // IntFilter
     movieTitle?: NexusGenInputs['StringFilter'] | null; // StringFilter
     NOT?: NexusGenInputs['ReviewScalarWhereInput'][] | null; // [ReviewScalarWhereInput!]
     OR?: NexusGenInputs['ReviewScalarWhereInput'][] | null; // [ReviewScalarWhereInput!]
@@ -674,6 +679,7 @@ export interface NexusGenInputs {
     comments?: NexusGenInputs['CommentUpdateManyWithoutReviewInput'] | null; // CommentUpdateManyWithoutReviewInput
     content?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+    likeCount?: NexusGenInputs['IntFieldUpdateOperationsInput'] | null; // IntFieldUpdateOperationsInput
     likedUser?: NexusGenInputs['UserUpdateManyWithoutLikedReviewInput'] | null; // UserUpdateManyWithoutLikedReviewInput
     movieTitle?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     posterPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
@@ -685,6 +691,7 @@ export interface NexusGenInputs {
   ReviewUpdateManyMutationInput: { // input type
     content?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+    likeCount?: NexusGenInputs['IntFieldUpdateOperationsInput'] | null; // IntFieldUpdateOperationsInput
     movieTitle?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     posterPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     rating?: NexusGenInputs['FloatFieldUpdateOperationsInput'] | null; // FloatFieldUpdateOperationsInput
@@ -741,6 +748,7 @@ export interface NexusGenInputs {
   ReviewUpdateWithoutCommentsInput: { // input type
     content?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+    likeCount?: NexusGenInputs['IntFieldUpdateOperationsInput'] | null; // IntFieldUpdateOperationsInput
     likedUser?: NexusGenInputs['UserUpdateManyWithoutLikedReviewInput'] | null; // UserUpdateManyWithoutLikedReviewInput
     movieTitle?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     posterPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
@@ -753,6 +761,7 @@ export interface NexusGenInputs {
     comments?: NexusGenInputs['CommentUpdateManyWithoutReviewInput'] | null; // CommentUpdateManyWithoutReviewInput
     content?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+    likeCount?: NexusGenInputs['IntFieldUpdateOperationsInput'] | null; // IntFieldUpdateOperationsInput
     movieTitle?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     posterPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     rating?: NexusGenInputs['FloatFieldUpdateOperationsInput'] | null; // FloatFieldUpdateOperationsInput
@@ -764,6 +773,7 @@ export interface NexusGenInputs {
     comments?: NexusGenInputs['CommentUpdateManyWithoutReviewInput'] | null; // CommentUpdateManyWithoutReviewInput
     content?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+    likeCount?: NexusGenInputs['IntFieldUpdateOperationsInput'] | null; // IntFieldUpdateOperationsInput
     likedUser?: NexusGenInputs['UserUpdateManyWithoutLikedReviewInput'] | null; // UserUpdateManyWithoutLikedReviewInput
     movieTitle?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     posterPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
@@ -1137,6 +1147,7 @@ export interface NexusGenInputs {
   }
   UserWhereUniqueInput: { // input type
     id?: number | null; // Int
+    login?: string | null; // String
   }
 }
 
@@ -1163,6 +1174,10 @@ export interface NexusGenObjects {
     message: string; // String!
     type: NexusGenEnums['AlertType']; // AlertType!
     userId: number; // Int!
+  }
+  AuthPayload: { // root type
+    token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
   }
   Comment: { // root type
     content: string; // String!
@@ -1228,6 +1243,7 @@ export interface NexusGenObjects {
     vote_average: number; // Float!
   }
   User: { // root type
+    avatar?: string | null; // String
     id: number; // Int!
     login: string; // String!
     name: string; // String!
@@ -1264,6 +1280,10 @@ export interface NexusGenFieldTypes {
     user: NexusGenRootTypes['User']; // User!
     userId: number; // Int!
   }
+  AuthPayload: { // field return type
+    token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Comment: { // field return type
     alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
     content: string; // String!
@@ -1298,6 +1318,7 @@ export interface NexusGenFieldTypes {
     createOneReview: NexusGenRootTypes['Review']; // Review!
     deleteOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     deleteOneReview: NexusGenRootTypes['Review'] | null; // Review
+    githutAuth: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     signUp: NexusGenRootTypes['User']; // User!
     updateOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     updateOneProfile: NexusGenRootTypes['Profile'] | null; // Profile
@@ -1359,6 +1380,7 @@ export interface NexusGenFieldTypes {
   }
   User: { // field return type
     alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
+    avatar: string | null; // String
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
     id: number; // Int!
     likedReview: NexusGenRootTypes['Review'][]; // [Review!]!
@@ -1399,6 +1421,10 @@ export interface NexusGenFieldTypeNames {
     user: 'User'
     userId: 'Int'
   }
+  AuthPayload: { // field return type name
+    token: 'String'
+    user: 'User'
+  }
   Comment: { // field return type name
     alerts: 'Alert'
     content: 'String'
@@ -1433,6 +1459,7 @@ export interface NexusGenFieldTypeNames {
     createOneReview: 'Review'
     deleteOneComment: 'Comment'
     deleteOneReview: 'Review'
+    githutAuth: 'AuthPayload'
     signUp: 'User'
     updateOneComment: 'Comment'
     updateOneProfile: 'Profile'
@@ -1494,6 +1521,7 @@ export interface NexusGenFieldTypeNames {
   }
   User: { // field return type name
     alerts: 'Alert'
+    avatar: 'String'
     comments: 'Comment'
     id: 'Int'
     likedReview: 'Review'
@@ -1535,6 +1563,10 @@ export interface NexusGenArgTypes {
     }
     deleteOneReview: { // args
       where: NexusGenInputs['ReviewWhereUniqueInput']; // ReviewWhereUniqueInput!
+    }
+    githutAuth: { // args
+      code: string; // String!
+      social: NexusGenEnums['Social']; // Social!
     }
     signUp: { // args
       data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
