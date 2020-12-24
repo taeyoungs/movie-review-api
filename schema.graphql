@@ -39,7 +39,6 @@ input AlertCreateOrConnectWithoutuserInput {
 input AlertCreateWithoutCommentInput {
   check: Boolean
   createdAt: DateTime
-  id: Int!
   message: String!
   type: AlertType!
   user: UserCreateOneWithoutAlertsInput!
@@ -49,7 +48,6 @@ input AlertCreateWithoutUserInput {
   check: Boolean
   comment: CommentCreateOneWithoutAlertsInput
   createdAt: DateTime
-  id: Int!
   message: String!
   type: AlertType!
 }
@@ -75,7 +73,6 @@ enum AlertType {
 input AlertUpdateManyMutationInput {
   check: BoolFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
   message: StringFieldUpdateOperationsInput
   type: EnumAlertTypeFieldUpdateOperationsInput
 }
@@ -119,7 +116,6 @@ input AlertUpdateManyWithWhereWithoutUserInput {
 input AlertUpdateWithoutCommentInput {
   check: BoolFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
   message: StringFieldUpdateOperationsInput
   type: EnumAlertTypeFieldUpdateOperationsInput
   user: UserUpdateOneRequiredWithoutAlertsInput
@@ -129,7 +125,6 @@ input AlertUpdateWithoutUserInput {
   check: BoolFieldUpdateOperationsInput
   comment: CommentUpdateOneWithoutAlertsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
   message: StringFieldUpdateOperationsInput
   type: EnumAlertTypeFieldUpdateOperationsInput
 }
@@ -181,7 +176,7 @@ type Comment {
   id: Int!
   review: Review!
   reviewId: Int!
-  taggedUser: [User!]!
+  taggedUser(after: UserTaggedCommentWhereUniqueInput, before: UserTaggedCommentWhereUniqueInput, first: Int, last: Int): [UserTaggedComment!]!
   updatedAt: DateTime!
   writer: User!
   writerId: Int!
@@ -191,9 +186,8 @@ input CommentCreateInput {
   alerts: AlertCreateManyWithoutCommentInput
   content: String!
   createdAt: DateTime
-  id: Int!
   review: ReviewCreateOneWithoutCommentsInput!
-  taggedUser: UserCreateManyWithoutTaggedCommentInput
+  taggedUser: UserTaggedCommentCreateManyWithoutCommentInput
   updatedAt: DateTime
   writer: UserCreateOneWithoutCommentsInput!
 }
@@ -202,12 +196,6 @@ input CommentCreateManyWithoutReviewInput {
   connect: [CommentWhereUniqueInput!]
   connectOrCreate: [CommentCreateOrConnectWithoutreviewInput!]
   create: [CommentCreateWithoutReviewInput!]
-}
-
-input CommentCreateManyWithoutTaggedUserInput {
-  connect: [CommentWhereUniqueInput!]
-  connectOrCreate: [CommentCreateOrConnectWithouttaggedUserInput!]
-  create: [CommentCreateWithoutTaggedUserInput!]
 }
 
 input CommentCreateManyWithoutWriterInput {
@@ -220,6 +208,12 @@ input CommentCreateOneWithoutAlertsInput {
   connect: CommentWhereUniqueInput
   connectOrCreate: CommentCreateOrConnectWithoutalertsInput
   create: CommentCreateWithoutAlertsInput
+}
+
+input CommentCreateOneWithoutTaggedUserInput {
+  connect: CommentWhereUniqueInput
+  connectOrCreate: CommentCreateOrConnectWithouttaggedUserInput
+  create: CommentCreateWithoutTaggedUserInput
 }
 
 input CommentCreateOrConnectWithoutalertsInput {
@@ -245,9 +239,8 @@ input CommentCreateOrConnectWithoutwriterInput {
 input CommentCreateWithoutAlertsInput {
   content: String!
   createdAt: DateTime
-  id: Int!
   review: ReviewCreateOneWithoutCommentsInput!
-  taggedUser: UserCreateManyWithoutTaggedCommentInput
+  taggedUser: UserTaggedCommentCreateManyWithoutCommentInput
   updatedAt: DateTime
   writer: UserCreateOneWithoutCommentsInput!
 }
@@ -256,8 +249,7 @@ input CommentCreateWithoutReviewInput {
   alerts: AlertCreateManyWithoutCommentInput
   content: String!
   createdAt: DateTime
-  id: Int!
-  taggedUser: UserCreateManyWithoutTaggedCommentInput
+  taggedUser: UserTaggedCommentCreateManyWithoutCommentInput
   updatedAt: DateTime
   writer: UserCreateOneWithoutCommentsInput!
 }
@@ -266,7 +258,6 @@ input CommentCreateWithoutTaggedUserInput {
   alerts: AlertCreateManyWithoutCommentInput
   content: String!
   createdAt: DateTime
-  id: Int!
   review: ReviewCreateOneWithoutCommentsInput!
   updatedAt: DateTime
   writer: UserCreateOneWithoutCommentsInput!
@@ -276,9 +267,8 @@ input CommentCreateWithoutWriterInput {
   alerts: AlertCreateManyWithoutCommentInput
   content: String!
   createdAt: DateTime
-  id: Int!
   review: ReviewCreateOneWithoutCommentsInput!
-  taggedUser: UserCreateManyWithoutTaggedCommentInput
+  taggedUser: UserTaggedCommentCreateManyWithoutCommentInput
   updatedAt: DateTime
 }
 
@@ -298,9 +288,8 @@ input CommentUpdateInput {
   alerts: AlertUpdateManyWithoutCommentInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
   review: ReviewUpdateOneRequiredWithoutCommentsInput
-  taggedUser: UserUpdateManyWithoutTaggedCommentInput
+  taggedUser: UserTaggedCommentUpdateManyWithoutCommentInput
   updatedAt: DateTimeFieldUpdateOperationsInput
   writer: UserUpdateOneRequiredWithoutCommentsInput
 }
@@ -308,7 +297,6 @@ input CommentUpdateInput {
 input CommentUpdateManyMutationInput {
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
@@ -323,19 +311,6 @@ input CommentUpdateManyWithoutReviewInput {
   update: [CommentUpdateWithWhereUniqueWithoutReviewInput!]
   updateMany: [CommentUpdateManyWithWhereWithoutReviewInput!]
   upsert: [CommentUpsertWithWhereUniqueWithoutReviewInput!]
-}
-
-input CommentUpdateManyWithoutTaggedUserInput {
-  connect: [CommentWhereUniqueInput!]
-  connectOrCreate: [CommentCreateOrConnectWithouttaggedUserInput!]
-  create: [CommentCreateWithoutTaggedUserInput!]
-  delete: [CommentWhereUniqueInput!]
-  deleteMany: [CommentScalarWhereInput!]
-  disconnect: [CommentWhereUniqueInput!]
-  set: [CommentWhereUniqueInput!]
-  update: [CommentUpdateWithWhereUniqueWithoutTaggedUserInput!]
-  updateMany: [CommentUpdateManyWithWhereWithoutTaggedUserInput!]
-  upsert: [CommentUpsertWithWhereUniqueWithoutTaggedUserInput!]
 }
 
 input CommentUpdateManyWithoutWriterInput {
@@ -356,14 +331,17 @@ input CommentUpdateManyWithWhereWithoutReviewInput {
   where: CommentScalarWhereInput!
 }
 
-input CommentUpdateManyWithWhereWithoutTaggedUserInput {
+input CommentUpdateManyWithWhereWithoutWriterInput {
   data: CommentUpdateManyMutationInput!
   where: CommentScalarWhereInput!
 }
 
-input CommentUpdateManyWithWhereWithoutWriterInput {
-  data: CommentUpdateManyMutationInput!
-  where: CommentScalarWhereInput!
+input CommentUpdateOneRequiredWithoutTaggedUserInput {
+  connect: CommentWhereUniqueInput
+  connectOrCreate: CommentCreateOrConnectWithouttaggedUserInput
+  create: CommentCreateWithoutTaggedUserInput
+  update: CommentUpdateWithoutTaggedUserInput
+  upsert: CommentUpsertWithoutTaggedUserInput
 }
 
 input CommentUpdateOneWithoutAlertsInput {
@@ -379,9 +357,8 @@ input CommentUpdateOneWithoutAlertsInput {
 input CommentUpdateWithoutAlertsInput {
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
   review: ReviewUpdateOneRequiredWithoutCommentsInput
-  taggedUser: UserUpdateManyWithoutTaggedCommentInput
+  taggedUser: UserTaggedCommentUpdateManyWithoutCommentInput
   updatedAt: DateTimeFieldUpdateOperationsInput
   writer: UserUpdateOneRequiredWithoutCommentsInput
 }
@@ -390,8 +367,7 @@ input CommentUpdateWithoutReviewInput {
   alerts: AlertUpdateManyWithoutCommentInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
-  taggedUser: UserUpdateManyWithoutTaggedCommentInput
+  taggedUser: UserTaggedCommentUpdateManyWithoutCommentInput
   updatedAt: DateTimeFieldUpdateOperationsInput
   writer: UserUpdateOneRequiredWithoutCommentsInput
 }
@@ -400,7 +376,6 @@ input CommentUpdateWithoutTaggedUserInput {
   alerts: AlertUpdateManyWithoutCommentInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
   review: ReviewUpdateOneRequiredWithoutCommentsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
   writer: UserUpdateOneRequiredWithoutCommentsInput
@@ -410,19 +385,13 @@ input CommentUpdateWithoutWriterInput {
   alerts: AlertUpdateManyWithoutCommentInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  id: IntFieldUpdateOperationsInput
   review: ReviewUpdateOneRequiredWithoutCommentsInput
-  taggedUser: UserUpdateManyWithoutTaggedCommentInput
+  taggedUser: UserTaggedCommentUpdateManyWithoutCommentInput
   updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input CommentUpdateWithWhereUniqueWithoutReviewInput {
   data: CommentUpdateWithoutReviewInput!
-  where: CommentWhereUniqueInput!
-}
-
-input CommentUpdateWithWhereUniqueWithoutTaggedUserInput {
-  data: CommentUpdateWithoutTaggedUserInput!
   where: CommentWhereUniqueInput!
 }
 
@@ -436,15 +405,14 @@ input CommentUpsertWithoutAlertsInput {
   update: CommentUpdateWithoutAlertsInput!
 }
 
+input CommentUpsertWithoutTaggedUserInput {
+  create: CommentCreateWithoutTaggedUserInput!
+  update: CommentUpdateWithoutTaggedUserInput!
+}
+
 input CommentUpsertWithWhereUniqueWithoutReviewInput {
   create: CommentCreateWithoutReviewInput!
   update: CommentUpdateWithoutReviewInput!
-  where: CommentWhereUniqueInput!
-}
-
-input CommentUpsertWithWhereUniqueWithoutTaggedUserInput {
-  create: CommentCreateWithoutTaggedUserInput!
-  update: CommentUpdateWithoutTaggedUserInput!
   where: CommentWhereUniqueInput!
 }
 
@@ -490,13 +458,6 @@ input EnumSocialFieldUpdateOperationsInput {
   set: Social
 }
 
-input EnumSocialFilter {
-  equals: Social
-  in: [Social!]
-  not: NestedEnumSocialFilter
-  notIn: [Social!]
-}
-
 input FloatFieldUpdateOperationsInput {
   decrement: Float
   divide: Float
@@ -530,14 +491,6 @@ interface IFetch {
   total_pages: Int!
   total_results: Int!
   vote_average: Float!
-}
-
-input IntFieldUpdateOperationsInput {
-  decrement: Int
-  divide: Int
-  increment: Int
-  multiply: Int
-  set: Int
 }
 
 input IntFilter {
@@ -583,6 +536,7 @@ type Mutation {
   deleteOneReview(where: ReviewWhereUniqueInput!): Review
   githutAuth(code: String!, social: Social!): AuthPayload
   signUp(data: UserCreateInput!): User!
+  toggleLikeReview(reviewId: Int!, userId: Int!): Boolean
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile
   updateOneReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
@@ -609,13 +563,6 @@ input NestedEnumAlertTypeFilter {
   in: [AlertType!]
   not: NestedEnumAlertTypeFilter
   notIn: [AlertType!]
-}
-
-input NestedEnumSocialFilter {
-  equals: Social
-  in: [Social!]
-  not: NestedEnumSocialFilter
-  notIn: [Social!]
 }
 
 input NestedFloatFilter {
@@ -661,20 +608,6 @@ input NestedStringFilter {
   lt: String
   lte: String
   not: NestedStringFilter
-  notIn: [String!]
-  startsWith: String
-}
-
-input NestedStringNullableFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -765,7 +698,7 @@ type Review {
   content: String!
   createdAt: DateTime!
   id: Int!
-  likedUser(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
+  likeUsers(after: UserLikeReviewWhereUniqueInput, before: UserLikeReviewWhereUniqueInput, first: Int, last: Int): [UserLikeReview!]!
   movieTitle: String!
   posterPath: String!
   rating: Float!
@@ -779,20 +712,13 @@ input ReviewCreateInput {
   comments: CommentCreateManyWithoutReviewInput
   content: String!
   createdAt: DateTime
-  likeCount: Int
-  likedUser: UserCreateManyWithoutLikedReviewInput
+  likeUsers: UserLikeReviewCreateManyWithoutReviewInput
   movieTitle: String!
   posterPath: String!
   rating: Float!
   title: String!
   updatedAt: DateTime
   writer: UserCreateOneWithoutReviewsInput!
-}
-
-input ReviewCreateManyWithoutLikedUserInput {
-  connect: [ReviewWhereUniqueInput!]
-  connectOrCreate: [ReviewCreateOrConnectWithoutlikedUserInput!]
-  create: [ReviewCreateWithoutLikedUserInput!]
 }
 
 input ReviewCreateManyWithoutWriterInput {
@@ -807,13 +733,19 @@ input ReviewCreateOneWithoutCommentsInput {
   create: ReviewCreateWithoutCommentsInput
 }
 
+input ReviewCreateOneWithoutLikeUsersInput {
+  connect: ReviewWhereUniqueInput
+  connectOrCreate: ReviewCreateOrConnectWithoutlikeUsersInput
+  create: ReviewCreateWithoutLikeUsersInput
+}
+
 input ReviewCreateOrConnectWithoutcommentsInput {
   create: ReviewCreateWithoutCommentsInput!
   where: ReviewWhereUniqueInput!
 }
 
-input ReviewCreateOrConnectWithoutlikedUserInput {
-  create: ReviewCreateWithoutLikedUserInput!
+input ReviewCreateOrConnectWithoutlikeUsersInput {
+  create: ReviewCreateWithoutLikeUsersInput!
   where: ReviewWhereUniqueInput!
 }
 
@@ -825,8 +757,7 @@ input ReviewCreateOrConnectWithoutwriterInput {
 input ReviewCreateWithoutCommentsInput {
   content: String!
   createdAt: DateTime
-  likeCount: Int
-  likedUser: UserCreateManyWithoutLikedReviewInput
+  likeUsers: UserLikeReviewCreateManyWithoutReviewInput
   movieTitle: String!
   posterPath: String!
   rating: Float!
@@ -835,11 +766,10 @@ input ReviewCreateWithoutCommentsInput {
   writer: UserCreateOneWithoutReviewsInput!
 }
 
-input ReviewCreateWithoutLikedUserInput {
+input ReviewCreateWithoutLikeUsersInput {
   comments: CommentCreateManyWithoutReviewInput
   content: String!
   createdAt: DateTime
-  likeCount: Int
   movieTitle: String!
   posterPath: String!
   rating: Float!
@@ -852,8 +782,7 @@ input ReviewCreateWithoutWriterInput {
   comments: CommentCreateManyWithoutReviewInput
   content: String!
   createdAt: DateTime
-  likeCount: Int
-  likedUser: UserCreateManyWithoutLikedReviewInput
+  likeUsers: UserLikeReviewCreateManyWithoutReviewInput
   movieTitle: String!
   posterPath: String!
   rating: Float!
@@ -866,7 +795,6 @@ input ReviewScalarWhereInput {
   content: StringFilter
   createdAt: DateTimeFilter
   id: IntFilter
-  likeCount: IntFilter
   movieTitle: StringFilter
   NOT: [ReviewScalarWhereInput!]
   OR: [ReviewScalarWhereInput!]
@@ -881,8 +809,7 @@ input ReviewUpdateInput {
   comments: CommentUpdateManyWithoutReviewInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  likeCount: IntFieldUpdateOperationsInput
-  likedUser: UserUpdateManyWithoutLikedReviewInput
+  likeUsers: UserLikeReviewUpdateManyWithoutReviewInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
   rating: FloatFieldUpdateOperationsInput
@@ -894,25 +821,11 @@ input ReviewUpdateInput {
 input ReviewUpdateManyMutationInput {
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  likeCount: IntFieldUpdateOperationsInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
   rating: FloatFieldUpdateOperationsInput
   title: StringFieldUpdateOperationsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
-}
-
-input ReviewUpdateManyWithoutLikedUserInput {
-  connect: [ReviewWhereUniqueInput!]
-  connectOrCreate: [ReviewCreateOrConnectWithoutlikedUserInput!]
-  create: [ReviewCreateWithoutLikedUserInput!]
-  delete: [ReviewWhereUniqueInput!]
-  deleteMany: [ReviewScalarWhereInput!]
-  disconnect: [ReviewWhereUniqueInput!]
-  set: [ReviewWhereUniqueInput!]
-  update: [ReviewUpdateWithWhereUniqueWithoutLikedUserInput!]
-  updateMany: [ReviewUpdateManyWithWhereWithoutLikedUserInput!]
-  upsert: [ReviewUpsertWithWhereUniqueWithoutLikedUserInput!]
 }
 
 input ReviewUpdateManyWithoutWriterInput {
@@ -928,11 +841,6 @@ input ReviewUpdateManyWithoutWriterInput {
   upsert: [ReviewUpsertWithWhereUniqueWithoutWriterInput!]
 }
 
-input ReviewUpdateManyWithWhereWithoutLikedUserInput {
-  data: ReviewUpdateManyMutationInput!
-  where: ReviewScalarWhereInput!
-}
-
 input ReviewUpdateManyWithWhereWithoutWriterInput {
   data: ReviewUpdateManyMutationInput!
   where: ReviewScalarWhereInput!
@@ -946,11 +854,18 @@ input ReviewUpdateOneRequiredWithoutCommentsInput {
   upsert: ReviewUpsertWithoutCommentsInput
 }
 
+input ReviewUpdateOneRequiredWithoutLikeUsersInput {
+  connect: ReviewWhereUniqueInput
+  connectOrCreate: ReviewCreateOrConnectWithoutlikeUsersInput
+  create: ReviewCreateWithoutLikeUsersInput
+  update: ReviewUpdateWithoutLikeUsersInput
+  upsert: ReviewUpsertWithoutLikeUsersInput
+}
+
 input ReviewUpdateWithoutCommentsInput {
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  likeCount: IntFieldUpdateOperationsInput
-  likedUser: UserUpdateManyWithoutLikedReviewInput
+  likeUsers: UserLikeReviewUpdateManyWithoutReviewInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
   rating: FloatFieldUpdateOperationsInput
@@ -959,11 +874,10 @@ input ReviewUpdateWithoutCommentsInput {
   writer: UserUpdateOneRequiredWithoutReviewsInput
 }
 
-input ReviewUpdateWithoutLikedUserInput {
+input ReviewUpdateWithoutLikeUsersInput {
   comments: CommentUpdateManyWithoutReviewInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  likeCount: IntFieldUpdateOperationsInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
   rating: FloatFieldUpdateOperationsInput
@@ -976,18 +890,12 @@ input ReviewUpdateWithoutWriterInput {
   comments: CommentUpdateManyWithoutReviewInput
   content: StringFieldUpdateOperationsInput
   createdAt: DateTimeFieldUpdateOperationsInput
-  likeCount: IntFieldUpdateOperationsInput
-  likedUser: UserUpdateManyWithoutLikedReviewInput
+  likeUsers: UserLikeReviewUpdateManyWithoutReviewInput
   movieTitle: StringFieldUpdateOperationsInput
   posterPath: StringFieldUpdateOperationsInput
   rating: FloatFieldUpdateOperationsInput
   title: StringFieldUpdateOperationsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
-}
-
-input ReviewUpdateWithWhereUniqueWithoutLikedUserInput {
-  data: ReviewUpdateWithoutLikedUserInput!
-  where: ReviewWhereUniqueInput!
 }
 
 input ReviewUpdateWithWhereUniqueWithoutWriterInput {
@@ -1000,10 +908,9 @@ input ReviewUpsertWithoutCommentsInput {
   update: ReviewUpdateWithoutCommentsInput!
 }
 
-input ReviewUpsertWithWhereUniqueWithoutLikedUserInput {
-  create: ReviewCreateWithoutLikedUserInput!
-  update: ReviewUpdateWithoutLikedUserInput!
-  where: ReviewWhereUniqueInput!
+input ReviewUpsertWithoutLikeUsersInput {
+  create: ReviewCreateWithoutLikeUsersInput!
+  update: ReviewUpdateWithoutLikeUsersInput!
 }
 
 input ReviewUpsertWithWhereUniqueWithoutWriterInput {
@@ -1054,32 +961,18 @@ input StringFilter {
   startsWith: String
 }
 
-input StringNullableFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringNullableFilter
-  notIn: [String!]
-  startsWith: String
-}
-
 type User {
   alerts(after: AlertWhereUniqueInput, before: AlertWhereUniqueInput, first: Int, last: Int): [Alert!]!
   avatar: String
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   id: Int!
-  likedReview(after: ReviewWhereUniqueInput, before: ReviewWhereUniqueInput, first: Int, last: Int): [Review!]!
+  likeReviews(after: UserLikeReviewWhereUniqueInput, before: UserLikeReviewWhereUniqueInput, first: Int, last: Int): [UserLikeReview!]!
   login: String!
   name: String!
   profile: Profile
   reviews(after: ReviewWhereUniqueInput, before: ReviewWhereUniqueInput, first: Int, last: Int): [Review!]!
   social: Social!
-  taggedComment(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
+  taggedComment(after: UserTaggedCommentWhereUniqueInput, before: UserTaggedCommentWhereUniqueInput, first: Int, last: Int): [UserTaggedComment!]!
   token: String!
 }
 
@@ -1087,26 +980,14 @@ input UserCreateInput {
   alerts: AlertCreateManyWithoutUserInput
   avatar: String
   comments: CommentCreateManyWithoutWriterInput
-  likedReview: ReviewCreateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
-  taggedComment: CommentCreateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentCreateManyWithoutUserInput
   token: String!
-}
-
-input UserCreateManyWithoutLikedReviewInput {
-  connect: [UserWhereUniqueInput!]
-  connectOrCreate: [UserCreateOrConnectWithoutlikedReviewInput!]
-  create: [UserCreateWithoutLikedReviewInput!]
-}
-
-input UserCreateManyWithoutTaggedCommentInput {
-  connect: [UserWhereUniqueInput!]
-  connectOrCreate: [UserCreateOrConnectWithouttaggedCommentInput!]
-  create: [UserCreateWithoutTaggedCommentInput!]
 }
 
 input UserCreateOneWithoutAlertsInput {
@@ -1121,10 +1002,22 @@ input UserCreateOneWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput
 }
 
+input UserCreateOneWithoutLikeReviewsInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutlikeReviewsInput
+  create: UserCreateWithoutLikeReviewsInput
+}
+
 input UserCreateOneWithoutReviewsInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutreviewsInput
   create: UserCreateWithoutReviewsInput
+}
+
+input UserCreateOneWithoutTaggedCommentInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithouttaggedCommentInput
+  create: UserCreateWithoutTaggedCommentInput
 }
 
 input UserCreateOrConnectWithoutalertsInput {
@@ -1137,8 +1030,8 @@ input UserCreateOrConnectWithoutcommentsInput {
   where: UserWhereUniqueInput!
 }
 
-input UserCreateOrConnectWithoutlikedReviewInput {
-  create: UserCreateWithoutLikedReviewInput!
+input UserCreateOrConnectWithoutlikeReviewsInput {
+  create: UserCreateWithoutLikeReviewsInput!
   where: UserWhereUniqueInput!
 }
 
@@ -1160,30 +1053,30 @@ input UserCreateOrConnectWithouttaggedCommentInput {
 input UserCreateWithoutAlertsInput {
   avatar: String
   comments: CommentCreateManyWithoutWriterInput
-  likedReview: ReviewCreateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
-  taggedComment: CommentCreateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentCreateManyWithoutUserInput
   token: String!
 }
 
 input UserCreateWithoutCommentsInput {
   alerts: AlertCreateManyWithoutUserInput
   avatar: String
-  likedReview: ReviewCreateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
-  taggedComment: CommentCreateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentCreateManyWithoutUserInput
   token: String!
 }
 
-input UserCreateWithoutLikedReviewInput {
+input UserCreateWithoutLikeReviewsInput {
   alerts: AlertCreateManyWithoutUserInput
   avatar: String
   comments: CommentCreateManyWithoutWriterInput
@@ -1192,7 +1085,7 @@ input UserCreateWithoutLikedReviewInput {
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
-  taggedComment: CommentCreateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentCreateManyWithoutUserInput
   token: String!
 }
 
@@ -1200,12 +1093,12 @@ input UserCreateWithoutProfileInput {
   alerts: AlertCreateManyWithoutUserInput
   avatar: String
   comments: CommentCreateManyWithoutWriterInput
-  likedReview: ReviewCreateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
-  taggedComment: CommentCreateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentCreateManyWithoutUserInput
   token: String!
 }
 
@@ -1213,12 +1106,12 @@ input UserCreateWithoutReviewsInput {
   alerts: AlertCreateManyWithoutUserInput
   avatar: String
   comments: CommentCreateManyWithoutWriterInput
-  likedReview: ReviewCreateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
   profile: ProfileCreateOneWithoutUserInput
   social: Social!
-  taggedComment: CommentCreateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentCreateManyWithoutUserInput
   token: String!
 }
 
@@ -1226,7 +1119,7 @@ input UserCreateWithoutTaggedCommentInput {
   alerts: AlertCreateManyWithoutUserInput
   avatar: String
   comments: CommentCreateManyWithoutWriterInput
-  likedReview: ReviewCreateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
   profile: ProfileCreateOneWithoutUserInput
@@ -1235,60 +1128,252 @@ input UserCreateWithoutTaggedCommentInput {
   token: String!
 }
 
-input UserScalarWhereInput {
-  AND: [UserScalarWhereInput!]
-  avatar: StringNullableFilter
-  id: IntFilter
-  login: StringFilter
-  name: StringFilter
-  NOT: [UserScalarWhereInput!]
-  OR: [UserScalarWhereInput!]
-  social: EnumSocialFilter
-  token: StringFilter
+input UserIdCommentIdCompoundUniqueInput {
+  commentId: Int!
+  userId: Int!
 }
 
-input UserUpdateManyMutationInput {
-  avatar: NullableStringFieldUpdateOperationsInput
-  login: StringFieldUpdateOperationsInput
-  name: StringFieldUpdateOperationsInput
-  social: EnumSocialFieldUpdateOperationsInput
-  token: StringFieldUpdateOperationsInput
+input UserIdReviewIdCompoundUniqueInput {
+  reviewId: Int!
+  userId: Int!
 }
 
-input UserUpdateManyWithoutLikedReviewInput {
-  connect: [UserWhereUniqueInput!]
-  connectOrCreate: [UserCreateOrConnectWithoutlikedReviewInput!]
-  create: [UserCreateWithoutLikedReviewInput!]
-  delete: [UserWhereUniqueInput!]
-  deleteMany: [UserScalarWhereInput!]
-  disconnect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueWithoutLikedReviewInput!]
-  updateMany: [UserUpdateManyWithWhereWithoutLikedReviewInput!]
-  upsert: [UserUpsertWithWhereUniqueWithoutLikedReviewInput!]
+type UserLikeReview {
+  review: Review!
+  reviewId: Int!
+  user: User!
+  userId: Int!
 }
 
-input UserUpdateManyWithoutTaggedCommentInput {
-  connect: [UserWhereUniqueInput!]
-  connectOrCreate: [UserCreateOrConnectWithouttaggedCommentInput!]
-  create: [UserCreateWithoutTaggedCommentInput!]
-  delete: [UserWhereUniqueInput!]
-  deleteMany: [UserScalarWhereInput!]
-  disconnect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueWithoutTaggedCommentInput!]
-  updateMany: [UserUpdateManyWithWhereWithoutTaggedCommentInput!]
-  upsert: [UserUpsertWithWhereUniqueWithoutTaggedCommentInput!]
+input UserLikeReviewCreateManyWithoutReviewInput {
+  connect: [UserLikeReviewWhereUniqueInput!]
+  connectOrCreate: [UserLikeReviewCreateOrConnectWithoutreviewInput!]
+  create: [UserLikeReviewCreateWithoutReviewInput!]
 }
 
-input UserUpdateManyWithWhereWithoutLikedReviewInput {
-  data: UserUpdateManyMutationInput!
-  where: UserScalarWhereInput!
+input UserLikeReviewCreateManyWithoutUserInput {
+  connect: [UserLikeReviewWhereUniqueInput!]
+  connectOrCreate: [UserLikeReviewCreateOrConnectWithoutuserInput!]
+  create: [UserLikeReviewCreateWithoutUserInput!]
 }
 
-input UserUpdateManyWithWhereWithoutTaggedCommentInput {
-  data: UserUpdateManyMutationInput!
-  where: UserScalarWhereInput!
+input UserLikeReviewCreateOrConnectWithoutreviewInput {
+  create: UserLikeReviewCreateWithoutReviewInput!
+  where: UserLikeReviewWhereUniqueInput!
+}
+
+input UserLikeReviewCreateOrConnectWithoutuserInput {
+  create: UserLikeReviewCreateWithoutUserInput!
+  where: UserLikeReviewWhereUniqueInput!
+}
+
+input UserLikeReviewCreateWithoutReviewInput {
+  user: UserCreateOneWithoutLikeReviewsInput!
+}
+
+input UserLikeReviewCreateWithoutUserInput {
+  review: ReviewCreateOneWithoutLikeUsersInput!
+}
+
+input UserLikeReviewScalarWhereInput {
+  AND: [UserLikeReviewScalarWhereInput!]
+  NOT: [UserLikeReviewScalarWhereInput!]
+  OR: [UserLikeReviewScalarWhereInput!]
+  reviewId: IntFilter
+  userId: IntFilter
+}
+
+input UserLikeReviewUpdateManyMutationInput {
+  DUMMY_INPUT_FIELD_WORKAROUND: String
+}
+
+input UserLikeReviewUpdateManyWithoutReviewInput {
+  connect: [UserLikeReviewWhereUniqueInput!]
+  connectOrCreate: [UserLikeReviewCreateOrConnectWithoutreviewInput!]
+  create: [UserLikeReviewCreateWithoutReviewInput!]
+  delete: [UserLikeReviewWhereUniqueInput!]
+  deleteMany: [UserLikeReviewScalarWhereInput!]
+  disconnect: [UserLikeReviewWhereUniqueInput!]
+  set: [UserLikeReviewWhereUniqueInput!]
+  update: [UserLikeReviewUpdateWithWhereUniqueWithoutReviewInput!]
+  updateMany: [UserLikeReviewUpdateManyWithWhereWithoutReviewInput!]
+  upsert: [UserLikeReviewUpsertWithWhereUniqueWithoutReviewInput!]
+}
+
+input UserLikeReviewUpdateManyWithoutUserInput {
+  connect: [UserLikeReviewWhereUniqueInput!]
+  connectOrCreate: [UserLikeReviewCreateOrConnectWithoutuserInput!]
+  create: [UserLikeReviewCreateWithoutUserInput!]
+  delete: [UserLikeReviewWhereUniqueInput!]
+  deleteMany: [UserLikeReviewScalarWhereInput!]
+  disconnect: [UserLikeReviewWhereUniqueInput!]
+  set: [UserLikeReviewWhereUniqueInput!]
+  update: [UserLikeReviewUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [UserLikeReviewUpdateManyWithWhereWithoutUserInput!]
+  upsert: [UserLikeReviewUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input UserLikeReviewUpdateManyWithWhereWithoutReviewInput {
+  data: UserLikeReviewUpdateManyMutationInput!
+  where: UserLikeReviewScalarWhereInput!
+}
+
+input UserLikeReviewUpdateManyWithWhereWithoutUserInput {
+  data: UserLikeReviewUpdateManyMutationInput!
+  where: UserLikeReviewScalarWhereInput!
+}
+
+input UserLikeReviewUpdateWithoutReviewInput {
+  user: UserUpdateOneRequiredWithoutLikeReviewsInput
+}
+
+input UserLikeReviewUpdateWithoutUserInput {
+  review: ReviewUpdateOneRequiredWithoutLikeUsersInput
+}
+
+input UserLikeReviewUpdateWithWhereUniqueWithoutReviewInput {
+  data: UserLikeReviewUpdateWithoutReviewInput!
+  where: UserLikeReviewWhereUniqueInput!
+}
+
+input UserLikeReviewUpdateWithWhereUniqueWithoutUserInput {
+  data: UserLikeReviewUpdateWithoutUserInput!
+  where: UserLikeReviewWhereUniqueInput!
+}
+
+input UserLikeReviewUpsertWithWhereUniqueWithoutReviewInput {
+  create: UserLikeReviewCreateWithoutReviewInput!
+  update: UserLikeReviewUpdateWithoutReviewInput!
+  where: UserLikeReviewWhereUniqueInput!
+}
+
+input UserLikeReviewUpsertWithWhereUniqueWithoutUserInput {
+  create: UserLikeReviewCreateWithoutUserInput!
+  update: UserLikeReviewUpdateWithoutUserInput!
+  where: UserLikeReviewWhereUniqueInput!
+}
+
+input UserLikeReviewWhereUniqueInput {
+  userId_reviewId: UserIdReviewIdCompoundUniqueInput
+}
+
+type UserTaggedComment {
+  comment: Comment!
+  commentId: Int!
+  user: User!
+  userId: Int!
+}
+
+input UserTaggedCommentCreateManyWithoutCommentInput {
+  connect: [UserTaggedCommentWhereUniqueInput!]
+  connectOrCreate: [UserTaggedCommentCreateOrConnectWithoutcommentInput!]
+  create: [UserTaggedCommentCreateWithoutCommentInput!]
+}
+
+input UserTaggedCommentCreateManyWithoutUserInput {
+  connect: [UserTaggedCommentWhereUniqueInput!]
+  connectOrCreate: [UserTaggedCommentCreateOrConnectWithoutuserInput!]
+  create: [UserTaggedCommentCreateWithoutUserInput!]
+}
+
+input UserTaggedCommentCreateOrConnectWithoutcommentInput {
+  create: UserTaggedCommentCreateWithoutCommentInput!
+  where: UserTaggedCommentWhereUniqueInput!
+}
+
+input UserTaggedCommentCreateOrConnectWithoutuserInput {
+  create: UserTaggedCommentCreateWithoutUserInput!
+  where: UserTaggedCommentWhereUniqueInput!
+}
+
+input UserTaggedCommentCreateWithoutCommentInput {
+  user: UserCreateOneWithoutTaggedCommentInput!
+}
+
+input UserTaggedCommentCreateWithoutUserInput {
+  comment: CommentCreateOneWithoutTaggedUserInput!
+}
+
+input UserTaggedCommentScalarWhereInput {
+  AND: [UserTaggedCommentScalarWhereInput!]
+  commentId: IntFilter
+  NOT: [UserTaggedCommentScalarWhereInput!]
+  OR: [UserTaggedCommentScalarWhereInput!]
+  userId: IntFilter
+}
+
+input UserTaggedCommentUpdateManyMutationInput {
+  DUMMY_INPUT_FIELD_WORKAROUND: String
+}
+
+input UserTaggedCommentUpdateManyWithoutCommentInput {
+  connect: [UserTaggedCommentWhereUniqueInput!]
+  connectOrCreate: [UserTaggedCommentCreateOrConnectWithoutcommentInput!]
+  create: [UserTaggedCommentCreateWithoutCommentInput!]
+  delete: [UserTaggedCommentWhereUniqueInput!]
+  deleteMany: [UserTaggedCommentScalarWhereInput!]
+  disconnect: [UserTaggedCommentWhereUniqueInput!]
+  set: [UserTaggedCommentWhereUniqueInput!]
+  update: [UserTaggedCommentUpdateWithWhereUniqueWithoutCommentInput!]
+  updateMany: [UserTaggedCommentUpdateManyWithWhereWithoutCommentInput!]
+  upsert: [UserTaggedCommentUpsertWithWhereUniqueWithoutCommentInput!]
+}
+
+input UserTaggedCommentUpdateManyWithoutUserInput {
+  connect: [UserTaggedCommentWhereUniqueInput!]
+  connectOrCreate: [UserTaggedCommentCreateOrConnectWithoutuserInput!]
+  create: [UserTaggedCommentCreateWithoutUserInput!]
+  delete: [UserTaggedCommentWhereUniqueInput!]
+  deleteMany: [UserTaggedCommentScalarWhereInput!]
+  disconnect: [UserTaggedCommentWhereUniqueInput!]
+  set: [UserTaggedCommentWhereUniqueInput!]
+  update: [UserTaggedCommentUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [UserTaggedCommentUpdateManyWithWhereWithoutUserInput!]
+  upsert: [UserTaggedCommentUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input UserTaggedCommentUpdateManyWithWhereWithoutCommentInput {
+  data: UserTaggedCommentUpdateManyMutationInput!
+  where: UserTaggedCommentScalarWhereInput!
+}
+
+input UserTaggedCommentUpdateManyWithWhereWithoutUserInput {
+  data: UserTaggedCommentUpdateManyMutationInput!
+  where: UserTaggedCommentScalarWhereInput!
+}
+
+input UserTaggedCommentUpdateWithoutCommentInput {
+  user: UserUpdateOneRequiredWithoutTaggedCommentInput
+}
+
+input UserTaggedCommentUpdateWithoutUserInput {
+  comment: CommentUpdateOneRequiredWithoutTaggedUserInput
+}
+
+input UserTaggedCommentUpdateWithWhereUniqueWithoutCommentInput {
+  data: UserTaggedCommentUpdateWithoutCommentInput!
+  where: UserTaggedCommentWhereUniqueInput!
+}
+
+input UserTaggedCommentUpdateWithWhereUniqueWithoutUserInput {
+  data: UserTaggedCommentUpdateWithoutUserInput!
+  where: UserTaggedCommentWhereUniqueInput!
+}
+
+input UserTaggedCommentUpsertWithWhereUniqueWithoutCommentInput {
+  create: UserTaggedCommentCreateWithoutCommentInput!
+  update: UserTaggedCommentUpdateWithoutCommentInput!
+  where: UserTaggedCommentWhereUniqueInput!
+}
+
+input UserTaggedCommentUpsertWithWhereUniqueWithoutUserInput {
+  create: UserTaggedCommentCreateWithoutUserInput!
+  update: UserTaggedCommentUpdateWithoutUserInput!
+  where: UserTaggedCommentWhereUniqueInput!
+}
+
+input UserTaggedCommentWhereUniqueInput {
+  userId_commentId: UserIdCommentIdCompoundUniqueInput
 }
 
 input UserUpdateOneRequiredWithoutAlertsInput {
@@ -1307,6 +1392,14 @@ input UserUpdateOneRequiredWithoutCommentsInput {
   upsert: UserUpsertWithoutCommentsInput
 }
 
+input UserUpdateOneRequiredWithoutLikeReviewsInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutlikeReviewsInput
+  create: UserCreateWithoutLikeReviewsInput
+  update: UserUpdateWithoutLikeReviewsInput
+  upsert: UserUpsertWithoutLikeReviewsInput
+}
+
 input UserUpdateOneRequiredWithoutProfileInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutprofileInput
@@ -1323,33 +1416,41 @@ input UserUpdateOneRequiredWithoutReviewsInput {
   upsert: UserUpsertWithoutReviewsInput
 }
 
+input UserUpdateOneRequiredWithoutTaggedCommentInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithouttaggedCommentInput
+  create: UserCreateWithoutTaggedCommentInput
+  update: UserUpdateWithoutTaggedCommentInput
+  upsert: UserUpsertWithoutTaggedCommentInput
+}
+
 input UserUpdateWithoutAlertsInput {
   avatar: NullableStringFieldUpdateOperationsInput
   comments: CommentUpdateManyWithoutWriterInput
-  likedReview: ReviewUpdateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
-  taggedComment: CommentUpdateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
   token: StringFieldUpdateOperationsInput
 }
 
 input UserUpdateWithoutCommentsInput {
   alerts: AlertUpdateManyWithoutUserInput
   avatar: NullableStringFieldUpdateOperationsInput
-  likedReview: ReviewUpdateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
-  taggedComment: CommentUpdateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
   token: StringFieldUpdateOperationsInput
 }
 
-input UserUpdateWithoutLikedReviewInput {
+input UserUpdateWithoutLikeReviewsInput {
   alerts: AlertUpdateManyWithoutUserInput
   avatar: NullableStringFieldUpdateOperationsInput
   comments: CommentUpdateManyWithoutWriterInput
@@ -1358,7 +1459,7 @@ input UserUpdateWithoutLikedReviewInput {
   profile: ProfileUpdateOneWithoutUserInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
-  taggedComment: CommentUpdateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
   token: StringFieldUpdateOperationsInput
 }
 
@@ -1366,12 +1467,12 @@ input UserUpdateWithoutProfileInput {
   alerts: AlertUpdateManyWithoutUserInput
   avatar: NullableStringFieldUpdateOperationsInput
   comments: CommentUpdateManyWithoutWriterInput
-  likedReview: ReviewUpdateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
-  taggedComment: CommentUpdateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
   token: StringFieldUpdateOperationsInput
 }
 
@@ -1379,12 +1480,12 @@ input UserUpdateWithoutReviewsInput {
   alerts: AlertUpdateManyWithoutUserInput
   avatar: NullableStringFieldUpdateOperationsInput
   comments: CommentUpdateManyWithoutWriterInput
-  likedReview: ReviewUpdateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   social: EnumSocialFieldUpdateOperationsInput
-  taggedComment: CommentUpdateManyWithoutTaggedUserInput
+  taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
   token: StringFieldUpdateOperationsInput
 }
 
@@ -1392,23 +1493,13 @@ input UserUpdateWithoutTaggedCommentInput {
   alerts: AlertUpdateManyWithoutUserInput
   avatar: NullableStringFieldUpdateOperationsInput
   comments: CommentUpdateManyWithoutWriterInput
-  likedReview: ReviewUpdateManyWithoutLikedUserInput
+  likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
   token: StringFieldUpdateOperationsInput
-}
-
-input UserUpdateWithWhereUniqueWithoutLikedReviewInput {
-  data: UserUpdateWithoutLikedReviewInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserUpdateWithWhereUniqueWithoutTaggedCommentInput {
-  data: UserUpdateWithoutTaggedCommentInput!
-  where: UserWhereUniqueInput!
 }
 
 input UserUpsertWithoutAlertsInput {
@@ -1421,6 +1512,11 @@ input UserUpsertWithoutCommentsInput {
   update: UserUpdateWithoutCommentsInput!
 }
 
+input UserUpsertWithoutLikeReviewsInput {
+  create: UserCreateWithoutLikeReviewsInput!
+  update: UserUpdateWithoutLikeReviewsInput!
+}
+
 input UserUpsertWithoutProfileInput {
   create: UserCreateWithoutProfileInput!
   update: UserUpdateWithoutProfileInput!
@@ -1431,16 +1527,9 @@ input UserUpsertWithoutReviewsInput {
   update: UserUpdateWithoutReviewsInput!
 }
 
-input UserUpsertWithWhereUniqueWithoutLikedReviewInput {
-  create: UserCreateWithoutLikedReviewInput!
-  update: UserUpdateWithoutLikedReviewInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserUpsertWithWhereUniqueWithoutTaggedCommentInput {
+input UserUpsertWithoutTaggedCommentInput {
   create: UserCreateWithoutTaggedCommentInput!
   update: UserUpdateWithoutTaggedCommentInput!
-  where: UserWhereUniqueInput!
 }
 
 input UserWhereUniqueInput {

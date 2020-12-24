@@ -8,34 +8,51 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id            Int                 @id @default(autoincrement())
   name          String
   avatar        String?
   social        Social
   token         String
-  login         String    @unique
+  login         String              @unique
   profile       Profile?
   reviews       Review[]
   comments      Comment[]
   alerts        Alert[]
-  taggedComment Comment[] @relation("tagged")
-  likedReview   Review[]  @relation("liked")
+  likeReviews   UserLikeReview[]
+  taggedComment UserTaggedComment[]
 }
 
 model Review {
-  id         Int       @id @default(autoincrement())
+  id         Int              @id @default(autoincrement())
   title      String
   content    String
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
   movieTitle String
   posterPath String
   rating     Float
-  likeCount  Int       @default(0)
   writerId   Int
-  writer     User      @relation(fields: [writerId], references: [id])
+  writer     User             @relation(fields: [writerId], references: [id])
   comments   Comment[]
-  likedUser  User[]    @relation("liked")
+  likeUsers  UserLikeReview[]
+}
+
+model UserLikeReview {
+  userId   Int
+  user     User   @relation(fields: [userId], references: [id])
+  reviewId Int
+  review   Review @relation(fields: [reviewId], references: [id])
+
+  @@id([userId, reviewId])
+}
+
+model UserTaggedComment {
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  commentId Int
+  comment   Comment @relation(fields: [commentId], references: [id])
+
+  @@id([userId, commentId])
 }
 
 model Profile {
@@ -52,20 +69,20 @@ model Genre {
 }
 
 model Comment {
-  id         Int      @id
+  id         Int                 @id @default(autoincrement())
   content    String
   reviewId   Int
-  review     Review   @relation(fields: [reviewId], references: [id])
+  review     Review              @relation(fields: [reviewId], references: [id])
   writerId   Int
-  writer     User     @relation(fields: [writerId], references: [id])
-  taggedUser User[]   @relation("tagged")
+  writer     User                @relation(fields: [writerId], references: [id])
   alerts     Alert[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+  taggedUser UserTaggedComment[]
 }
 
 model Alert {
-  id        Int       @id
+  id        Int       @id @default(autoincrement())
   type      AlertType
   message   String
   check     Boolean   @default(false)
