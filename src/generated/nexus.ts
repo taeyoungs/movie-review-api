@@ -51,6 +51,11 @@ export interface NexusGenInputs {
     message: string; // String!
     type: NexusGenEnums['AlertType']; // AlertType!
   }
+  AlertListRelationFilter: { // input type
+    every?: NexusGenInputs['AlertWhereInput'] | null; // AlertWhereInput
+    none?: NexusGenInputs['AlertWhereInput'] | null; // AlertWhereInput
+    some?: NexusGenInputs['AlertWhereInput'] | null; // AlertWhereInput
+  }
   AlertScalarWhereInput: { // input type
     AND?: NexusGenInputs['AlertScalarWhereInput'][] | null; // [AlertScalarWhereInput!]
     check?: NexusGenInputs['BoolFilter'] | null; // BoolFilter
@@ -132,6 +137,20 @@ export interface NexusGenInputs {
     create: NexusGenInputs['AlertCreateWithoutUserInput']; // AlertCreateWithoutUserInput!
     update: NexusGenInputs['AlertUpdateWithoutUserInput']; // AlertUpdateWithoutUserInput!
     where: NexusGenInputs['AlertWhereUniqueInput']; // AlertWhereUniqueInput!
+  }
+  AlertWhereInput: { // input type
+    AND?: NexusGenInputs['AlertWhereInput'][] | null; // [AlertWhereInput!]
+    check?: NexusGenInputs['BoolFilter'] | null; // BoolFilter
+    comment?: NexusGenInputs['CommentWhereInput'] | null; // CommentWhereInput
+    commentId?: NexusGenInputs['IntNullableFilter'] | null; // IntNullableFilter
+    createdAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
+    id?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    message?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    NOT?: NexusGenInputs['AlertWhereInput'][] | null; // [AlertWhereInput!]
+    OR?: NexusGenInputs['AlertWhereInput'][] | null; // [AlertWhereInput!]
+    type?: NexusGenInputs['EnumAlertTypeFilter'] | null; // EnumAlertTypeFilter
+    user?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
+    userId?: NexusGenInputs['IntFilter'] | null; // IntFilter
   }
   AlertWhereUniqueInput: { // input type
     id?: number | null; // Int
@@ -219,6 +238,11 @@ export interface NexusGenInputs {
     review: NexusGenInputs['ReviewCreateOneWithoutCommentsInput']; // ReviewCreateOneWithoutCommentsInput!
     taggedUser?: NexusGenInputs['UserTaggedCommentCreateManyWithoutCommentInput'] | null; // UserTaggedCommentCreateManyWithoutCommentInput
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  CommentListRelationFilter: { // input type
+    every?: NexusGenInputs['CommentWhereInput'] | null; // CommentWhereInput
+    none?: NexusGenInputs['CommentWhereInput'] | null; // CommentWhereInput
+    some?: NexusGenInputs['CommentWhereInput'] | null; // CommentWhereInput
   }
   CommentScalarWhereInput: { // input type
     AND?: NexusGenInputs['CommentScalarWhereInput'][] | null; // [CommentScalarWhereInput!]
@@ -351,6 +375,21 @@ export interface NexusGenInputs {
     create: NexusGenInputs['CommentCreateWithoutTaggedUserInput']; // CommentCreateWithoutTaggedUserInput!
     update: NexusGenInputs['CommentUpdateWithoutTaggedUserInput']; // CommentUpdateWithoutTaggedUserInput!
   }
+  CommentWhereInput: { // input type
+    alerts?: NexusGenInputs['AlertListRelationFilter'] | null; // AlertListRelationFilter
+    AND?: NexusGenInputs['CommentWhereInput'][] | null; // [CommentWhereInput!]
+    content?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    createdAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
+    id?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    NOT?: NexusGenInputs['CommentWhereInput'][] | null; // [CommentWhereInput!]
+    OR?: NexusGenInputs['CommentWhereInput'][] | null; // [CommentWhereInput!]
+    review?: NexusGenInputs['ReviewWhereInput'] | null; // ReviewWhereInput
+    reviewId?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    taggedUser?: NexusGenInputs['UserTaggedCommentListRelationFilter'] | null; // UserTaggedCommentListRelationFilter
+    updatedAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
+    writer?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
+    writerId?: NexusGenInputs['IntFilter'] | null; // IntFilter
+  }
   CommentWhereUniqueInput: { // input type
     id?: number | null; // Int
   }
@@ -378,6 +417,12 @@ export interface NexusGenInputs {
   }
   EnumSocialFieldUpdateOperationsInput: { // input type
     set?: NexusGenEnums['Social'] | null; // Social
+  }
+  EnumSocialFilter: { // input type
+    equals?: NexusGenEnums['Social'] | null; // Social
+    in?: NexusGenEnums['Social'][] | null; // [Social!]
+    not?: NexusGenInputs['NestedEnumSocialFilter'] | null; // NestedEnumSocialFilter
+    notIn?: NexusGenEnums['Social'][] | null; // [Social!]
   }
   FloatFieldUpdateOperationsInput: { // input type
     decrement?: number | null; // Float
@@ -436,6 +481,12 @@ export interface NexusGenInputs {
     not?: NexusGenInputs['NestedEnumAlertTypeFilter'] | null; // NestedEnumAlertTypeFilter
     notIn?: NexusGenEnums['AlertType'][] | null; // [AlertType!]
   }
+  NestedEnumSocialFilter: { // input type
+    equals?: NexusGenEnums['Social'] | null; // Social
+    in?: NexusGenEnums['Social'][] | null; // [Social!]
+    not?: NexusGenInputs['NestedEnumSocialFilter'] | null; // NestedEnumSocialFilter
+    notIn?: NexusGenEnums['Social'][] | null; // [Social!]
+  }
   NestedFloatFilter: { // input type
     equals?: number | null; // Float
     gt?: number | null; // Float
@@ -479,6 +530,19 @@ export interface NexusGenInputs {
     notIn?: string[] | null; // [String!]
     startsWith?: string | null; // String
   }
+  NestedStringNullableFilter: { // input type
+    contains?: string | null; // String
+    endsWith?: string | null; // String
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: string[] | null; // [String!]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    not?: NexusGenInputs['NestedStringNullableFilter'] | null; // NestedStringNullableFilter
+    notIn?: string[] | null; // [String!]
+    startsWith?: string | null; // String
+  }
   NullableStringFieldUpdateOperationsInput: { // input type
     set?: string | null; // String
   }
@@ -516,6 +580,16 @@ export interface NexusGenInputs {
   ProfileUpsertWithoutUserInput: { // input type
     create: NexusGenInputs['ProfileCreateWithoutUserInput']; // ProfileCreateWithoutUserInput!
     update: NexusGenInputs['ProfileUpdateWithoutUserInput']; // ProfileUpdateWithoutUserInput!
+  }
+  ProfileWhereInput: { // input type
+    AND?: NexusGenInputs['ProfileWhereInput'][] | null; // [ProfileWhereInput!]
+    bio?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
+    email?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
+    id?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    NOT?: NexusGenInputs['ProfileWhereInput'][] | null; // [ProfileWhereInput!]
+    OR?: NexusGenInputs['ProfileWhereInput'][] | null; // [ProfileWhereInput!]
+    user?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
+    userId?: NexusGenInputs['IntFilter'] | null; // IntFilter
   }
   ProfileWhereUniqueInput: { // input type
     email?: string | null; // String
@@ -593,6 +667,11 @@ export interface NexusGenInputs {
     rating: number; // Float!
     title: string; // String!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  ReviewListRelationFilter: { // input type
+    every?: NexusGenInputs['ReviewWhereInput'] | null; // ReviewWhereInput
+    none?: NexusGenInputs['ReviewWhereInput'] | null; // ReviewWhereInput
+    some?: NexusGenInputs['ReviewWhereInput'] | null; // ReviewWhereInput
   }
   ReviewScalarWhereInput: { // input type
     AND?: NexusGenInputs['ReviewScalarWhereInput'][] | null; // [ReviewScalarWhereInput!]
@@ -709,6 +788,23 @@ export interface NexusGenInputs {
     create: NexusGenInputs['ReviewCreateWithoutLikeUsersInput']; // ReviewCreateWithoutLikeUsersInput!
     update: NexusGenInputs['ReviewUpdateWithoutLikeUsersInput']; // ReviewUpdateWithoutLikeUsersInput!
   }
+  ReviewWhereInput: { // input type
+    AND?: NexusGenInputs['ReviewWhereInput'][] | null; // [ReviewWhereInput!]
+    comments?: NexusGenInputs['CommentListRelationFilter'] | null; // CommentListRelationFilter
+    content?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    createdAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
+    id?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    likeUsers?: NexusGenInputs['UserLikeReviewListRelationFilter'] | null; // UserLikeReviewListRelationFilter
+    movieTitle?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    NOT?: NexusGenInputs['ReviewWhereInput'][] | null; // [ReviewWhereInput!]
+    OR?: NexusGenInputs['ReviewWhereInput'][] | null; // [ReviewWhereInput!]
+    posterPath?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    rating?: NexusGenInputs['FloatFilter'] | null; // FloatFilter
+    title?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    updatedAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
+    writer?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
+    writerId?: NexusGenInputs['IntFilter'] | null; // IntFilter
+  }
   ReviewWhereUniqueInput: { // input type
     id?: number | null; // Int
   }
@@ -725,6 +821,19 @@ export interface NexusGenInputs {
     lt?: string | null; // String
     lte?: string | null; // String
     not?: NexusGenInputs['NestedStringFilter'] | null; // NestedStringFilter
+    notIn?: string[] | null; // [String!]
+    startsWith?: string | null; // String
+  }
+  StringNullableFilter: { // input type
+    contains?: string | null; // String
+    endsWith?: string | null; // String
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: string[] | null; // [String!]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    not?: NexusGenInputs['NestedStringNullableFilter'] | null; // NestedStringNullableFilter
     notIn?: string[] | null; // [String!]
     startsWith?: string | null; // String
   }
@@ -894,6 +1003,11 @@ export interface NexusGenInputs {
   UserLikeReviewCreateWithoutUserInput: { // input type
     review: NexusGenInputs['ReviewCreateOneWithoutLikeUsersInput']; // ReviewCreateOneWithoutLikeUsersInput!
   }
+  UserLikeReviewListRelationFilter: { // input type
+    every?: NexusGenInputs['UserLikeReviewWhereInput'] | null; // UserLikeReviewWhereInput
+    none?: NexusGenInputs['UserLikeReviewWhereInput'] | null; // UserLikeReviewWhereInput
+    some?: NexusGenInputs['UserLikeReviewWhereInput'] | null; // UserLikeReviewWhereInput
+  }
   UserLikeReviewScalarWhereInput: { // input type
     AND?: NexusGenInputs['UserLikeReviewScalarWhereInput'][] | null; // [UserLikeReviewScalarWhereInput!]
     NOT?: NexusGenInputs['UserLikeReviewScalarWhereInput'][] | null; // [UserLikeReviewScalarWhereInput!]
@@ -960,6 +1074,15 @@ export interface NexusGenInputs {
     update: NexusGenInputs['UserLikeReviewUpdateWithoutUserInput']; // UserLikeReviewUpdateWithoutUserInput!
     where: NexusGenInputs['UserLikeReviewWhereUniqueInput']; // UserLikeReviewWhereUniqueInput!
   }
+  UserLikeReviewWhereInput: { // input type
+    AND?: NexusGenInputs['UserLikeReviewWhereInput'][] | null; // [UserLikeReviewWhereInput!]
+    NOT?: NexusGenInputs['UserLikeReviewWhereInput'][] | null; // [UserLikeReviewWhereInput!]
+    OR?: NexusGenInputs['UserLikeReviewWhereInput'][] | null; // [UserLikeReviewWhereInput!]
+    review?: NexusGenInputs['ReviewWhereInput'] | null; // ReviewWhereInput
+    reviewId?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    user?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
+    userId?: NexusGenInputs['IntFilter'] | null; // IntFilter
+  }
   UserLikeReviewWhereUniqueInput: { // input type
     userId_reviewId?: NexusGenInputs['UserIdReviewIdCompoundUniqueInput'] | null; // UserIdReviewIdCompoundUniqueInput
   }
@@ -986,6 +1109,11 @@ export interface NexusGenInputs {
   }
   UserTaggedCommentCreateWithoutUserInput: { // input type
     comment: NexusGenInputs['CommentCreateOneWithoutTaggedUserInput']; // CommentCreateOneWithoutTaggedUserInput!
+  }
+  UserTaggedCommentListRelationFilter: { // input type
+    every?: NexusGenInputs['UserTaggedCommentWhereInput'] | null; // UserTaggedCommentWhereInput
+    none?: NexusGenInputs['UserTaggedCommentWhereInput'] | null; // UserTaggedCommentWhereInput
+    some?: NexusGenInputs['UserTaggedCommentWhereInput'] | null; // UserTaggedCommentWhereInput
   }
   UserTaggedCommentScalarWhereInput: { // input type
     AND?: NexusGenInputs['UserTaggedCommentScalarWhereInput'][] | null; // [UserTaggedCommentScalarWhereInput!]
@@ -1052,6 +1180,15 @@ export interface NexusGenInputs {
     create: NexusGenInputs['UserTaggedCommentCreateWithoutUserInput']; // UserTaggedCommentCreateWithoutUserInput!
     update: NexusGenInputs['UserTaggedCommentUpdateWithoutUserInput']; // UserTaggedCommentUpdateWithoutUserInput!
     where: NexusGenInputs['UserTaggedCommentWhereUniqueInput']; // UserTaggedCommentWhereUniqueInput!
+  }
+  UserTaggedCommentWhereInput: { // input type
+    AND?: NexusGenInputs['UserTaggedCommentWhereInput'][] | null; // [UserTaggedCommentWhereInput!]
+    comment?: NexusGenInputs['CommentWhereInput'] | null; // CommentWhereInput
+    commentId?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    NOT?: NexusGenInputs['UserTaggedCommentWhereInput'][] | null; // [UserTaggedCommentWhereInput!]
+    OR?: NexusGenInputs['UserTaggedCommentWhereInput'][] | null; // [UserTaggedCommentWhereInput!]
+    user?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
+    userId?: NexusGenInputs['IntFilter'] | null; // IntFilter
   }
   UserTaggedCommentWhereUniqueInput: { // input type
     userId_commentId?: NexusGenInputs['UserIdCommentIdCompoundUniqueInput'] | null; // UserIdCommentIdCompoundUniqueInput
@@ -1194,6 +1331,23 @@ export interface NexusGenInputs {
     create: NexusGenInputs['UserCreateWithoutTaggedCommentInput']; // UserCreateWithoutTaggedCommentInput!
     update: NexusGenInputs['UserUpdateWithoutTaggedCommentInput']; // UserUpdateWithoutTaggedCommentInput!
   }
+  UserWhereInput: { // input type
+    alerts?: NexusGenInputs['AlertListRelationFilter'] | null; // AlertListRelationFilter
+    AND?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    avatar?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
+    comments?: NexusGenInputs['CommentListRelationFilter'] | null; // CommentListRelationFilter
+    id?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    likeReviews?: NexusGenInputs['UserLikeReviewListRelationFilter'] | null; // UserLikeReviewListRelationFilter
+    login?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    name?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    NOT?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    OR?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    profile?: NexusGenInputs['ProfileWhereInput'] | null; // ProfileWhereInput
+    reviews?: NexusGenInputs['ReviewListRelationFilter'] | null; // ReviewListRelationFilter
+    social?: NexusGenInputs['EnumSocialFilter'] | null; // EnumSocialFilter
+    taggedComment?: NexusGenInputs['UserTaggedCommentListRelationFilter'] | null; // UserTaggedCommentListRelationFilter
+    token?: NexusGenInputs['StringFilter'] | null; // StringFilter
+  }
   UserWhereUniqueInput: { // input type
     id?: number | null; // Int
     login?: string | null; // String
@@ -1228,6 +1382,9 @@ export interface NexusGenObjects {
   AuthPayload: { // root type
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
+  }
+  BatchPayload: { // root type
+    count: number; // Int!
   }
   Comment: { // root type
     content: string; // String!
@@ -1292,6 +1449,7 @@ export interface NexusGenObjects {
     videos?: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number; // Float!
   }
+  Subscription: {};
   User: { // root type
     avatar?: string | null; // String
     id: number; // Int!
@@ -1342,6 +1500,9 @@ export interface NexusGenFieldTypes {
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
+  BatchPayload: { // field return type
+    count: number; // Int!
+  }
   Comment: { // field return type
     alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
     content: string; // String!
@@ -1374,9 +1535,11 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createOneComment: NexusGenRootTypes['Comment']; // Comment!
     createOneReview: NexusGenRootTypes['Review']; // Review!
+    deleteManyAlert: NexusGenRootTypes['BatchPayload']; // BatchPayload!
     deleteOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     deleteOneReview: NexusGenRootTypes['Review'] | null; // Review
-    githutAuth: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
+    githutAuth: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    googleAuth: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     signUp: NexusGenRootTypes['User']; // User!
     toggleLikeReview: boolean | null; // Boolean
     updateOneComment: NexusGenRootTypes['Comment'] | null; // Comment
@@ -1396,8 +1559,8 @@ export interface NexusGenFieldTypes {
     userId: number; // Int!
   }
   Query: { // field return type
-    alert: NexusGenRootTypes['Alert'] | null; // Alert
     alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
+    check: NexusGenRootTypes['Alert'][]; // [Alert!]!
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
     movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
     movies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
@@ -1408,12 +1571,14 @@ export interface NexusGenFieldTypes {
     searchShow: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
     show: NexusGenRootTypes['ShowFetch']; // ShowFetch!
     shows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
+    uncheckedAlertsCount: number; // Int!
     user: NexusGenRootTypes['User'] | null; // User
   }
   Review: { // field return type
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
+    likeCount: number; // Int!
     likeUsers: NexusGenRootTypes['UserLikeReview'][]; // [UserLikeReview!]!
     movieTitle: string; // String!
     posterPath: string; // String!
@@ -1436,6 +1601,10 @@ export interface NexusGenFieldTypes {
     total_results: number; // Int!
     videos: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number; // Float!
+  }
+  Subscription: { // field return type
+    newAlert: NexusGenRootTypes['Alert']; // Alert!
+    newReview: NexusGenRootTypes['Review']; // Review!
   }
   User: { // field return type
     alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
@@ -1496,6 +1665,9 @@ export interface NexusGenFieldTypeNames {
     token: 'String'
     user: 'User'
   }
+  BatchPayload: { // field return type name
+    count: 'Int'
+  }
   Comment: { // field return type name
     alerts: 'Alert'
     content: 'String'
@@ -1528,9 +1700,11 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createOneComment: 'Comment'
     createOneReview: 'Review'
+    deleteManyAlert: 'BatchPayload'
     deleteOneComment: 'Comment'
     deleteOneReview: 'Review'
     githutAuth: 'AuthPayload'
+    googleAuth: 'AuthPayload'
     signUp: 'User'
     toggleLikeReview: 'Boolean'
     updateOneComment: 'Comment'
@@ -1550,8 +1724,8 @@ export interface NexusGenFieldTypeNames {
     userId: 'Int'
   }
   Query: { // field return type name
-    alert: 'Alert'
     alerts: 'Alert'
+    check: 'Alert'
     comments: 'Comment'
     movie: 'MovieFetch'
     movies: 'MovieFetch'
@@ -1562,12 +1736,14 @@ export interface NexusGenFieldTypeNames {
     searchShow: 'ShowFetch'
     show: 'ShowFetch'
     shows: 'ShowFetch'
+    uncheckedAlertsCount: 'Int'
     user: 'User'
   }
   Review: { // field return type name
     content: 'String'
     createdAt: 'DateTime'
     id: 'Int'
+    likeCount: 'Int'
     likeUsers: 'UserLikeReview'
     movieTitle: 'String'
     posterPath: 'String'
@@ -1590,6 +1766,10 @@ export interface NexusGenFieldTypeNames {
     total_results: 'Int'
     videos: 'Video'
     vote_average: 'Float'
+  }
+  Subscription: { // field return type name
+    newAlert: 'Alert'
+    newReview: 'Review'
   }
   User: { // field return type name
     alerts: 'Alert'
@@ -1650,6 +1830,9 @@ export interface NexusGenArgTypes {
     createOneReview: { // args
       data: NexusGenInputs['ReviewCreateInput']; // ReviewCreateInput!
     }
+    deleteManyAlert: { // args
+      where?: NexusGenInputs['AlertWhereInput'] | null; // AlertWhereInput
+    }
     deleteOneComment: { // args
       where: NexusGenInputs['CommentWhereUniqueInput']; // CommentWhereUniqueInput!
     }
@@ -1657,6 +1840,10 @@ export interface NexusGenArgTypes {
       where: NexusGenInputs['ReviewWhereUniqueInput']; // ReviewWhereUniqueInput!
     }
     githutAuth: { // args
+      code: string; // String!
+      social: NexusGenEnums['Social']; // Social!
+    }
+    googleAuth: { // args
       code: string; // String!
       social: NexusGenEnums['Social']; // Social!
     }
@@ -1681,9 +1868,6 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
-    alert: { // args
-      where: NexusGenInputs['AlertWhereUniqueInput']; // AlertWhereUniqueInput!
-    }
     alerts: { // args
       after?: NexusGenInputs['AlertWhereUniqueInput'] | null; // AlertWhereUniqueInput
       before?: NexusGenInputs['AlertWhereUniqueInput'] | null; // AlertWhereUniqueInput

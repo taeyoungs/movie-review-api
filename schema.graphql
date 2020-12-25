@@ -52,6 +52,12 @@ input AlertCreateWithoutUserInput {
   type: AlertType!
 }
 
+input AlertListRelationFilter {
+  every: AlertWhereInput
+  none: AlertWhereInput
+  some: AlertWhereInput
+}
+
 input AlertScalarWhereInput {
   AND: [AlertScalarWhereInput!]
   check: BoolFilter
@@ -151,6 +157,21 @@ input AlertUpsertWithWhereUniqueWithoutUserInput {
   where: AlertWhereUniqueInput!
 }
 
+input AlertWhereInput {
+  AND: [AlertWhereInput!]
+  check: BoolFilter
+  comment: CommentWhereInput
+  commentId: IntNullableFilter
+  createdAt: DateTimeFilter
+  id: IntFilter
+  message: StringFilter
+  NOT: [AlertWhereInput!]
+  OR: [AlertWhereInput!]
+  type: EnumAlertTypeFilter
+  user: UserWhereInput
+  userId: IntFilter
+}
+
 input AlertWhereUniqueInput {
   id: Int
 }
@@ -158,6 +179,10 @@ input AlertWhereUniqueInput {
 type AuthPayload {
   token: String!
   user: User!
+}
+
+type BatchPayload {
+  count: Int!
 }
 
 input BoolFieldUpdateOperationsInput {
@@ -270,6 +295,12 @@ input CommentCreateWithoutWriterInput {
   review: ReviewCreateOneWithoutCommentsInput!
   taggedUser: UserTaggedCommentCreateManyWithoutCommentInput
   updatedAt: DateTime
+}
+
+input CommentListRelationFilter {
+  every: CommentWhereInput
+  none: CommentWhereInput
+  some: CommentWhereInput
 }
 
 input CommentScalarWhereInput {
@@ -422,6 +453,22 @@ input CommentUpsertWithWhereUniqueWithoutWriterInput {
   where: CommentWhereUniqueInput!
 }
 
+input CommentWhereInput {
+  alerts: AlertListRelationFilter
+  AND: [CommentWhereInput!]
+  content: StringFilter
+  createdAt: DateTimeFilter
+  id: IntFilter
+  NOT: [CommentWhereInput!]
+  OR: [CommentWhereInput!]
+  review: ReviewWhereInput
+  reviewId: IntFilter
+  taggedUser: UserTaggedCommentListRelationFilter
+  updatedAt: DateTimeFilter
+  writer: UserWhereInput
+  writerId: IntFilter
+}
+
 input CommentWhereUniqueInput {
   id: Int
 }
@@ -456,6 +503,13 @@ input EnumAlertTypeFilter {
 
 input EnumSocialFieldUpdateOperationsInput {
   set: Social
+}
+
+input EnumSocialFilter {
+  equals: Social
+  in: [Social!]
+  not: NestedEnumSocialFilter
+  notIn: [Social!]
 }
 
 input FloatFieldUpdateOperationsInput {
@@ -532,9 +586,11 @@ type MovieFetch implements IFetch {
 type Mutation {
   createOneComment(data: CommentCreateInput!): Comment!
   createOneReview(data: ReviewCreateInput!): Review!
+  deleteManyAlert(where: AlertWhereInput): BatchPayload!
   deleteOneComment(where: CommentWhereUniqueInput!): Comment
   deleteOneReview(where: ReviewWhereUniqueInput!): Review
-  githutAuth(code: String!, social: Social!): AuthPayload
+  githutAuth(code: String!, social: Social!): AuthPayload!
+  googleAuth(code: String!, social: Social!): AuthPayload!
   signUp(data: UserCreateInput!): User!
   toggleLikeReview(reviewId: Int!, userId: Int!): Boolean
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
@@ -563,6 +619,13 @@ input NestedEnumAlertTypeFilter {
   in: [AlertType!]
   not: NestedEnumAlertTypeFilter
   notIn: [AlertType!]
+}
+
+input NestedEnumSocialFilter {
+  equals: Social
+  in: [Social!]
+  not: NestedEnumSocialFilter
+  notIn: [Social!]
 }
 
 input NestedFloatFilter {
@@ -608,6 +671,20 @@ input NestedStringFilter {
   lt: String
   lte: String
   not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -672,6 +749,17 @@ input ProfileUpsertWithoutUserInput {
   update: ProfileUpdateWithoutUserInput!
 }
 
+input ProfileWhereInput {
+  AND: [ProfileWhereInput!]
+  bio: StringNullableFilter
+  email: StringNullableFilter
+  id: IntFilter
+  NOT: [ProfileWhereInput!]
+  OR: [ProfileWhereInput!]
+  user: UserWhereInput
+  userId: IntFilter
+}
+
 input ProfileWhereUniqueInput {
   email: String
   id: Int
@@ -679,8 +767,8 @@ input ProfileWhereUniqueInput {
 }
 
 type Query {
-  alert(where: AlertWhereUniqueInput!): Alert
   alerts(after: AlertWhereUniqueInput, before: AlertWhereUniqueInput, first: Int, last: Int): [Alert!]!
+  check: [Alert!]!
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   movie(id: Int!): MovieFetch!
   movies(page: Int!): [MovieFetch!]!
@@ -691,6 +779,7 @@ type Query {
   searchShow(page: Int!, term: String!): [ShowFetch!]!
   show(id: Int!): ShowFetch!
   shows(page: Int!): [ShowFetch!]!
+  uncheckedAlertsCount: Int!
   user(where: UserWhereUniqueInput!): User
 }
 
@@ -698,6 +787,7 @@ type Review {
   content: String!
   createdAt: DateTime!
   id: Int!
+  likeCount: Int!
   likeUsers(after: UserLikeReviewWhereUniqueInput, before: UserLikeReviewWhereUniqueInput, first: Int, last: Int): [UserLikeReview!]!
   movieTitle: String!
   posterPath: String!
@@ -788,6 +878,12 @@ input ReviewCreateWithoutWriterInput {
   rating: Float!
   title: String!
   updatedAt: DateTime
+}
+
+input ReviewListRelationFilter {
+  every: ReviewWhereInput
+  none: ReviewWhereInput
+  some: ReviewWhereInput
 }
 
 input ReviewScalarWhereInput {
@@ -919,6 +1015,24 @@ input ReviewUpsertWithWhereUniqueWithoutWriterInput {
   where: ReviewWhereUniqueInput!
 }
 
+input ReviewWhereInput {
+  AND: [ReviewWhereInput!]
+  comments: CommentListRelationFilter
+  content: StringFilter
+  createdAt: DateTimeFilter
+  id: IntFilter
+  likeUsers: UserLikeReviewListRelationFilter
+  movieTitle: StringFilter
+  NOT: [ReviewWhereInput!]
+  OR: [ReviewWhereInput!]
+  posterPath: StringFilter
+  rating: FloatFilter
+  title: StringFilter
+  updatedAt: DateTimeFilter
+  writer: UserWhereInput
+  writerId: IntFilter
+}
+
 input ReviewWhereUniqueInput {
   id: Int
 }
@@ -959,6 +1073,25 @@ input StringFilter {
   not: NestedStringFilter
   notIn: [String!]
   startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+type Subscription {
+  newAlert: Alert!
+  newReview: Review!
 }
 
 type User {
@@ -1175,6 +1308,12 @@ input UserLikeReviewCreateWithoutUserInput {
   review: ReviewCreateOneWithoutLikeUsersInput!
 }
 
+input UserLikeReviewListRelationFilter {
+  every: UserLikeReviewWhereInput
+  none: UserLikeReviewWhereInput
+  some: UserLikeReviewWhereInput
+}
+
 input UserLikeReviewScalarWhereInput {
   AND: [UserLikeReviewScalarWhereInput!]
   NOT: [UserLikeReviewScalarWhereInput!]
@@ -1253,6 +1392,16 @@ input UserLikeReviewUpsertWithWhereUniqueWithoutUserInput {
   where: UserLikeReviewWhereUniqueInput!
 }
 
+input UserLikeReviewWhereInput {
+  AND: [UserLikeReviewWhereInput!]
+  NOT: [UserLikeReviewWhereInput!]
+  OR: [UserLikeReviewWhereInput!]
+  review: ReviewWhereInput
+  reviewId: IntFilter
+  user: UserWhereInput
+  userId: IntFilter
+}
+
 input UserLikeReviewWhereUniqueInput {
   userId_reviewId: UserIdReviewIdCompoundUniqueInput
 }
@@ -1292,6 +1441,12 @@ input UserTaggedCommentCreateWithoutCommentInput {
 
 input UserTaggedCommentCreateWithoutUserInput {
   comment: CommentCreateOneWithoutTaggedUserInput!
+}
+
+input UserTaggedCommentListRelationFilter {
+  every: UserTaggedCommentWhereInput
+  none: UserTaggedCommentWhereInput
+  some: UserTaggedCommentWhereInput
 }
 
 input UserTaggedCommentScalarWhereInput {
@@ -1370,6 +1525,16 @@ input UserTaggedCommentUpsertWithWhereUniqueWithoutUserInput {
   create: UserTaggedCommentCreateWithoutUserInput!
   update: UserTaggedCommentUpdateWithoutUserInput!
   where: UserTaggedCommentWhereUniqueInput!
+}
+
+input UserTaggedCommentWhereInput {
+  AND: [UserTaggedCommentWhereInput!]
+  comment: CommentWhereInput
+  commentId: IntFilter
+  NOT: [UserTaggedCommentWhereInput!]
+  OR: [UserTaggedCommentWhereInput!]
+  user: UserWhereInput
+  userId: IntFilter
 }
 
 input UserTaggedCommentWhereUniqueInput {
@@ -1530,6 +1695,24 @@ input UserUpsertWithoutReviewsInput {
 input UserUpsertWithoutTaggedCommentInput {
   create: UserCreateWithoutTaggedCommentInput!
   update: UserUpdateWithoutTaggedCommentInput!
+}
+
+input UserWhereInput {
+  alerts: AlertListRelationFilter
+  AND: [UserWhereInput!]
+  avatar: StringNullableFilter
+  comments: CommentListRelationFilter
+  id: IntFilter
+  likeReviews: UserLikeReviewListRelationFilter
+  login: StringFilter
+  name: StringFilter
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  profile: ProfileWhereInput
+  reviews: ReviewListRelationFilter
+  social: EnumSocialFilter
+  taggedComment: UserTaggedCommentListRelationFilter
+  token: StringFilter
 }
 
 input UserWhereUniqueInput {

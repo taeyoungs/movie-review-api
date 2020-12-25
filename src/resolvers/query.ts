@@ -7,7 +7,7 @@ const Query = objectType({
         t.crud.user();
         t.crud.review();
         t.crud.reviews();
-        t.crud.alert();
+        // t.crud.alert(); (deprecated)
         t.crud.alerts();
         t.crud.profile();
         t.crud.comments();
@@ -92,6 +92,50 @@ const Query = objectType({
                     .get(`search/tv?query=${term}&page=${page}`)
                     .then((res) => res.data.results);
                 return searchResults;
+            },
+        });
+
+        // Alert
+        // 1. check false -> true (V)
+        t.nonNull.list.nonNull.field('check', {
+            type: 'Alert',
+            resolve: async (_, args, ctx) => {
+                const user = ctx.user;
+                const alerts = await ctx.prisma.alert.findMany({
+                    where: {
+                        userId: user?.id,
+                        check: false,
+                    },
+                });
+                await ctx.prisma.alert.updateMany({
+                    data: {
+                        check: true,
+                    },
+                    where: {
+                        userId: user?.id,
+                        check: false,
+                    },
+                });
+                return alerts;
+            },
+        });
+
+        // 2. unchecked alerts (V)
+        // subscribe로 갱신 (Client 쪽에서 작업)
+        t.nonNull.int('uncheckedAlertsCount', {
+            resolve: async (_, args, ctx) => {
+                const user = ctx.user;
+                if (user) {
+                    const cnt = ctx.prisma.alert.count({
+                        where: {
+                            userId: user.id,
+                            check: false,
+                        },
+                    });
+                    return cnt;
+                } else {
+                    return 0;
+                }
             },
         });
     },

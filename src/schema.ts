@@ -2,6 +2,7 @@ import { enumType, inputObjectType, interfaceType, makeSchema, objectType } from
 import { nexusPrisma } from 'nexus-plugin-prisma';
 import Mutation from './resolvers/mutation';
 import Query from './resolvers/query';
+import Subscription from './resolvers/subscription';
 
 const Social = enumType({
     name: 'Social',
@@ -45,6 +46,15 @@ const Review = objectType({
         t.model.createdAt();
         t.model.updatedAt();
         t.model.likeUsers();
+        t.nonNull.int('likeCount', {
+            resolve: async (parent, args, ctx) => {
+                return await ctx.prisma.userLikeReview.count({
+                    where: {
+                        reviewId: parent.id,
+                    },
+                });
+            },
+        });
     },
 });
 
@@ -221,6 +231,7 @@ export const schema = makeSchema({
         Comment,
         Query,
         Mutation,
+        Subscription,
         AuthPayload,
         UserLikeReview,
         UserTaggedComment,
