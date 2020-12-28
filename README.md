@@ -6,8 +6,6 @@
 
 ## Project Stack
 
-<hr />
-
 ### Server
 
 1. Typescript
