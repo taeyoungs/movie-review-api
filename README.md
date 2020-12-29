@@ -1,16 +1,22 @@
 # Movie Review API
 
-> 로그인 후 특정 영화에 대해 리뷰 그리고 리뷰에 대한 댓글을 남길 수 있는 사이트 백엔드 서버
+GraphQL API of the Movie review site using Apollo, Prisma
+
+## Feature
+
+1. See Popular, Upcoming movies
+   (Using TMDB rest api)
+2. Token auth (google, github)
+3. crud review and comment
 
 <br />
 
-## Project Stack
-
-### Server
+## Stack
 
 1. Typescript
-2. Apollo Server
+2. Apollo
 3. Prisma 2
 4. Nexus
 5. Express
 6. Nodejs
+7. MySQL
