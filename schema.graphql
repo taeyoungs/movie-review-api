@@ -540,6 +540,7 @@ interface IFetch {
   backdrop_path: String
   genres: [Genre!]
   id: Int!
+  media_type: String
   overview: String!
   poster_path: String
   total_pages: Int!
@@ -569,10 +570,21 @@ input IntNullableFilter {
   notIn: [Int!]
 }
 
+type MovieAndShow {
+  backdrop_path: String
+  first_air_date: String
+  id: Int!
+  name: String
+  poster_path: String
+  release_date: String
+  title: String
+}
+
 type MovieFetch implements IFetch {
   backdrop_path: String
   genres: [Genre!]
   id: Int!
+  media_type: String
   overview: String!
   poster_path: String
   release_date: String!
@@ -699,6 +711,12 @@ input NullableStringFieldUpdateOperationsInput {
   set: String
 }
 
+type PersonFetch {
+  id: Int!
+  name: String!
+  profile_path: String
+}
+
 type Profile {
   bio: String
   email: String
@@ -772,11 +790,10 @@ type Query {
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   movie(id: Int!): MovieFetch!
   movies(page: Int!): [MovieFetch!]!
+  multiSearch(page: Int!, searchType: String!, term: String!): [SearchFetch!]!
   profile(where: ProfileWhereUniqueInput!): Profile
   review(where: ReviewWhereUniqueInput!): Review
   reviews(after: ReviewWhereUniqueInput, before: ReviewWhereUniqueInput, first: Int, last: Int): [Review!]!
-  searchMovie(page: Int!, term: String!): [MovieFetch!]!
-  searchShow(page: Int!, term: String!): [ShowFetch!]!
   show(id: Int!): ShowFetch!
   shows(page: Int!): [ShowFetch!]!
   uncheckedAlertsCount: Int!
@@ -1037,11 +1054,24 @@ input ReviewWhereUniqueInput {
   id: Int
 }
 
+type SearchFetch {
+  first_air_date: String
+  id: Int!
+  media_type: String
+  name: String
+  poster_path: String
+  profile_path: String
+  release_date: String
+  title: String
+  vote_average: Float
+}
+
 type ShowFetch implements IFetch {
   backdrop_path: String
   first_air_date: String!
   genres: [Genre!]
   id: Int!
+  media_type: String
   name: String!
   networks: [Network!]
   overview: String!

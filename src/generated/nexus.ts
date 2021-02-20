@@ -1398,10 +1398,20 @@ export interface NexusGenObjects {
     id: number; // Int!
     name: string; // String!
   }
+  MovieAndShow: { // root type
+    backdrop_path?: string | null; // String
+    first_air_date?: string | null; // String
+    id: number; // Int!
+    name?: string | null; // String
+    poster_path?: string | null; // String
+    release_date?: string | null; // String
+    title?: string | null; // String
+  }
   MovieFetch: { // root type
     backdrop_path?: string | null; // String
     genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
+    media_type?: string | null; // String
     overview: string; // String!
     poster_path?: string | null; // String
     release_date: string; // String!
@@ -1416,6 +1426,11 @@ export interface NexusGenObjects {
     id: number; // Int!
     logo_path?: string | null; // String
     name: string; // String!
+  }
+  PersonFetch: { // root type
+    id: number; // Int!
+    name: string; // String!
+    profile_path?: string | null; // String
   }
   Profile: { // root type
     bio?: string | null; // String
@@ -1435,11 +1450,23 @@ export interface NexusGenObjects {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     writerId: number; // Int!
   }
+  SearchFetch: { // root type
+    first_air_date?: string | null; // String
+    id: number; // Int!
+    media_type?: string | null; // String
+    name?: string | null; // String
+    poster_path?: string | null; // String
+    profile_path?: string | null; // String
+    release_date?: string | null; // String
+    title?: string | null; // String
+    vote_average?: number | null; // Float
+  }
   ShowFetch: { // root type
     backdrop_path?: string | null; // String
     first_air_date: string; // String!
     genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
+    media_type?: string | null; // String
     name: string; // String!
     networks?: NexusGenRootTypes['Network'][] | null; // [Network!]
     overview: string; // String!
@@ -1519,10 +1546,20 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     name: string; // String!
   }
+  MovieAndShow: { // field return type
+    backdrop_path: string | null; // String
+    first_air_date: string | null; // String
+    id: number; // Int!
+    name: string | null; // String
+    poster_path: string | null; // String
+    release_date: string | null; // String
+    title: string | null; // String
+  }
   MovieFetch: { // field return type
     backdrop_path: string | null; // String
     genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
+    media_type: string | null; // String
     overview: string; // String!
     poster_path: string | null; // String
     release_date: string; // String!
@@ -1551,6 +1588,11 @@ export interface NexusGenFieldTypes {
     logo_path: string | null; // String
     name: string; // String!
   }
+  PersonFetch: { // field return type
+    id: number; // Int!
+    name: string; // String!
+    profile_path: string | null; // String
+  }
   Profile: { // field return type
     bio: string | null; // String
     email: string | null; // String
@@ -1564,11 +1606,10 @@ export interface NexusGenFieldTypes {
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
     movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
     movies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
+    multiSearch: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
     profile: NexusGenRootTypes['Profile'] | null; // Profile
     review: NexusGenRootTypes['Review'] | null; // Review
     reviews: NexusGenRootTypes['Review'][]; // [Review!]!
-    searchMovie: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
-    searchShow: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
     show: NexusGenRootTypes['ShowFetch']; // ShowFetch!
     shows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
     uncheckedAlertsCount: number; // Int!
@@ -1588,11 +1629,23 @@ export interface NexusGenFieldTypes {
     writer: NexusGenRootTypes['User']; // User!
     writerId: number; // Int!
   }
+  SearchFetch: { // field return type
+    first_air_date: string | null; // String
+    id: number; // Int!
+    media_type: string | null; // String
+    name: string | null; // String
+    poster_path: string | null; // String
+    profile_path: string | null; // String
+    release_date: string | null; // String
+    title: string | null; // String
+    vote_average: number | null; // Float
+  }
   ShowFetch: { // field return type
     backdrop_path: string | null; // String
     first_air_date: string; // String!
     genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
+    media_type: string | null; // String
     name: string; // String!
     networks: NexusGenRootTypes['Network'][] | null; // [Network!]
     overview: string; // String!
@@ -1641,6 +1694,7 @@ export interface NexusGenFieldTypes {
     backdrop_path: string | null; // String
     genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
+    media_type: string | null; // String
     overview: string; // String!
     poster_path: string | null; // String
     total_pages: number; // Int!
@@ -1684,10 +1738,20 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     name: 'String'
   }
+  MovieAndShow: { // field return type name
+    backdrop_path: 'String'
+    first_air_date: 'String'
+    id: 'Int'
+    name: 'String'
+    poster_path: 'String'
+    release_date: 'String'
+    title: 'String'
+  }
   MovieFetch: { // field return type name
     backdrop_path: 'String'
     genres: 'Genre'
     id: 'Int'
+    media_type: 'String'
     overview: 'String'
     poster_path: 'String'
     release_date: 'String'
@@ -1716,6 +1780,11 @@ export interface NexusGenFieldTypeNames {
     logo_path: 'String'
     name: 'String'
   }
+  PersonFetch: { // field return type name
+    id: 'Int'
+    name: 'String'
+    profile_path: 'String'
+  }
   Profile: { // field return type name
     bio: 'String'
     email: 'String'
@@ -1729,11 +1798,10 @@ export interface NexusGenFieldTypeNames {
     comments: 'Comment'
     movie: 'MovieFetch'
     movies: 'MovieFetch'
+    multiSearch: 'SearchFetch'
     profile: 'Profile'
     review: 'Review'
     reviews: 'Review'
-    searchMovie: 'MovieFetch'
-    searchShow: 'ShowFetch'
     show: 'ShowFetch'
     shows: 'ShowFetch'
     uncheckedAlertsCount: 'Int'
@@ -1753,11 +1821,23 @@ export interface NexusGenFieldTypeNames {
     writer: 'User'
     writerId: 'Int'
   }
+  SearchFetch: { // field return type name
+    first_air_date: 'String'
+    id: 'Int'
+    media_type: 'String'
+    name: 'String'
+    poster_path: 'String'
+    profile_path: 'String'
+    release_date: 'String'
+    title: 'String'
+    vote_average: 'Float'
+  }
   ShowFetch: { // field return type name
     backdrop_path: 'String'
     first_air_date: 'String'
     genres: 'Genre'
     id: 'Int'
+    media_type: 'String'
     name: 'String'
     networks: 'Network'
     overview: 'String'
@@ -1806,6 +1886,7 @@ export interface NexusGenFieldTypeNames {
     backdrop_path: 'String'
     genres: 'Genre'
     id: 'Int'
+    media_type: 'String'
     overview: 'String'
     poster_path: 'String'
     total_pages: 'Int'
@@ -1886,6 +1967,11 @@ export interface NexusGenArgTypes {
     movies: { // args
       page: number; // Int!
     }
+    multiSearch: { // args
+      page: number; // Int!
+      searchType: string; // String!
+      term: string; // String!
+    }
     profile: { // args
       where: NexusGenInputs['ProfileWhereUniqueInput']; // ProfileWhereUniqueInput!
     }
@@ -1897,14 +1983,6 @@ export interface NexusGenArgTypes {
       before?: NexusGenInputs['ReviewWhereUniqueInput'] | null; // ReviewWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
-    }
-    searchMovie: { // args
-      page: number; // Int!
-      term: string; // String!
-    }
-    searchShow: { // args
-      page: number; // Int!
-      term: string; // String!
     }
     show: { // args
       id: number; // Int!
