@@ -1612,6 +1612,8 @@ export interface NexusGenFieldTypes {
     reviews: NexusGenRootTypes['Review'][]; // [Review!]!
     show: NexusGenRootTypes['ShowFetch']; // ShowFetch!
     shows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
+    trendingMovies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
+    trendingShows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
     uncheckedAlertsCount: number; // Int!
     user: NexusGenRootTypes['User'] | null; // User
   }
@@ -1804,6 +1806,8 @@ export interface NexusGenFieldTypeNames {
     reviews: 'Review'
     show: 'ShowFetch'
     shows: 'ShowFetch'
+    trendingMovies: 'MovieFetch'
+    trendingShows: 'ShowFetch'
     uncheckedAlertsCount: 'Int'
     user: 'User'
   }
@@ -1989,6 +1993,12 @@ export interface NexusGenArgTypes {
     }
     shows: { // args
       page: number; // Int!
+    }
+    trendingMovies: { // args
+      timeWindow: string; // String!
+    }
+    trendingShows: { // args
+      timeWindow: string; // String!
     }
     user: { // args
       where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!

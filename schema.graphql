@@ -796,6 +796,8 @@ type Query {
   reviews(after: ReviewWhereUniqueInput, before: ReviewWhereUniqueInput, first: Int, last: Int): [Review!]!
   show(id: Int!): ShowFetch!
   shows(page: Int!): [ShowFetch!]!
+  trendingMovies(timeWindow: String!): [MovieFetch!]!
+  trendingShows(timeWindow: String!): [ShowFetch!]!
   uncheckedAlertsCount: Int!
   user(where: UserWhereUniqueInput!): User
 }

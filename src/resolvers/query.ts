@@ -1,8 +1,8 @@
-import { intArg, nonNull, objectType, stringArg } from "nexus";
-import api from "../api";
+import { intArg, nonNull, objectType, stringArg } from 'nexus';
+import api from '../api';
 
 const Query = objectType({
-  name: "Query",
+  name: 'Query',
   definition(t) {
     t.crud.user();
     t.crud.review();
@@ -13,8 +13,8 @@ const Query = objectType({
     t.crud.comments();
 
     // Movie
-    t.nonNull.list.nonNull.field("movies", {
-      type: "MovieFetch",
+    t.nonNull.list.nonNull.field('movies', {
+      type: 'MovieFetch',
       args: {
         page: nonNull(intArg()),
       },
@@ -26,8 +26,8 @@ const Query = objectType({
         return movieList;
       },
     });
-    t.nonNull.field("movie", {
-      type: "MovieFetch",
+    t.nonNull.field('movie', {
+      type: 'MovieFetch',
       args: {
         id: nonNull(intArg()),
       },
@@ -45,8 +45,8 @@ const Query = objectType({
       },
     });
     // TV Show
-    t.nonNull.list.nonNull.field("shows", {
-      type: "ShowFetch",
+    t.nonNull.list.nonNull.field('shows', {
+      type: 'ShowFetch',
       args: {
         page: nonNull(intArg()),
       },
@@ -58,8 +58,8 @@ const Query = objectType({
         return showList;
       },
     });
-    t.nonNull.field("show", {
-      type: "ShowFetch",
+    t.nonNull.field('show', {
+      type: 'ShowFetch',
       args: {
         id: nonNull(intArg()),
       },
@@ -73,9 +73,39 @@ const Query = objectType({
         return show;
       },
     });
+
+    // Trending
+    t.nonNull.list.nonNull.field('trendingMovies', {
+      type: 'MovieFetch',
+      args: {
+        timeWindow: nonNull(stringArg()),
+      },
+      resolve: async (_, args, ctx) => {
+        const timeWindow = args.timeWindow;
+        const trendingMovieList = await api
+          .get(`trending/movie/${timeWindow}`)
+          .then((res) => res.data.results);
+        return trendingMovieList;
+      },
+    });
+
+    t.nonNull.list.nonNull.field('trendingShows', {
+      type: 'ShowFetch',
+      args: {
+        timeWindow: nonNull(stringArg()),
+      },
+      resolve: async (_, args, ctx) => {
+        const timeWindow = args.timeWindow;
+        const trendingShowList = await api
+          .get(`trending/tv/${timeWindow}`)
+          .then((res) => res.data.results);
+        return trendingShowList;
+      },
+    });
+
     // Search
-    t.nonNull.list.nonNull.field("multiSearch", {
-      type: "SearchFetch",
+    t.nonNull.list.nonNull.field('multiSearch', {
+      type: 'SearchFetch',
       args: {
         term: nonNull(stringArg()),
         page: nonNull(intArg()),
@@ -96,8 +126,8 @@ const Query = objectType({
 
     // Alert
     // 1. check false -> true (V)
-    t.nonNull.list.nonNull.field("check", {
-      type: "Alert",
+    t.nonNull.list.nonNull.field('check', {
+      type: 'Alert',
       resolve: async (_, args, ctx) => {
         const user = ctx.user;
         const alerts = await ctx.prisma.alert.findMany({
@@ -121,7 +151,7 @@ const Query = objectType({
 
     // 2. unchecked alerts (V)
     // subscribe로 갱신 (Client 쪽에서 작업)
-    t.nonNull.int("uncheckedAlertsCount", {
+    t.nonNull.int('uncheckedAlertsCount', {
       resolve: async (_, args, ctx) => {
         const user = ctx.user;
         if (user) {
