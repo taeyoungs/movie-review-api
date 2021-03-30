@@ -155,7 +155,7 @@ const Query = objectType({
       resolve: async (_, args, ctx) => {
         const user = ctx.user;
         if (user) {
-          const cnt = ctx.prisma.alert.count({
+          const cnt = await ctx.prisma.alert.count({
             where: {
               userId: user.id,
               check: false,

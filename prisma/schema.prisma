@@ -10,9 +10,9 @@ datasource db {
 model User {
   id            Int                 @id @default(autoincrement())
   name          String
+  password      String?
   avatar        String?
   social        Social
-  token         String              @unique
   login         String              @unique
   profile       Profile?
   reviews       Review[]
@@ -99,6 +99,6 @@ enum AlertType {
 }
 
 enum Social {
-  GITHUB
   GOOGLE
+  LOCAL
 }

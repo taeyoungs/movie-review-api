@@ -844,11 +844,11 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewCreateManyWithoutUserInput'] | null; // UserLikeReviewCreateManyWithoutUserInput
     login: string; // String!
     name: string; // String!
+    password?: string | null; // String
     profile?: NexusGenInputs['ProfileCreateOneWithoutUserInput'] | null; // ProfileCreateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewCreateManyWithoutWriterInput'] | null; // ReviewCreateManyWithoutWriterInput
     social: NexusGenEnums['Social']; // Social!
     taggedComment?: NexusGenInputs['UserTaggedCommentCreateManyWithoutUserInput'] | null; // UserTaggedCommentCreateManyWithoutUserInput
-    token: string; // String!
   }
   UserCreateOneWithoutAlertsInput: { // input type
     connect?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
@@ -905,11 +905,11 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewCreateManyWithoutUserInput'] | null; // UserLikeReviewCreateManyWithoutUserInput
     login: string; // String!
     name: string; // String!
+    password?: string | null; // String
     profile?: NexusGenInputs['ProfileCreateOneWithoutUserInput'] | null; // ProfileCreateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewCreateManyWithoutWriterInput'] | null; // ReviewCreateManyWithoutWriterInput
     social: NexusGenEnums['Social']; // Social!
     taggedComment?: NexusGenInputs['UserTaggedCommentCreateManyWithoutUserInput'] | null; // UserTaggedCommentCreateManyWithoutUserInput
-    token: string; // String!
   }
   UserCreateWithoutCommentsInput: { // input type
     alerts?: NexusGenInputs['AlertCreateManyWithoutUserInput'] | null; // AlertCreateManyWithoutUserInput
@@ -917,11 +917,11 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewCreateManyWithoutUserInput'] | null; // UserLikeReviewCreateManyWithoutUserInput
     login: string; // String!
     name: string; // String!
+    password?: string | null; // String
     profile?: NexusGenInputs['ProfileCreateOneWithoutUserInput'] | null; // ProfileCreateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewCreateManyWithoutWriterInput'] | null; // ReviewCreateManyWithoutWriterInput
     social: NexusGenEnums['Social']; // Social!
     taggedComment?: NexusGenInputs['UserTaggedCommentCreateManyWithoutUserInput'] | null; // UserTaggedCommentCreateManyWithoutUserInput
-    token: string; // String!
   }
   UserCreateWithoutLikeReviewsInput: { // input type
     alerts?: NexusGenInputs['AlertCreateManyWithoutUserInput'] | null; // AlertCreateManyWithoutUserInput
@@ -929,11 +929,11 @@ export interface NexusGenInputs {
     comments?: NexusGenInputs['CommentCreateManyWithoutWriterInput'] | null; // CommentCreateManyWithoutWriterInput
     login: string; // String!
     name: string; // String!
+    password?: string | null; // String
     profile?: NexusGenInputs['ProfileCreateOneWithoutUserInput'] | null; // ProfileCreateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewCreateManyWithoutWriterInput'] | null; // ReviewCreateManyWithoutWriterInput
     social: NexusGenEnums['Social']; // Social!
     taggedComment?: NexusGenInputs['UserTaggedCommentCreateManyWithoutUserInput'] | null; // UserTaggedCommentCreateManyWithoutUserInput
-    token: string; // String!
   }
   UserCreateWithoutProfileInput: { // input type
     alerts?: NexusGenInputs['AlertCreateManyWithoutUserInput'] | null; // AlertCreateManyWithoutUserInput
@@ -942,10 +942,10 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewCreateManyWithoutUserInput'] | null; // UserLikeReviewCreateManyWithoutUserInput
     login: string; // String!
     name: string; // String!
+    password?: string | null; // String
     reviews?: NexusGenInputs['ReviewCreateManyWithoutWriterInput'] | null; // ReviewCreateManyWithoutWriterInput
     social: NexusGenEnums['Social']; // Social!
     taggedComment?: NexusGenInputs['UserTaggedCommentCreateManyWithoutUserInput'] | null; // UserTaggedCommentCreateManyWithoutUserInput
-    token: string; // String!
   }
   UserCreateWithoutReviewsInput: { // input type
     alerts?: NexusGenInputs['AlertCreateManyWithoutUserInput'] | null; // AlertCreateManyWithoutUserInput
@@ -954,10 +954,10 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewCreateManyWithoutUserInput'] | null; // UserLikeReviewCreateManyWithoutUserInput
     login: string; // String!
     name: string; // String!
+    password?: string | null; // String
     profile?: NexusGenInputs['ProfileCreateOneWithoutUserInput'] | null; // ProfileCreateOneWithoutUserInput
     social: NexusGenEnums['Social']; // Social!
     taggedComment?: NexusGenInputs['UserTaggedCommentCreateManyWithoutUserInput'] | null; // UserTaggedCommentCreateManyWithoutUserInput
-    token: string; // String!
   }
   UserCreateWithoutTaggedCommentInput: { // input type
     alerts?: NexusGenInputs['AlertCreateManyWithoutUserInput'] | null; // AlertCreateManyWithoutUserInput
@@ -966,10 +966,10 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewCreateManyWithoutUserInput'] | null; // UserLikeReviewCreateManyWithoutUserInput
     login: string; // String!
     name: string; // String!
+    password?: string | null; // String
     profile?: NexusGenInputs['ProfileCreateOneWithoutUserInput'] | null; // ProfileCreateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewCreateManyWithoutWriterInput'] | null; // ReviewCreateManyWithoutWriterInput
     social: NexusGenEnums['Social']; // Social!
-    token: string; // String!
   }
   UserIdCommentIdCompoundUniqueInput: { // input type
     commentId: number; // Int!
@@ -1241,11 +1241,11 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewUpdateManyWithoutUserInput'] | null; // UserLikeReviewUpdateManyWithoutUserInput
     login?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    password?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     profile?: NexusGenInputs['ProfileUpdateOneWithoutUserInput'] | null; // ProfileUpdateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewUpdateManyWithoutWriterInput'] | null; // ReviewUpdateManyWithoutWriterInput
     social?: NexusGenInputs['EnumSocialFieldUpdateOperationsInput'] | null; // EnumSocialFieldUpdateOperationsInput
     taggedComment?: NexusGenInputs['UserTaggedCommentUpdateManyWithoutUserInput'] | null; // UserTaggedCommentUpdateManyWithoutUserInput
-    token?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   UserUpdateWithoutCommentsInput: { // input type
     alerts?: NexusGenInputs['AlertUpdateManyWithoutUserInput'] | null; // AlertUpdateManyWithoutUserInput
@@ -1253,11 +1253,11 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewUpdateManyWithoutUserInput'] | null; // UserLikeReviewUpdateManyWithoutUserInput
     login?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    password?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     profile?: NexusGenInputs['ProfileUpdateOneWithoutUserInput'] | null; // ProfileUpdateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewUpdateManyWithoutWriterInput'] | null; // ReviewUpdateManyWithoutWriterInput
     social?: NexusGenInputs['EnumSocialFieldUpdateOperationsInput'] | null; // EnumSocialFieldUpdateOperationsInput
     taggedComment?: NexusGenInputs['UserTaggedCommentUpdateManyWithoutUserInput'] | null; // UserTaggedCommentUpdateManyWithoutUserInput
-    token?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   UserUpdateWithoutLikeReviewsInput: { // input type
     alerts?: NexusGenInputs['AlertUpdateManyWithoutUserInput'] | null; // AlertUpdateManyWithoutUserInput
@@ -1265,11 +1265,11 @@ export interface NexusGenInputs {
     comments?: NexusGenInputs['CommentUpdateManyWithoutWriterInput'] | null; // CommentUpdateManyWithoutWriterInput
     login?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    password?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     profile?: NexusGenInputs['ProfileUpdateOneWithoutUserInput'] | null; // ProfileUpdateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewUpdateManyWithoutWriterInput'] | null; // ReviewUpdateManyWithoutWriterInput
     social?: NexusGenInputs['EnumSocialFieldUpdateOperationsInput'] | null; // EnumSocialFieldUpdateOperationsInput
     taggedComment?: NexusGenInputs['UserTaggedCommentUpdateManyWithoutUserInput'] | null; // UserTaggedCommentUpdateManyWithoutUserInput
-    token?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   UserUpdateWithoutProfileInput: { // input type
     alerts?: NexusGenInputs['AlertUpdateManyWithoutUserInput'] | null; // AlertUpdateManyWithoutUserInput
@@ -1278,10 +1278,10 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewUpdateManyWithoutUserInput'] | null; // UserLikeReviewUpdateManyWithoutUserInput
     login?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    password?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     reviews?: NexusGenInputs['ReviewUpdateManyWithoutWriterInput'] | null; // ReviewUpdateManyWithoutWriterInput
     social?: NexusGenInputs['EnumSocialFieldUpdateOperationsInput'] | null; // EnumSocialFieldUpdateOperationsInput
     taggedComment?: NexusGenInputs['UserTaggedCommentUpdateManyWithoutUserInput'] | null; // UserTaggedCommentUpdateManyWithoutUserInput
-    token?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   UserUpdateWithoutReviewsInput: { // input type
     alerts?: NexusGenInputs['AlertUpdateManyWithoutUserInput'] | null; // AlertUpdateManyWithoutUserInput
@@ -1290,10 +1290,10 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewUpdateManyWithoutUserInput'] | null; // UserLikeReviewUpdateManyWithoutUserInput
     login?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    password?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     profile?: NexusGenInputs['ProfileUpdateOneWithoutUserInput'] | null; // ProfileUpdateOneWithoutUserInput
     social?: NexusGenInputs['EnumSocialFieldUpdateOperationsInput'] | null; // EnumSocialFieldUpdateOperationsInput
     taggedComment?: NexusGenInputs['UserTaggedCommentUpdateManyWithoutUserInput'] | null; // UserTaggedCommentUpdateManyWithoutUserInput
-    token?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   UserUpdateWithoutTaggedCommentInput: { // input type
     alerts?: NexusGenInputs['AlertUpdateManyWithoutUserInput'] | null; // AlertUpdateManyWithoutUserInput
@@ -1302,10 +1302,10 @@ export interface NexusGenInputs {
     likeReviews?: NexusGenInputs['UserLikeReviewUpdateManyWithoutUserInput'] | null; // UserLikeReviewUpdateManyWithoutUserInput
     login?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    password?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     profile?: NexusGenInputs['ProfileUpdateOneWithoutUserInput'] | null; // ProfileUpdateOneWithoutUserInput
     reviews?: NexusGenInputs['ReviewUpdateManyWithoutWriterInput'] | null; // ReviewUpdateManyWithoutWriterInput
     social?: NexusGenInputs['EnumSocialFieldUpdateOperationsInput'] | null; // EnumSocialFieldUpdateOperationsInput
-    token?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   UserUpsertWithoutAlertsInput: { // input type
     create: NexusGenInputs['UserCreateWithoutAlertsInput']; // UserCreateWithoutAlertsInput!
@@ -1342,22 +1342,21 @@ export interface NexusGenInputs {
     name?: NexusGenInputs['StringFilter'] | null; // StringFilter
     NOT?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
     OR?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    password?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     profile?: NexusGenInputs['ProfileWhereInput'] | null; // ProfileWhereInput
     reviews?: NexusGenInputs['ReviewListRelationFilter'] | null; // ReviewListRelationFilter
     social?: NexusGenInputs['EnumSocialFilter'] | null; // EnumSocialFilter
     taggedComment?: NexusGenInputs['UserTaggedCommentListRelationFilter'] | null; // UserTaggedCommentListRelationFilter
-    token?: NexusGenInputs['StringFilter'] | null; // StringFilter
   }
   UserWhereUniqueInput: { // input type
     id?: number | null; // Int
     login?: string | null; // String
-    token?: string | null; // String
   }
 }
 
 export interface NexusGenEnums {
   AlertType: "COMMENT" | "LIKE"
-  Social: "GITHUB" | "GOOGLE"
+  Social: "GITHUB" | "GOOGLE" | "LOCAL"
 }
 
 export interface NexusGenScalars {
@@ -1483,7 +1482,6 @@ export interface NexusGenObjects {
     login: string; // String!
     name: string; // String!
     social: NexusGenEnums['Social']; // Social!
-    token: string; // String!
   }
   UserLikeReview: { // root type
     reviewId: number; // Int!
@@ -1575,9 +1573,8 @@ export interface NexusGenFieldTypes {
     deleteManyAlert: NexusGenRootTypes['BatchPayload']; // BatchPayload!
     deleteOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     deleteOneReview: NexusGenRootTypes['Review'] | null; // Review
-    githutAuth: NexusGenRootTypes['AuthPayload']; // AuthPayload!
-    googleAuth: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     signUp: NexusGenRootTypes['User']; // User!
+    socialAuth: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     toggleLikeReview: boolean | null; // Boolean
     updateOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     updateOneProfile: NexusGenRootTypes['Profile'] | null; // Profile
@@ -1673,7 +1670,6 @@ export interface NexusGenFieldTypes {
     reviews: NexusGenRootTypes['Review'][]; // [Review!]!
     social: NexusGenEnums['Social']; // Social!
     taggedComment: NexusGenRootTypes['UserTaggedComment'][]; // [UserTaggedComment!]!
-    token: string; // String!
   }
   UserLikeReview: { // field return type
     review: NexusGenRootTypes['Review']; // Review!
@@ -1769,9 +1765,8 @@ export interface NexusGenFieldTypeNames {
     deleteManyAlert: 'BatchPayload'
     deleteOneComment: 'Comment'
     deleteOneReview: 'Review'
-    githutAuth: 'AuthPayload'
-    googleAuth: 'AuthPayload'
     signUp: 'User'
+    socialAuth: 'AuthPayload'
     toggleLikeReview: 'Boolean'
     updateOneComment: 'Comment'
     updateOneProfile: 'Profile'
@@ -1867,7 +1862,6 @@ export interface NexusGenFieldTypeNames {
     reviews: 'Review'
     social: 'Social'
     taggedComment: 'UserTaggedComment'
-    token: 'String'
   }
   UserLikeReview: { // field return type name
     review: 'Review'
@@ -1924,16 +1918,11 @@ export interface NexusGenArgTypes {
     deleteOneReview: { // args
       where: NexusGenInputs['ReviewWhereUniqueInput']; // ReviewWhereUniqueInput!
     }
-    githutAuth: { // args
-      code: string; // String!
-      social: NexusGenEnums['Social']; // Social!
-    }
-    googleAuth: { // args
-      code: string; // String!
-      social: NexusGenEnums['Social']; // Social!
-    }
     signUp: { // args
       data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
+    }
+    socialAuth: { // args
+      token: string; // String!
     }
     toggleLikeReview: { // args
       reviewId: number; // Int!

@@ -601,9 +601,8 @@ type Mutation {
   deleteManyAlert(where: AlertWhereInput): BatchPayload!
   deleteOneComment(where: CommentWhereUniqueInput!): Comment
   deleteOneReview(where: ReviewWhereUniqueInput!): Review
-  githutAuth(code: String!, social: Social!): AuthPayload!
-  googleAuth(code: String!, social: Social!): AuthPayload!
   signUp(data: UserCreateInput!): User!
+  socialAuth(token: String!): AuthPayload!
   toggleLikeReview(reviewId: Int!, userId: Int!): Boolean
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile
@@ -1087,6 +1086,7 @@ type ShowFetch implements IFetch {
 enum Social {
   GITHUB
   GOOGLE
+  LOCAL
 }
 
 input StringFieldUpdateOperationsInput {
@@ -1138,7 +1138,6 @@ type User {
   reviews(after: ReviewWhereUniqueInput, before: ReviewWhereUniqueInput, first: Int, last: Int): [Review!]!
   social: Social!
   taggedComment(after: UserTaggedCommentWhereUniqueInput, before: UserTaggedCommentWhereUniqueInput, first: Int, last: Int): [UserTaggedComment!]!
-  token: String!
 }
 
 input UserCreateInput {
@@ -1148,11 +1147,11 @@ input UserCreateInput {
   likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
+  password: String
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
   taggedComment: UserTaggedCommentCreateManyWithoutUserInput
-  token: String!
 }
 
 input UserCreateOneWithoutAlertsInput {
@@ -1221,11 +1220,11 @@ input UserCreateWithoutAlertsInput {
   likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
+  password: String
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
   taggedComment: UserTaggedCommentCreateManyWithoutUserInput
-  token: String!
 }
 
 input UserCreateWithoutCommentsInput {
@@ -1234,11 +1233,11 @@ input UserCreateWithoutCommentsInput {
   likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
+  password: String
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
   taggedComment: UserTaggedCommentCreateManyWithoutUserInput
-  token: String!
 }
 
 input UserCreateWithoutLikeReviewsInput {
@@ -1247,11 +1246,11 @@ input UserCreateWithoutLikeReviewsInput {
   comments: CommentCreateManyWithoutWriterInput
   login: String!
   name: String!
+  password: String
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
   taggedComment: UserTaggedCommentCreateManyWithoutUserInput
-  token: String!
 }
 
 input UserCreateWithoutProfileInput {
@@ -1261,10 +1260,10 @@ input UserCreateWithoutProfileInput {
   likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
+  password: String
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
   taggedComment: UserTaggedCommentCreateManyWithoutUserInput
-  token: String!
 }
 
 input UserCreateWithoutReviewsInput {
@@ -1274,10 +1273,10 @@ input UserCreateWithoutReviewsInput {
   likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
+  password: String
   profile: ProfileCreateOneWithoutUserInput
   social: Social!
   taggedComment: UserTaggedCommentCreateManyWithoutUserInput
-  token: String!
 }
 
 input UserCreateWithoutTaggedCommentInput {
@@ -1287,10 +1286,10 @@ input UserCreateWithoutTaggedCommentInput {
   likeReviews: UserLikeReviewCreateManyWithoutUserInput
   login: String!
   name: String!
+  password: String
   profile: ProfileCreateOneWithoutUserInput
   reviews: ReviewCreateManyWithoutWriterInput
   social: Social!
-  token: String!
 }
 
 input UserIdCommentIdCompoundUniqueInput {
@@ -1627,11 +1626,11 @@ input UserUpdateWithoutAlertsInput {
   likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  password: NullableStringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
   taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
-  token: StringFieldUpdateOperationsInput
 }
 
 input UserUpdateWithoutCommentsInput {
@@ -1640,11 +1639,11 @@ input UserUpdateWithoutCommentsInput {
   likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  password: NullableStringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
   taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
-  token: StringFieldUpdateOperationsInput
 }
 
 input UserUpdateWithoutLikeReviewsInput {
@@ -1653,11 +1652,11 @@ input UserUpdateWithoutLikeReviewsInput {
   comments: CommentUpdateManyWithoutWriterInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  password: NullableStringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
   taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
-  token: StringFieldUpdateOperationsInput
 }
 
 input UserUpdateWithoutProfileInput {
@@ -1667,10 +1666,10 @@ input UserUpdateWithoutProfileInput {
   likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  password: NullableStringFieldUpdateOperationsInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
   taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
-  token: StringFieldUpdateOperationsInput
 }
 
 input UserUpdateWithoutReviewsInput {
@@ -1680,10 +1679,10 @@ input UserUpdateWithoutReviewsInput {
   likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  password: NullableStringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   social: EnumSocialFieldUpdateOperationsInput
   taggedComment: UserTaggedCommentUpdateManyWithoutUserInput
-  token: StringFieldUpdateOperationsInput
 }
 
 input UserUpdateWithoutTaggedCommentInput {
@@ -1693,10 +1692,10 @@ input UserUpdateWithoutTaggedCommentInput {
   likeReviews: UserLikeReviewUpdateManyWithoutUserInput
   login: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  password: NullableStringFieldUpdateOperationsInput
   profile: ProfileUpdateOneWithoutUserInput
   reviews: ReviewUpdateManyWithoutWriterInput
   social: EnumSocialFieldUpdateOperationsInput
-  token: StringFieldUpdateOperationsInput
 }
 
 input UserUpsertWithoutAlertsInput {
@@ -1740,17 +1739,16 @@ input UserWhereInput {
   name: StringFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  password: StringNullableFilter
   profile: ProfileWhereInput
   reviews: ReviewListRelationFilter
   social: EnumSocialFilter
   taggedComment: UserTaggedCommentListRelationFilter
-  token: StringFilter
 }
 
 input UserWhereUniqueInput {
   id: Int
   login: String
-  token: String
 }
 
 type Video {
