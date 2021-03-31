@@ -1356,7 +1356,7 @@ export interface NexusGenInputs {
 
 export interface NexusGenEnums {
   AlertType: "COMMENT" | "LIKE"
-  Social: "GITHUB" | "GOOGLE" | "LOCAL"
+  Social: "GOOGLE" | "LOCAL"
 }
 
 export interface NexusGenScalars {
@@ -1379,7 +1379,6 @@ export interface NexusGenObjects {
     userId: number; // Int!
   }
   AuthPayload: { // root type
-    token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
   BatchPayload: { // root type
@@ -1522,7 +1521,6 @@ export interface NexusGenFieldTypes {
     userId: number; // Int!
   }
   AuthPayload: { // field return type
-    token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
   BatchPayload: { // field return type
@@ -1714,7 +1712,6 @@ export interface NexusGenFieldTypeNames {
     userId: 'Int'
   }
   AuthPayload: { // field return type name
-    token: 'String'
     user: 'User'
   }
   BatchPayload: { // field return type name

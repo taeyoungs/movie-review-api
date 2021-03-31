@@ -177,7 +177,6 @@ input AlertWhereUniqueInput {
 }
 
 type AuthPayload {
-  token: String!
   user: User!
 }
 
@@ -1084,7 +1083,6 @@ type ShowFetch implements IFetch {
 }
 
 enum Social {
-  GITHUB
   GOOGLE
   LOCAL
 }

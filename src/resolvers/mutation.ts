@@ -66,41 +66,45 @@ const Mutation = objectType({
         token: nonNull(stringArg()),
       },
       resolve: async (_, { token }, ctx) => {
-        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        try {
+          const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-        const ticket = await client.verifyIdToken({
-          idToken: token,
-          audience: process.env.GOOGLE_CLIENT_ID,
-        });
-
-        const payload = ticket.getPayload();
-
-        if (payload) {
-          const data = {
-            name: payload.name || 'default',
-            avatar: payload.picture,
-            login: payload.email || 'default',
-            social: Social.GOOGLE,
-          };
-
-          const user = await ctx.prisma.user.upsert({
-            where: { login: payload.email },
-            update: {
-              avatar: payload.picture,
-              name: payload.name || 'default',
-            },
-            create: data,
+          const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
           });
 
-          const secret = process.env.JWT_SECRET;
-          const id = user.id;
-          if (secret) {
-            const encoded = jwt.sign({ id }, secret);
-            return {
-              user: { name: user.name, avatar: user.avatar },
-              token: encoded,
+          const payload = ticket.getPayload();
+
+          if (payload) {
+            const data = {
+              name: payload.name || 'default',
+              avatar: payload.picture,
+              login: payload.email || 'default',
+              social: Social.GOOGLE,
             };
+
+            const user = await ctx.prisma.user.upsert({
+              where: { login: payload.email },
+              update: {
+                avatar: payload.picture,
+                name: payload.name || 'default',
+              },
+              create: data,
+            });
+
+            const secret = process.env.JWT_SECRET;
+            const id = user.id;
+            if (secret) {
+              const encoded = jwt.sign({ id }, secret);
+              ctx.res.cookie('jwt', encoded, { httpOnly: true });
+              return {
+                user: { avatar: user.avatar },
+              };
+            }
           }
+        } catch (error) {
+          throw new Error(error.message);
         }
       },
     });
