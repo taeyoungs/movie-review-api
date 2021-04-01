@@ -251,9 +251,7 @@ const SearchFetch = objectType({
 const AuthPayload = objectType({
   name: 'AuthPayload',
   definition(t) {
-    t.nonNull.field('user', {
-      type: User,
-    });
+    t.string('avatar');
   },
 });
 

@@ -1,8 +1,10 @@
 import { intArg, nonNull, objectType, stringArg } from 'nexus';
 import { ALERT_ADDED, REVIEW_ADDED } from './subscription';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
 import { Social } from '.prisma/client';
+import { AuthenticationError, UserInputError } from 'apollo-server-errors';
 
 const Mutation = objectType({
   name: 'Mutation',
@@ -66,46 +68,102 @@ const Mutation = objectType({
         token: nonNull(stringArg()),
       },
       resolve: async (_, { token }, ctx) => {
-        try {
-          const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-          const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: process.env.GOOGLE_CLIENT_ID,
+        if (!token) {
+          throw new UserInputError('Invalid token');
+        }
+
+        const ticket = await client.verifyIdToken({
+          idToken: token,
+          audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+
+        if (!payload) {
+          throw new AuthenticationError('Invalid token');
+        }
+
+        if (payload) {
+          const data = {
+            name: payload.name || 'default',
+            avatar: payload.picture,
+            login: payload.email || 'default',
+            social: Social.GOOGLE,
+          };
+
+          const user = await ctx.prisma.user.upsert({
+            where: { login: payload.email },
+            update: {
+              avatar: payload.picture,
+              name: payload.name || 'default',
+            },
+            create: data,
           });
 
-          const payload = ticket.getPayload();
-
-          if (payload) {
-            const data = {
-              name: payload.name || 'default',
-              avatar: payload.picture,
-              login: payload.email || 'default',
-              social: Social.GOOGLE,
-            };
-
-            const user = await ctx.prisma.user.upsert({
-              where: { login: payload.email },
-              update: {
-                avatar: payload.picture,
-                name: payload.name || 'default',
-              },
-              create: data,
-            });
-
-            const secret = process.env.JWT_SECRET;
-            const id = user.id;
-            if (secret) {
-              const encoded = jwt.sign({ id }, secret);
-              ctx.res.cookie('jwt', encoded, { httpOnly: true });
-              return {
-                user: { avatar: user.avatar },
-              };
-            }
+          const secret = process.env.JWT_SECRET;
+          const id = user.id;
+          let encoded = '';
+          if (secret) {
+            encoded = jwt.sign({ id }, secret);
+          } else {
+            throw new Error();
           }
-        } catch (error) {
-          throw new Error(error.message);
+
+          ctx.res.cookie('jwt', encoded, { httpOnly: true });
+          return {
+            avatar: user.avatar,
+          };
         }
+        return null;
+      },
+    });
+
+    // local login
+    t.field('localLogin', {
+      type: 'AuthPayload',
+      args: {
+        login: nonNull(stringArg()),
+        password: nonNull(stringArg()),
+      },
+      resolve: async (_, { login, password }, ctx) => {
+        if (login === '' || password === '') {
+          throw new UserInputError('Invalid argument value');
+        }
+
+        const user = await ctx.prisma.user.findUnique({
+          where: {
+            login,
+          },
+        });
+
+        if (!user) {
+          throw new UserInputError('User not founded');
+        }
+
+        let match = false;
+        if (user.password) {
+          match = await bcrypt.compare(password, user.password);
+        }
+
+        if (!match) {
+          throw new AuthenticationError('Password does not match');
+        }
+
+        const secret = process.env.JWT_SECRET;
+        const id = user.id;
+        let encoded = '';
+        if (secret) {
+          encoded = jwt.sign({ id }, secret);
+        } else {
+          throw new Error();
+        }
+
+        ctx.res.cookie('jwt', encoded, { httpOnly: true });
+        return {
+          avatar: user.avatar,
+        };
       },
     });
 

@@ -1379,7 +1379,7 @@ export interface NexusGenObjects {
     userId: number; // Int!
   }
   AuthPayload: { // root type
-    user: NexusGenRootTypes['User']; // User!
+    avatar?: string | null; // String
   }
   BatchPayload: { // root type
     count: number; // Int!
@@ -1521,7 +1521,7 @@ export interface NexusGenFieldTypes {
     userId: number; // Int!
   }
   AuthPayload: { // field return type
-    user: NexusGenRootTypes['User']; // User!
+    avatar: string | null; // String
   }
   BatchPayload: { // field return type
     count: number; // Int!
@@ -1571,6 +1571,7 @@ export interface NexusGenFieldTypes {
     deleteManyAlert: NexusGenRootTypes['BatchPayload']; // BatchPayload!
     deleteOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     deleteOneReview: NexusGenRootTypes['Review'] | null; // Review
+    localLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     signUp: NexusGenRootTypes['User']; // User!
     socialAuth: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     toggleLikeReview: boolean | null; // Boolean
@@ -1712,7 +1713,7 @@ export interface NexusGenFieldTypeNames {
     userId: 'Int'
   }
   AuthPayload: { // field return type name
-    user: 'User'
+    avatar: 'String'
   }
   BatchPayload: { // field return type name
     count: 'Int'
@@ -1762,6 +1763,7 @@ export interface NexusGenFieldTypeNames {
     deleteManyAlert: 'BatchPayload'
     deleteOneComment: 'Comment'
     deleteOneReview: 'Review'
+    localLogin: 'AuthPayload'
     signUp: 'User'
     socialAuth: 'AuthPayload'
     toggleLikeReview: 'Boolean'
@@ -1914,6 +1916,10 @@ export interface NexusGenArgTypes {
     }
     deleteOneReview: { // args
       where: NexusGenInputs['ReviewWhereUniqueInput']; // ReviewWhereUniqueInput!
+    }
+    localLogin: { // args
+      login: string; // String!
+      password: string; // String!
     }
     signUp: { // args
       data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
