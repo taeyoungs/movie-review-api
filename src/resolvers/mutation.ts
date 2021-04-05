@@ -129,7 +129,7 @@ const Mutation = objectType({
       },
       resolve: async (_, { login, password }, ctx) => {
         if (login === '' || password === '') {
-          throw new UserInputError('Invalid argument value');
+          throw new UserInputError('아이디와 비밀번호는 필수 항목입니다.');
         }
 
         const user = await ctx.prisma.user.findUnique({
@@ -139,7 +139,7 @@ const Mutation = objectType({
         });
 
         if (!user) {
-          throw new UserInputError('User not founded');
+          throw new UserInputError('가입 정보가 존재하지 않습니다.');
         }
 
         let match = false;
@@ -148,7 +148,9 @@ const Mutation = objectType({
         }
 
         if (!match) {
-          throw new AuthenticationError('Password does not match');
+          throw new AuthenticationError(
+            '아이디와 비밀번호가 일치하지 않습니다.'
+          );
         }
 
         const secret = process.env.JWT_SECRET;
@@ -162,7 +164,60 @@ const Mutation = objectType({
 
         ctx.res.cookie('jwt', encoded, { httpOnly: true });
         return {
-          avatar: user.avatar,
+          avatar: user.avatar || null,
+          login,
+        };
+      },
+    });
+
+    // local SignUp
+    t.field('localSignUp', {
+      type: 'AuthPayload',
+      args: {
+        login: nonNull(stringArg()),
+        password: nonNull(stringArg()),
+      },
+      resolve: async (_, { login, password }, ctx) => {
+        if (login === '' || password === '') {
+          throw new UserInputError('아이디와 비밀번호는 필수 항목입니다.');
+        }
+
+        const existedUser = await ctx.prisma.user.findUnique({
+          where: {
+            login,
+          },
+        });
+
+        if (existedUser) {
+          throw new UserInputError('이미 존재하는 아이디입니다.');
+        }
+
+        const hashed = await bcrypt.hash(password, 10);
+
+        const data = {
+          name: 'default',
+          login,
+          password: hashed,
+          social: Social.LOCAL,
+        };
+
+        const user = await ctx.prisma.user.create({
+          data,
+        });
+
+        const secret = process.env.JWT_SECRET;
+        const id = user.id;
+        let encoded = '';
+        if (secret) {
+          encoded = jwt.sign({ id }, secret);
+        } else {
+          throw new Error();
+        }
+
+        ctx.res.cookie('jwt', encoded, { httpOnly: true });
+        return {
+          avatar: null,
+          login,
         };
       },
     });

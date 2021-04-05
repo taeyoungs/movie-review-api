@@ -252,6 +252,7 @@ const AuthPayload = objectType({
   name: 'AuthPayload',
   definition(t) {
     t.string('avatar');
+    t.string('login');
   },
 });
 

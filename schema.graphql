@@ -178,6 +178,7 @@ input AlertWhereUniqueInput {
 
 type AuthPayload {
   avatar: String
+  login: String
 }
 
 type BatchPayload {
@@ -601,6 +602,7 @@ type Mutation {
   deleteOneComment(where: CommentWhereUniqueInput!): Comment
   deleteOneReview(where: ReviewWhereUniqueInput!): Review
   localLogin(login: String!, password: String!): AuthPayload
+  localSignUp(login: String!, password: String!): AuthPayload
   signUp(data: UserCreateInput!): User!
   socialAuth(token: String!): AuthPayload!
   toggleLikeReview(reviewId: Int!, userId: Int!): Boolean
