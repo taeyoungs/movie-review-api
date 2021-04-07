@@ -42,7 +42,6 @@ const Mutation = objectType({
           data: {
             type: 'COMMENT',
             message: '회원님의 리뷰에 댓글이 달렸습니다.',
-            comment: { connect: { id: parseInt(res.id.toString()) } },
             user: {
               connect: {
                 id: review?.writerId,

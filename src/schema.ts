@@ -33,7 +33,14 @@ const User = objectType({
     t.model.comments();
     t.model.alerts();
     t.model.likeReviews();
-    t.model.taggedComment();
+  },
+});
+
+const Writer = objectType({
+  name: 'Writer',
+  definition(t) {
+    t.nonNull.string('name');
+    t.string('avatar');
   },
 });
 
@@ -41,16 +48,54 @@ const Review = objectType({
   name: 'Review',
   definition(t) {
     t.model.id();
-    t.model.title();
     t.model.content();
     t.model.writer();
     t.model.writerId();
+    t.model.movieId();
     t.model.movieTitle();
-    t.model.posterPath();
     t.model.rating();
     t.model.createdAt();
     t.model.updatedAt();
-    t.model.likeUsers();
+    t.nonNull.field('writer', {
+      type: 'Writer',
+      resolve: async (parent, args, ctx) => {
+        const user = await ctx.prisma.user.findUnique({
+          where: {
+            id: parent.writerId,
+          },
+        });
+        if (user) {
+          return {
+            name: user.name === 'default' ? user.login : user.name,
+            avatar: user.avatar,
+          };
+        } else {
+          return {
+            name: 'default',
+            avatar: null,
+          };
+        }
+      },
+    });
+    t.nonNull.boolean('isLike', {
+      resolve: async (parent, args, ctx) => {
+        const user = ctx.user;
+        if (user) {
+          const review = await ctx.prisma.userLikeReview.findUnique({
+            where: {
+              userId_reviewId: {
+                reviewId: parent.id,
+                userId: user.id,
+              },
+            },
+          });
+          if (review) return true;
+          else return false;
+        } else {
+          return false;
+        }
+      },
+    });
     t.nonNull.int('likeCount', {
       resolve: async (parent, args, ctx) => {
         return await ctx.prisma.userLikeReview.count({
@@ -91,10 +136,6 @@ const Comment = objectType({
     t.model.reviewId();
     t.model.writer();
     t.model.writerId();
-    t.model.alerts({
-      pagination: false,
-    });
-    t.model.taggedUser();
     t.model.createdAt();
     t.model.updatedAt();
   },
@@ -109,8 +150,6 @@ const Alert = objectType({
     t.model.check();
     t.model.user();
     t.model.userId();
-    t.model.comment();
-    t.model.commentId();
     t.model.createdAt();
   },
 });
@@ -122,23 +161,6 @@ const UserLikeReview = objectType({
     t.model.reviewId();
     t.model.user();
     t.model.userId();
-  },
-});
-
-const UserTaggedComment = objectType({
-  name: 'UserTaggedComment',
-  definition(t) {
-    t.model.comment();
-    t.model.commentId();
-    t.model.user();
-    t.model.userId();
-  },
-});
-
-const UserTaggedCommentUpdateManyMutationInput = inputObjectType({
-  name: 'UserTaggedCommentUpdateManyMutationInput',
-  definition(t) {
-    t.string('DUMMY_INPUT_FIELD_WORKAROUND');
   },
 });
 
@@ -274,6 +296,7 @@ export const schema = makeSchema({
   types: [
     User,
     Profile,
+    Writer,
     Review,
     Social,
     Genre,
@@ -293,8 +316,6 @@ export const schema = makeSchema({
     Subscription,
     AuthPayload,
     UserLikeReview,
-    UserTaggedComment,
-    UserTaggedCommentUpdateManyMutationInput,
     UserLikeReviewUpdateManyMutationInput,
   ],
   plugins: [nexusPrisma({ experimentalCRUD: true })],

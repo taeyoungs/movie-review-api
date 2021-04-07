@@ -19,17 +19,15 @@ model User {
   comments      Comment[]
   alerts        Alert[]
   likeReviews   UserLikeReview[]
-  taggedComment UserTaggedComment[]
 }
 
 model Review {
   id         Int              @id @default(autoincrement())
-  title      String
   content    String
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @updatedAt
+  movieId    String
   movieTitle String
-  posterPath String
   rating     Float
   writerId   Int
   writer     User             @relation(fields: [writerId], references: [id])
@@ -44,15 +42,6 @@ model UserLikeReview {
   review   Review @relation(fields: [reviewId], references: [id])
 
   @@id([userId, reviewId])
-}
-
-model UserTaggedComment {
-  userId    Int
-  user      User    @relation(fields: [userId], references: [id])
-  commentId Int
-  comment   Comment @relation(fields: [commentId], references: [id])
-
-  @@id([userId, commentId])
 }
 
 model Profile {
@@ -75,10 +64,8 @@ model Comment {
   review     Review              @relation(fields: [reviewId], references: [id])
   writerId   Int
   writer     User                @relation(fields: [writerId], references: [id])
-  alerts     Alert[]
   createdAt  DateTime            @default(now())
   updatedAt  DateTime            @updatedAt
-  taggedUser UserTaggedComment[]
 }
 
 model Alert {
@@ -88,8 +75,6 @@ model Alert {
   check     Boolean   @default(false)
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
-  commentId Int?
-  comment   Comment?  @relation(fields: [commentId], references: [id])
   createdAt DateTime  @default(now())
 }
 

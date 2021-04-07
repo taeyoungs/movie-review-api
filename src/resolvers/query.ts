@@ -6,7 +6,6 @@ const Query = objectType({
   definition(t) {
     t.crud.user();
     t.crud.review();
-    t.crud.reviews();
     // t.crud.alert(); (deprecated)
     t.crud.alerts();
     t.crud.profile();
@@ -184,6 +183,28 @@ const Query = objectType({
         } else {
           return 0;
         }
+      },
+    });
+
+    t.nonNull.list.nonNull.field('reviews', {
+      type: 'Review',
+      args: {
+        id: nonNull(stringArg()),
+        size: nonNull(intArg()),
+        skip: nonNull(intArg()),
+      },
+      resolve: async (_, { id, size, skip }, ctx) => {
+        const reviews = await ctx.prisma.review.findMany({
+          where: {
+            movieId: id,
+          },
+          skip,
+          take: size,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        });
+        return reviews;
       },
     });
   },
