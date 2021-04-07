@@ -1385,6 +1385,12 @@ export interface NexusGenObjects {
   BatchPayload: { // root type
     count: number; // Int!
   }
+  CastFetch: { // root type
+    character: string; // String!
+    id: number; // Int!
+    name: string; // String!
+    profile_path?: string | null; // String
+  }
   Comment: { // root type
     content: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -1414,11 +1420,14 @@ export interface NexusGenObjects {
     overview: string; // String!
     poster_path?: string | null; // String
     release_date: string; // String!
+    runtime?: number | null; // Int
+    tagline?: string | null; // String
     title: string; // String!
     total_pages: number; // Int!
     total_results: number; // Int!
     videos?: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number; // Float!
+    vote_count: number; // Int!
   }
   Mutation: {};
   Network: { // root type
@@ -1462,6 +1471,7 @@ export interface NexusGenObjects {
   }
   ShowFetch: { // root type
     backdrop_path?: string | null; // String
+    episode_run_time?: number[] | null; // [Int!]
     first_air_date: string; // String!
     genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
@@ -1470,10 +1480,12 @@ export interface NexusGenObjects {
     networks?: NexusGenRootTypes['Network'][] | null; // [Network!]
     overview: string; // String!
     poster_path?: string | null; // String
+    tagline?: string | null; // String
     total_pages: number; // Int!
     total_results: number; // Int!
     videos?: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number; // Float!
+    vote_count: number; // Int!
   }
   Subscription: {};
   User: { // root type
@@ -1528,6 +1540,12 @@ export interface NexusGenFieldTypes {
   BatchPayload: { // field return type
     count: number; // Int!
   }
+  CastFetch: { // field return type
+    character: string; // String!
+    id: number; // Int!
+    name: string; // String!
+    profile_path: string | null; // String
+  }
   Comment: { // field return type
     alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
     content: string; // String!
@@ -1561,11 +1579,14 @@ export interface NexusGenFieldTypes {
     overview: string; // String!
     poster_path: string | null; // String
     release_date: string; // String!
+    runtime: number | null; // Int
+    tagline: string | null; // String
     title: string; // String!
     total_pages: number; // Int!
     total_results: number; // Int!
     videos: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number; // Float!
+    vote_count: number; // Int!
   }
   Mutation: { // field return type
     createOneComment: NexusGenRootTypes['Comment']; // Comment!
@@ -1601,6 +1622,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     alerts: NexusGenRootTypes['Alert'][]; // [Alert!]!
+    casts: NexusGenRootTypes['CastFetch'][]; // [CastFetch!]!
     check: NexusGenRootTypes['Alert'][]; // [Alert!]!
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
     movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
@@ -1643,6 +1665,7 @@ export interface NexusGenFieldTypes {
   }
   ShowFetch: { // field return type
     backdrop_path: string | null; // String
+    episode_run_time: number[] | null; // [Int!]
     first_air_date: string; // String!
     genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
@@ -1651,10 +1674,12 @@ export interface NexusGenFieldTypes {
     networks: NexusGenRootTypes['Network'][] | null; // [Network!]
     overview: string; // String!
     poster_path: string | null; // String
+    tagline: string | null; // String
     total_pages: number; // Int!
     total_results: number; // Int!
     videos: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number; // Float!
+    vote_count: number; // Int!
   }
   Subscription: { // field return type
     newAlert: NexusGenRootTypes['Alert']; // Alert!
@@ -1697,9 +1722,11 @@ export interface NexusGenFieldTypes {
     media_type: string | null; // String
     overview: string; // String!
     poster_path: string | null; // String
+    tagline: string | null; // String
     total_pages: number; // Int!
     total_results: number; // Int!
     vote_average: number; // Float!
+    vote_count: number; // Int!
   }
 }
 
@@ -1721,6 +1748,12 @@ export interface NexusGenFieldTypeNames {
   }
   BatchPayload: { // field return type name
     count: 'Int'
+  }
+  CastFetch: { // field return type name
+    character: 'String'
+    id: 'Int'
+    name: 'String'
+    profile_path: 'String'
   }
   Comment: { // field return type name
     alerts: 'Alert'
@@ -1755,11 +1788,14 @@ export interface NexusGenFieldTypeNames {
     overview: 'String'
     poster_path: 'String'
     release_date: 'String'
+    runtime: 'Int'
+    tagline: 'String'
     title: 'String'
     total_pages: 'Int'
     total_results: 'Int'
     videos: 'Video'
     vote_average: 'Float'
+    vote_count: 'Int'
   }
   Mutation: { // field return type name
     createOneComment: 'Comment'
@@ -1795,6 +1831,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     alerts: 'Alert'
+    casts: 'CastFetch'
     check: 'Alert'
     comments: 'Comment'
     movie: 'MovieFetch'
@@ -1837,6 +1874,7 @@ export interface NexusGenFieldTypeNames {
   }
   ShowFetch: { // field return type name
     backdrop_path: 'String'
+    episode_run_time: 'Int'
     first_air_date: 'String'
     genres: 'Genre'
     id: 'Int'
@@ -1845,10 +1883,12 @@ export interface NexusGenFieldTypeNames {
     networks: 'Network'
     overview: 'String'
     poster_path: 'String'
+    tagline: 'String'
     total_pages: 'Int'
     total_results: 'Int'
     videos: 'Video'
     vote_average: 'Float'
+    vote_count: 'Int'
   }
   Subscription: { // field return type name
     newAlert: 'Alert'
@@ -1891,9 +1931,11 @@ export interface NexusGenFieldTypeNames {
     media_type: 'String'
     overview: 'String'
     poster_path: 'String'
+    tagline: 'String'
     total_pages: 'Int'
     total_results: 'Int'
     vote_average: 'Float'
+    vote_count: 'Int'
   }
 }
 
@@ -1960,6 +2002,10 @@ export interface NexusGenArgTypes {
       first?: number | null; // Int
       last?: number | null; // Int
     }
+    casts: { // args
+      id: string; // String!
+      media_type: string; // String!
+    }
     comments: { // args
       after?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
       before?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
@@ -1967,7 +2013,7 @@ export interface NexusGenArgTypes {
       last?: number | null; // Int
     }
     movie: { // args
-      id: number; // Int!
+      id: string; // String!
     }
     movies: { // args
       page: number; // Int!

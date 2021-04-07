@@ -194,6 +194,13 @@ input BoolFilter {
   not: NestedBoolFilter
 }
 
+type CastFetch {
+  character: String!
+  id: Int!
+  name: String!
+  profile_path: String
+}
+
 type Comment {
   alerts: [Alert!]!
   content: String!
@@ -543,9 +550,11 @@ interface IFetch {
   media_type: String
   overview: String!
   poster_path: String
+  tagline: String
   total_pages: Int!
   total_results: Int!
   vote_average: Float!
+  vote_count: Int!
 }
 
 input IntFilter {
@@ -588,11 +597,14 @@ type MovieFetch implements IFetch {
   overview: String!
   poster_path: String
   release_date: String!
+  runtime: Int
+  tagline: String
   title: String!
   total_pages: Int!
   total_results: Int!
   videos: [Video!]
   vote_average: Float!
+  vote_count: Int!
 }
 
 type Mutation {
@@ -787,9 +799,10 @@ input ProfileWhereUniqueInput {
 
 type Query {
   alerts(after: AlertWhereUniqueInput, before: AlertWhereUniqueInput, first: Int, last: Int): [Alert!]!
+  casts(id: String!, media_type: String!): [CastFetch!]!
   check: [Alert!]!
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
-  movie(id: Int!): MovieFetch!
+  movie(id: String!): MovieFetch!
   movies(page: Int!): [MovieFetch!]!
   multiSearch(page: Int!, searchType: String!, term: String!): [SearchFetch!]!
   profile(where: ProfileWhereUniqueInput!): Profile
@@ -1071,6 +1084,7 @@ type SearchFetch {
 
 type ShowFetch implements IFetch {
   backdrop_path: String
+  episode_run_time: [Int!]
   first_air_date: String!
   genres: [Genre!]
   id: Int!
@@ -1079,10 +1093,12 @@ type ShowFetch implements IFetch {
   networks: [Network!]
   overview: String!
   poster_path: String
+  tagline: String
   total_pages: Int!
   total_results: Int!
   videos: [Video!]
   vote_average: Float!
+  vote_count: Int!
 }
 
 enum Social {

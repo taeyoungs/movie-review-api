@@ -29,10 +29,9 @@ const Query = objectType({
     t.nonNull.field('movie', {
       type: 'MovieFetch',
       args: {
-        id: nonNull(intArg()),
+        id: nonNull(stringArg()),
       },
       resolve: async (_, args, ctx) => {
-        console.log(ctx.user);
         const id = args.id;
         const movie = await api
           .get(`movie/${id}?append_to_response=videos`)
@@ -100,6 +99,26 @@ const Query = objectType({
           .get(`trending/tv/${timeWindow}`)
           .then((res) => res.data.results);
         return trendingShowList;
+      },
+    });
+
+    t.nonNull.list.nonNull.field('casts', {
+      type: 'CastFetch',
+      args: {
+        media_type: nonNull(stringArg()),
+        id: nonNull(stringArg()),
+      },
+      resolve: async (_, { media_type, id }, ctx) => {
+        const casts = await api
+          .get(`${media_type}/${id}/credits`)
+          .then((res) => {
+            if (res.data.cast.length > 15) {
+              return res.data.cast.slice(0, 15);
+            } else {
+              return res.data.cast;
+            }
+          });
+        return casts;
       },
     });
 

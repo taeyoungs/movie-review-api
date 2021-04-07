@@ -77,8 +77,8 @@ const Profile = objectType({
 const Genre = objectType({
   name: 'Genre',
   definition(t) {
-    t.model.id();
-    t.model.name();
+    t.nonNull.int('id');
+    t.nonNull.string('name');
   },
 });
 
@@ -160,9 +160,11 @@ const IFetch = interfaceType({
     t.string('poster_path');
     t.string('backdrop_path');
     t.string('media_type');
+    t.string('tagline');
     t.nonNull.string('overview');
     t.list.nonNull.field('genres', { type: 'Genre' });
     t.nonNull.float('vote_average');
+    t.nonNull.int('vote_count');
     t.nonNull.int('total_pages');
     t.nonNull.int('total_results');
   },
@@ -192,6 +194,7 @@ const MovieFetch = objectType({
     t.implements('IFetch');
     t.nonNull.string('title');
     t.nonNull.string('release_date');
+    t.int('runtime');
     t.list.nonNull.field('videos', {
       type: Video,
     });
@@ -204,6 +207,7 @@ const ShowFetch = objectType({
     t.implements('IFetch');
     t.nonNull.string('name');
     t.nonNull.string('first_air_date');
+    t.list.nonNull.int('episode_run_time');
     t.list.nonNull.field('networks', { type: 'Network' });
     t.list.nonNull.field('videos', {
       type: Video,
@@ -230,6 +234,16 @@ const PersonFetch = objectType({
     t.nonNull.int('id');
     t.string('profile_path');
     t.nonNull.string('name');
+  },
+});
+
+const CastFetch = objectType({
+  name: 'CastFetch',
+  definition(t) {
+    t.nonNull.int('id');
+    t.string('profile_path');
+    t.nonNull.string('name');
+    t.nonNull.string('character');
   },
 });
 
@@ -269,6 +283,7 @@ export const schema = makeSchema({
     ShowFetch,
     MovieAndShow,
     PersonFetch,
+    CastFetch,
     SearchFetch,
     AlertType,
     Alert,
