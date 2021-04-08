@@ -1,6 +1,13 @@
 import { intArg, nonNull, objectType, stringArg } from 'nexus';
 import api from '../api';
 
+interface ISimilarWorkProps {
+  id: number;
+  name: string;
+  vote_average: number;
+  poster_path: string | null;
+}
+
 const Query = objectType({
   name: 'Query',
   definition(t) {
@@ -118,6 +125,39 @@ const Query = objectType({
             }
           });
         return casts;
+      },
+    });
+
+    t.nonNull.list.nonNull.field('similarWorks', {
+      type: 'SimilarWorksFetch',
+      args: {
+        media_type: nonNull(stringArg()),
+        id: nonNull(stringArg()),
+      },
+      resolve: async (_, { media_type, id }) => {
+        const works = await api
+          .get(`${media_type}/${id}/similar`)
+          .then((res) => {
+            if (res.data.results.length > 12) {
+              return res.data.results.slice(0, 12);
+            } else {
+              return res.data.results;
+            }
+          });
+        let formatWorks = [];
+        if (media_type === 'tv') {
+          formatWorks = works.map((work: ISimilarWorkProps) => {
+            return {
+              id: work.id,
+              title: work.name,
+              vote_average: work.vote_average,
+              poster_path: work.poster_path,
+            };
+          });
+        } else {
+          formatWorks = works;
+        }
+        return formatWorks;
       },
     });
 

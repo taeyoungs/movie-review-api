@@ -1104,6 +1104,12 @@ export interface NexusGenObjects {
     vote_average: number; // Float!
     vote_count: number; // Int!
   }
+  SimilarWorksFetch: { // root type
+    id: number; // Int!
+    poster_path?: string | null; // String
+    title: string; // String!
+    vote_average: number; // Float!
+  }
   Subscription: {};
   User: { // root type
     avatar?: string | null; // String
@@ -1246,6 +1252,7 @@ export interface NexusGenFieldTypes {
     reviews: NexusGenRootTypes['Review'][]; // [Review!]!
     show: NexusGenRootTypes['ShowFetch']; // ShowFetch!
     shows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
+    similarWorks: NexusGenRootTypes['SimilarWorksFetch'][]; // [SimilarWorksFetch!]!
     trendingMovies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
     trendingShows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
     uncheckedAlertsCount: number; // Int!
@@ -1292,6 +1299,12 @@ export interface NexusGenFieldTypes {
     videos: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number; // Float!
     vote_count: number; // Int!
+  }
+  SimilarWorksFetch: { // field return type
+    id: number; // Int!
+    poster_path: string | null; // String
+    title: string; // String!
+    vote_average: number; // Float!
   }
   Subscription: { // field return type
     newAlert: NexusGenRootTypes['Alert']; // Alert!
@@ -1447,6 +1460,7 @@ export interface NexusGenFieldTypeNames {
     reviews: 'Review'
     show: 'ShowFetch'
     shows: 'ShowFetch'
+    similarWorks: 'SimilarWorksFetch'
     trendingMovies: 'MovieFetch'
     trendingShows: 'ShowFetch'
     uncheckedAlertsCount: 'Int'
@@ -1493,6 +1507,12 @@ export interface NexusGenFieldTypeNames {
     videos: 'Video'
     vote_average: 'Float'
     vote_count: 'Int'
+  }
+  SimilarWorksFetch: { // field return type name
+    id: 'Int'
+    poster_path: 'String'
+    title: 'String'
+    vote_average: 'Float'
   }
   Subscription: { // field return type name
     newAlert: 'Alert'
@@ -1632,6 +1652,10 @@ export interface NexusGenArgTypes {
     }
     shows: { // args
       page: number; // Int!
+    }
+    similarWorks: { // args
+      id: string; // String!
+      media_type: string; // String!
     }
     trendingMovies: { // args
       timeWindow: string; // String!

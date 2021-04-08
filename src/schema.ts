@@ -269,6 +269,16 @@ const CastFetch = objectType({
   },
 });
 
+const SimilarWorksFetch = objectType({
+  name: 'SimilarWorksFetch',
+  definition(t) {
+    t.nonNull.int('id');
+    t.string('poster_path');
+    t.nonNull.string('title');
+    t.nonNull.float('vote_average');
+  },
+});
+
 const SearchFetch = objectType({
   name: 'SearchFetch',
   definition(t) {
@@ -307,6 +317,7 @@ export const schema = makeSchema({
     MovieAndShow,
     PersonFetch,
     CastFetch,
+    SimilarWorksFetch,
     SearchFetch,
     AlertType,
     Alert,

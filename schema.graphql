@@ -623,6 +623,7 @@ type Query {
   reviews(id: String!, size: Int!, skip: Int!): [Review!]!
   show(id: Int!): ShowFetch!
   shows(page: Int!): [ShowFetch!]!
+  similarWorks(id: String!, media_type: String!): [SimilarWorksFetch!]!
   trendingMovies(timeWindow: String!): [MovieFetch!]!
   trendingShows(timeWindow: String!): [ShowFetch!]!
   uncheckedAlertsCount: Int!
@@ -900,6 +901,13 @@ type ShowFetch implements IFetch {
   videos: [Video!]
   vote_average: Float!
   vote_count: Int!
+}
+
+type SimilarWorksFetch {
+  id: Int!
+  poster_path: String
+  title: String!
+  vote_average: Float!
 }
 
 enum Social {
