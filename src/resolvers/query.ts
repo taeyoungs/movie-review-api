@@ -108,6 +108,35 @@ const Query = objectType({
       },
     });
 
+    t.nonNull.field('detail', {
+      type: 'DetailFetch',
+      args: {
+        media_type: nonNull(stringArg()),
+        id: nonNull(stringArg()),
+      },
+      resolve: async (_, { media_type, id }, ctx) => {
+        const detail = await api
+          .get(`${media_type}/${id}?append_to_response=videos`)
+          .then((res) => {
+            if (media_type === 'tv') {
+              return {
+                ...res.data,
+                title: res.data.name,
+                runtime: res.data.episode_run_time[0],
+                release_date: res.data.first_air_date,
+                videos: res.data.videos.results,
+              };
+            } else {
+              return {
+                ...res.data,
+                videos: res.data.videos.results,
+              };
+            }
+          });
+        return detail;
+      },
+    });
+
     t.nonNull.list.nonNull.field('casts', {
       type: 'CastFetch',
       args: {

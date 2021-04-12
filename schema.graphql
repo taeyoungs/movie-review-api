@@ -332,6 +332,24 @@ input DateTimeFilter {
   notIn: [DateTime!]
 }
 
+type DetailFetch implements IFetch {
+  backdrop_path: String
+  genres: [Genre!]
+  id: Int!
+  media_type: String
+  overview: String!
+  poster_path: String
+  release_date: String!
+  runtime: Int
+  tagline: String
+  title: String!
+  total_pages: Int!
+  total_results: Int!
+  videos: [Video!]
+  vote_average: Float!
+  vote_count: Int!
+}
+
 input EnumAlertTypeFieldUpdateOperationsInput {
   set: AlertType
 }
@@ -401,16 +419,6 @@ input IntFilter {
   lte: Int
   not: NestedIntFilter
   notIn: [Int!]
-}
-
-type MovieAndShow {
-  backdrop_path: String
-  first_air_date: String
-  id: Int!
-  name: String
-  poster_path: String
-  release_date: String
-  title: String
 }
 
 type MovieFetch implements IFetch {
@@ -615,6 +623,7 @@ type Query {
   casts(id: String!, media_type: String!): [CastFetch!]!
   check: [Alert!]!
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
+  detail(id: String!, media_type: String!): DetailFetch!
   movie(id: String!): MovieFetch!
   movies(page: Int!): [MovieFetch!]!
   multiSearch(page: Int!, searchType: String!, term: String!): [SearchFetch!]!

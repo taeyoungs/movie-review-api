@@ -237,16 +237,16 @@ const ShowFetch = objectType({
   },
 });
 
-const MovieAndShow = objectType({
-  name: 'MovieAndShow',
+const DetailFetch = objectType({
+  name: 'DetailFetch',
   definition(t) {
-    t.nonNull.int('id');
-    t.string('name');
-    t.string('title');
-    t.string('first_air_date');
-    t.string('release_date');
-    t.string('poster_path');
-    t.string('backdrop_path');
+    t.implements('IFetch');
+    t.nonNull.string('title');
+    t.nonNull.string('release_date');
+    t.int('runtime');
+    t.list.nonNull.field('videos', {
+      type: Video,
+    });
   },
 });
 
@@ -314,7 +314,7 @@ export const schema = makeSchema({
     Network,
     MovieFetch,
     ShowFetch,
-    MovieAndShow,
+    DetailFetch,
     PersonFetch,
     CastFetch,
     SimilarWorksFetch,

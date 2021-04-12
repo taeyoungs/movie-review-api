@@ -1017,18 +1017,26 @@ export interface NexusGenObjects {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     writerId: number; // Int!
   }
+  DetailFetch: { // root type
+    backdrop_path?: string | null; // String
+    genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
+    id: number; // Int!
+    media_type?: string | null; // String
+    overview: string; // String!
+    poster_path?: string | null; // String
+    release_date: string; // String!
+    runtime?: number | null; // Int
+    tagline?: string | null; // String
+    title: string; // String!
+    total_pages: number; // Int!
+    total_results: number; // Int!
+    videos?: NexusGenRootTypes['Video'][] | null; // [Video!]
+    vote_average: number; // Float!
+    vote_count: number; // Int!
+  }
   Genre: { // root type
     id: number; // Int!
     name: string; // String!
-  }
-  MovieAndShow: { // root type
-    backdrop_path?: string | null; // String
-    first_air_date?: string | null; // String
-    id: number; // Int!
-    name?: string | null; // String
-    poster_path?: string | null; // String
-    release_date?: string | null; // String
-    title?: string | null; // String
   }
   MovieFetch: { // root type
     backdrop_path?: string | null; // String
@@ -1134,7 +1142,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  IFetch: NexusGenRootTypes['MovieFetch'] | NexusGenRootTypes['ShowFetch'];
+  IFetch: NexusGenRootTypes['DetailFetch'] | NexusGenRootTypes['MovieFetch'] | NexusGenRootTypes['ShowFetch'];
 }
 
 export interface NexusGenUnions {
@@ -1177,18 +1185,26 @@ export interface NexusGenFieldTypes {
     writer: NexusGenRootTypes['User']; // User!
     writerId: number; // Int!
   }
+  DetailFetch: { // field return type
+    backdrop_path: string | null; // String
+    genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
+    id: number; // Int!
+    media_type: string | null; // String
+    overview: string; // String!
+    poster_path: string | null; // String
+    release_date: string; // String!
+    runtime: number | null; // Int
+    tagline: string | null; // String
+    title: string; // String!
+    total_pages: number; // Int!
+    total_results: number; // Int!
+    videos: NexusGenRootTypes['Video'][] | null; // [Video!]
+    vote_average: number; // Float!
+    vote_count: number; // Int!
+  }
   Genre: { // field return type
     id: number; // Int!
     name: string; // String!
-  }
-  MovieAndShow: { // field return type
-    backdrop_path: string | null; // String
-    first_air_date: string | null; // String
-    id: number; // Int!
-    name: string | null; // String
-    poster_path: string | null; // String
-    release_date: string | null; // String
-    title: string | null; // String
   }
   MovieFetch: { // field return type
     backdrop_path: string | null; // String
@@ -1244,6 +1260,7 @@ export interface NexusGenFieldTypes {
     casts: NexusGenRootTypes['CastFetch'][]; // [CastFetch!]!
     check: NexusGenRootTypes['Alert'][]; // [Alert!]!
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
+    detail: NexusGenRootTypes['DetailFetch']; // DetailFetch!
     movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
     movies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
     multiSearch: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
@@ -1385,18 +1402,26 @@ export interface NexusGenFieldTypeNames {
     writer: 'User'
     writerId: 'Int'
   }
+  DetailFetch: { // field return type name
+    backdrop_path: 'String'
+    genres: 'Genre'
+    id: 'Int'
+    media_type: 'String'
+    overview: 'String'
+    poster_path: 'String'
+    release_date: 'String'
+    runtime: 'Int'
+    tagline: 'String'
+    title: 'String'
+    total_pages: 'Int'
+    total_results: 'Int'
+    videos: 'Video'
+    vote_average: 'Float'
+    vote_count: 'Int'
+  }
   Genre: { // field return type name
     id: 'Int'
     name: 'String'
-  }
-  MovieAndShow: { // field return type name
-    backdrop_path: 'String'
-    first_air_date: 'String'
-    id: 'Int'
-    name: 'String'
-    poster_path: 'String'
-    release_date: 'String'
-    title: 'String'
   }
   MovieFetch: { // field return type name
     backdrop_path: 'String'
@@ -1452,6 +1477,7 @@ export interface NexusGenFieldTypeNames {
     casts: 'CastFetch'
     check: 'Alert'
     comments: 'Comment'
+    detail: 'DetailFetch'
     movie: 'MovieFetch'
     movies: 'MovieFetch'
     multiSearch: 'SearchFetch'
@@ -1625,6 +1651,10 @@ export interface NexusGenArgTypes {
       first?: number | null; // Int
       last?: number | null; // Int
     }
+    detail: { // args
+      id: string; // String!
+      media_type: string; // String!
+    }
     movie: { // args
       id: string; // String!
     }
@@ -1696,10 +1726,11 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  IFetch: "MovieFetch" | "ShowFetch"
+  IFetch: "DetailFetch" | "MovieFetch" | "ShowFetch"
 }
 
 export interface NexusGenTypeInterfaces {
+  DetailFetch: "IFetch"
   MovieFetch: "IFetch"
   ShowFetch: "IFetch"
 }
