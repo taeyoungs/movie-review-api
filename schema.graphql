@@ -345,6 +345,7 @@ type DetailFetch implements IFetch {
   title: String!
   total_pages: Int!
   total_results: Int!
+  userReview: Review
   videos: [Video!]
   vote_average: Float!
   vote_count: Int!

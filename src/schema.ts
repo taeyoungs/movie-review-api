@@ -247,6 +247,24 @@ const DetailFetch = objectType({
     t.list.nonNull.field('videos', {
       type: Video,
     });
+    t.field('userReview', {
+      type: Review,
+      resolve: async (parent, args, ctx) => {
+        const movieId = `${parent.id}`;
+        if (ctx.user) {
+          const review = await ctx.prisma.review.findMany({
+            where: {
+              movieId,
+              writerId: ctx.user.id,
+            },
+          });
+          if (review.length > 0) return review[0];
+          else return null;
+        } else {
+          return null;
+        }
+      },
+    });
   },
 });
 

@@ -1198,6 +1198,7 @@ export interface NexusGenFieldTypes {
     title: string; // String!
     total_pages: number; // Int!
     total_results: number; // Int!
+    userReview: NexusGenRootTypes['Review'] | null; // Review
     videos: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number; // Float!
     vote_count: number; // Int!
@@ -1415,6 +1416,7 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
     total_pages: 'Int'
     total_results: 'Int'
+    userReview: 'Review'
     videos: 'Video'
     vote_average: 'Float'
     vote_count: 'Int'

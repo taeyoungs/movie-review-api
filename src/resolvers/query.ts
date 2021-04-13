@@ -266,6 +266,9 @@ const Query = objectType({
         const reviews = await ctx.prisma.review.findMany({
           where: {
             movieId: id,
+            NOT: {
+              content: '',
+            },
           },
           skip,
           take: size,
