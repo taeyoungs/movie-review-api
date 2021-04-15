@@ -442,18 +442,19 @@ type MovieFetch implements IFetch {
 
 type Mutation {
   createOneComment(data: CommentCreateInput!): Comment!
-  createOneReview(data: ReviewCreateInput!): Review!
+  createReview(movieId: String!, movieTitle: String!, rating: Float!): Review!
   deleteManyAlert(where: AlertWhereInput): BatchPayload!
   deleteOneComment(where: CommentWhereUniqueInput!): Comment
   deleteOneReview(where: ReviewWhereUniqueInput!): Review
   localLogin(login: String!, password: String!): AuthPayload
   localSignUp(login: String!, password: String!): AuthPayload
+  logout: Boolean
   signUp(data: UserCreateInput!): User!
   socialAuth(token: String!): AuthPayload!
   toggleLikeReview(reviewId: Int!, userId: Int!): Boolean
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile
-  updateOneReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
+  updateReview(content: String, rating: Float, reviewId: Int!): Review
 }
 
 input NestedBoolFilter {
@@ -625,6 +626,7 @@ type Query {
   check: [Alert!]!
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   detail(id: String!, media_type: String!): DetailFetch!
+  getUserReview(movieId: String!): Review
   movie(id: String!): MovieFetch!
   movies(page: Int!): [MovieFetch!]!
   multiSearch(page: Int!, searchType: String!, term: String!): [SearchFetch!]!
@@ -652,18 +654,6 @@ type Review {
   updatedAt: DateTime!
   writer: Writer!
   writerId: Int!
-}
-
-input ReviewCreateInput {
-  comments: CommentCreateManyWithoutReviewInput
-  content: String!
-  createdAt: DateTime
-  likeUsers: UserLikeReviewCreateManyWithoutReviewInput
-  movieId: String!
-  movieTitle: String!
-  rating: Float!
-  updatedAt: DateTime
-  writer: UserCreateOneWithoutReviewsInput!
 }
 
 input ReviewCreateManyWithoutWriterInput {
@@ -750,18 +740,6 @@ input ReviewScalarWhereInput {
   rating: FloatFilter
   updatedAt: DateTimeFilter
   writerId: IntFilter
-}
-
-input ReviewUpdateInput {
-  comments: CommentUpdateManyWithoutReviewInput
-  content: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  likeUsers: UserLikeReviewUpdateManyWithoutReviewInput
-  movieId: StringFieldUpdateOperationsInput
-  movieTitle: StringFieldUpdateOperationsInput
-  rating: FloatFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
-  writer: UserUpdateOneRequiredWithoutReviewsInput
 }
 
 input ReviewUpdateManyMutationInput {

@@ -31,8 +31,12 @@ const server = new ApolloServer({
   context: async ({ req, res }) => {
     const token = req.cookies['jwt'] || '';
 
-    const secret = process.env.JWT_SECRET;
     const { prisma } = createContext();
+    if (token === 'loggedOut') {
+      return { prisma, pubsub, res };
+    }
+
+    const secret = process.env.JWT_SECRET;
     if (token && secret) {
       const decoded = jwt.verify(token, secret);
       const user = await prisma.user.findUnique({

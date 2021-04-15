@@ -279,6 +279,29 @@ const Query = objectType({
         return reviews;
       },
     });
+
+    t.field('getUserReview', {
+      type: 'Review',
+      args: {
+        movieId: nonNull(stringArg()),
+      },
+      resolve: async (_, { movieId }, ctx) => {
+        const user = ctx.user;
+        if (user) {
+          const review = await ctx.prisma.review.findMany({
+            where: {
+              movieId,
+              writerId: user.id,
+            },
+          });
+
+          if (review.length === 0) return null;
+          else return review[0];
+        } else {
+          return null;
+        }
+      },
+    });
   },
 });
 

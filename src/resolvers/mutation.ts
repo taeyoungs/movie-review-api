@@ -1,4 +1,4 @@
-import { intArg, nonNull, objectType, stringArg } from 'nexus';
+import { floatArg, intArg, nonNull, objectType, stringArg } from 'nexus';
 import { ALERT_ADDED, REVIEW_ADDED } from './subscription';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -14,15 +14,8 @@ const Mutation = objectType({
     // Profile
     t.crud.updateOneProfile();
     // Review
-    t.crud.createOneReview({
-      resolve: async (root, args, ctx, info, originalResolve) => {
-        const res = await originalResolve(root, args, ctx, info);
-        await ctx.pubsub.publish(REVIEW_ADDED, { data: res });
-        return res;
-      },
-    });
     t.crud.deleteOneReview();
-    t.crud.updateOneReview();
+
     // Comment
     t.crud.createOneComment({
       resolve: async (root, args, ctx, info, originalResolve) => {
@@ -218,6 +211,71 @@ const Mutation = objectType({
           avatar: null,
           login,
         };
+      },
+    });
+
+    t.field('logout', {
+      type: 'Boolean',
+      resolve: (_, args, ctx) => {
+        ctx.res.cookie('jwt', 'loggedOut', { httpOnly: true });
+        return true;
+      },
+    });
+
+    t.nonNull.field('createReview', {
+      type: 'Review',
+      args: {
+        movieId: nonNull(stringArg()),
+        movieTitle: nonNull(stringArg()),
+        rating: nonNull(floatArg()),
+      },
+      resolve: async (_, { movieId, movieTitle, rating }, ctx) => {
+        const user = ctx.user;
+        if (!user) {
+          throw new AuthenticationError('로그인이 필요한 작업입니다.');
+        }
+
+        const review = await ctx.prisma.review.create({
+          data: {
+            content: '',
+            rating,
+            movieId,
+            movieTitle,
+            writer: {
+              connect: {
+                id: user.id,
+              },
+            },
+          },
+        });
+
+        return review;
+      },
+    });
+
+    t.field('updateReview', {
+      type: 'Review',
+      args: {
+        content: stringArg(),
+        rating: floatArg(),
+        reviewId: nonNull(intArg()),
+      },
+      resolve: async (_, { content, rating, reviewId }, ctx) => {
+        const user = ctx.user;
+        if (!user) {
+          throw new AuthenticationError('로그인이 필요한 작업입니다.');
+        }
+
+        const review = await ctx.prisma.review.update({
+          where: {
+            id: reviewId,
+          },
+          data: {
+            ...(content && { content }),
+            ...(rating && { rating }),
+          },
+        });
+        return review;
       },
     });
 

@@ -435,17 +435,6 @@ export interface NexusGenInputs {
     id?: number | null; // Int
     userId?: number | null; // Int
   }
-  ReviewCreateInput: { // input type
-    comments?: NexusGenInputs['CommentCreateManyWithoutReviewInput'] | null; // CommentCreateManyWithoutReviewInput
-    content: string; // String!
-    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    likeUsers?: NexusGenInputs['UserLikeReviewCreateManyWithoutReviewInput'] | null; // UserLikeReviewCreateManyWithoutReviewInput
-    movieId: string; // String!
-    movieTitle: string; // String!
-    rating: number; // Float!
-    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    writer: NexusGenInputs['UserCreateOneWithoutReviewsInput']; // UserCreateOneWithoutReviewsInput!
-  }
   ReviewCreateManyWithoutWriterInput: { // input type
     connect?: NexusGenInputs['ReviewWhereUniqueInput'][] | null; // [ReviewWhereUniqueInput!]
     connectOrCreate?: NexusGenInputs['ReviewCreateOrConnectWithoutwriterInput'][] | null; // [ReviewCreateOrConnectWithoutwriterInput!]
@@ -520,17 +509,6 @@ export interface NexusGenInputs {
     rating?: NexusGenInputs['FloatFilter'] | null; // FloatFilter
     updatedAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
     writerId?: NexusGenInputs['IntFilter'] | null; // IntFilter
-  }
-  ReviewUpdateInput: { // input type
-    comments?: NexusGenInputs['CommentUpdateManyWithoutReviewInput'] | null; // CommentUpdateManyWithoutReviewInput
-    content?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
-    likeUsers?: NexusGenInputs['UserLikeReviewUpdateManyWithoutReviewInput'] | null; // UserLikeReviewUpdateManyWithoutReviewInput
-    movieId?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    movieTitle?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    rating?: NexusGenInputs['FloatFieldUpdateOperationsInput'] | null; // FloatFieldUpdateOperationsInput
-    updatedAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
-    writer?: NexusGenInputs['UserUpdateOneRequiredWithoutReviewsInput'] | null; // UserUpdateOneRequiredWithoutReviewsInput
   }
   ReviewUpdateManyMutationInput: { // input type
     content?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
@@ -1226,18 +1204,19 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     createOneComment: NexusGenRootTypes['Comment']; // Comment!
-    createOneReview: NexusGenRootTypes['Review']; // Review!
+    createReview: NexusGenRootTypes['Review']; // Review!
     deleteManyAlert: NexusGenRootTypes['BatchPayload']; // BatchPayload!
     deleteOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     deleteOneReview: NexusGenRootTypes['Review'] | null; // Review
     localLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     localSignUp: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
+    logout: boolean | null; // Boolean
     signUp: NexusGenRootTypes['User']; // User!
     socialAuth: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     toggleLikeReview: boolean | null; // Boolean
     updateOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     updateOneProfile: NexusGenRootTypes['Profile'] | null; // Profile
-    updateOneReview: NexusGenRootTypes['Review'] | null; // Review
+    updateReview: NexusGenRootTypes['Review'] | null; // Review
   }
   Network: { // field return type
     id: number; // Int!
@@ -1262,6 +1241,7 @@ export interface NexusGenFieldTypes {
     check: NexusGenRootTypes['Alert'][]; // [Alert!]!
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
     detail: NexusGenRootTypes['DetailFetch']; // DetailFetch!
+    getUserReview: NexusGenRootTypes['Review'] | null; // Review
     movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
     movies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
     multiSearch: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
@@ -1444,18 +1424,19 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     createOneComment: 'Comment'
-    createOneReview: 'Review'
+    createReview: 'Review'
     deleteManyAlert: 'BatchPayload'
     deleteOneComment: 'Comment'
     deleteOneReview: 'Review'
     localLogin: 'AuthPayload'
     localSignUp: 'AuthPayload'
+    logout: 'Boolean'
     signUp: 'User'
     socialAuth: 'AuthPayload'
     toggleLikeReview: 'Boolean'
     updateOneComment: 'Comment'
     updateOneProfile: 'Profile'
-    updateOneReview: 'Review'
+    updateReview: 'Review'
   }
   Network: { // field return type name
     id: 'Int'
@@ -1480,6 +1461,7 @@ export interface NexusGenFieldTypeNames {
     check: 'Alert'
     comments: 'Comment'
     detail: 'DetailFetch'
+    getUserReview: 'Review'
     movie: 'MovieFetch'
     movies: 'MovieFetch'
     multiSearch: 'SearchFetch'
@@ -1593,8 +1575,10 @@ export interface NexusGenArgTypes {
     createOneComment: { // args
       data: NexusGenInputs['CommentCreateInput']; // CommentCreateInput!
     }
-    createOneReview: { // args
-      data: NexusGenInputs['ReviewCreateInput']; // ReviewCreateInput!
+    createReview: { // args
+      movieId: string; // String!
+      movieTitle: string; // String!
+      rating: number; // Float!
     }
     deleteManyAlert: { // args
       where?: NexusGenInputs['AlertWhereInput'] | null; // AlertWhereInput
@@ -1631,9 +1615,10 @@ export interface NexusGenArgTypes {
       data: NexusGenInputs['ProfileUpdateInput']; // ProfileUpdateInput!
       where: NexusGenInputs['ProfileWhereUniqueInput']; // ProfileWhereUniqueInput!
     }
-    updateOneReview: { // args
-      data: NexusGenInputs['ReviewUpdateInput']; // ReviewUpdateInput!
-      where: NexusGenInputs['ReviewWhereUniqueInput']; // ReviewWhereUniqueInput!
+    updateReview: { // args
+      content?: string | null; // String
+      rating?: number | null; // Float
+      reviewId: number; // Int!
     }
   }
   Query: {
@@ -1656,6 +1641,9 @@ export interface NexusGenArgTypes {
     detail: { // args
       id: string; // String!
       media_type: string; // String!
+    }
+    getUserReview: { // args
+      movieId: string; // String!
     }
     movie: { // args
       id: string; // String!
