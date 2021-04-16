@@ -451,7 +451,7 @@ type Mutation {
   logout: Boolean
   signUp(data: UserCreateInput!): User!
   socialAuth(token: String!): AuthPayload!
-  toggleLikeReview(reviewId: Int!, userId: Int!): Boolean
+  toggleLikeReview(reviewId: Int!): Review
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile
   updateReview(content: String, rating: Float, reviewId: Int!): Review

@@ -266,6 +266,18 @@ const Mutation = objectType({
           throw new AuthenticationError('로그인이 필요한 작업입니다.');
         }
 
+        if (content === '') {
+          const review = await ctx.prisma.review.update({
+            where: {
+              id: reviewId,
+            },
+            data: {
+              content,
+            },
+          });
+          return review;
+        }
+
         const review = await ctx.prisma.review.update({
           where: {
             id: reviewId,
@@ -279,19 +291,22 @@ const Mutation = objectType({
       },
     });
 
-    // 2. review like func (V), comment tag func
     t.field('toggleLikeReview', {
-      type: 'Boolean',
+      type: 'Review',
       args: {
-        userId: nonNull(intArg()),
         reviewId: nonNull(intArg()),
       },
-      resolve: async (_, { userId, reviewId }, ctx) => {
+      resolve: async (_, { reviewId }, ctx) => {
+        const user = ctx.user;
+        if (!user) {
+          throw new UserInputError('로그인이 필요한 작업입니다.');
+        }
+
         const result = await ctx.prisma.userLikeReview.findUnique({
           where: {
             userId_reviewId: {
               reviewId,
-              userId,
+              userId: user.id,
             },
           },
         });
@@ -300,7 +315,7 @@ const Mutation = objectType({
             where: {
               userId_reviewId: {
                 reviewId,
-                userId,
+                userId: user.id,
               },
             },
           });
@@ -310,7 +325,7 @@ const Mutation = objectType({
               review: {
                 connect: { id: reviewId },
               },
-              user: { connect: { id: userId } },
+              user: { connect: { id: user.id } },
             },
           });
           const alert = await ctx.prisma.alert.create({
@@ -319,14 +334,19 @@ const Mutation = objectType({
               type: 'LIKE',
               user: {
                 connect: {
-                  id: userId,
+                  id: user.id,
                 },
               },
             },
           });
           await ctx.pubsub.publish(ALERT_ADDED, { data: alert });
         }
-        return true;
+        const review = await ctx.prisma.review.findUnique({
+          where: {
+            id: reviewId,
+          },
+        });
+        return review;
       },
     });
 

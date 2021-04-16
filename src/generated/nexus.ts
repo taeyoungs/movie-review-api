@@ -1213,7 +1213,7 @@ export interface NexusGenFieldTypes {
     logout: boolean | null; // Boolean
     signUp: NexusGenRootTypes['User']; // User!
     socialAuth: NexusGenRootTypes['AuthPayload']; // AuthPayload!
-    toggleLikeReview: boolean | null; // Boolean
+    toggleLikeReview: NexusGenRootTypes['Review'] | null; // Review
     updateOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     updateOneProfile: NexusGenRootTypes['Profile'] | null; // Profile
     updateReview: NexusGenRootTypes['Review'] | null; // Review
@@ -1433,7 +1433,7 @@ export interface NexusGenFieldTypeNames {
     logout: 'Boolean'
     signUp: 'User'
     socialAuth: 'AuthPayload'
-    toggleLikeReview: 'Boolean'
+    toggleLikeReview: 'Review'
     updateOneComment: 'Comment'
     updateOneProfile: 'Profile'
     updateReview: 'Review'
@@ -1605,7 +1605,6 @@ export interface NexusGenArgTypes {
     }
     toggleLikeReview: { // args
       reviewId: number; // Int!
-      userId: number; // Int!
     }
     updateOneComment: { // args
       data: NexusGenInputs['CommentUpdateInput']; // CommentUpdateInput!
