@@ -1062,12 +1062,9 @@ export interface NexusGenObjects {
     writerId: number; // Int!
   }
   SearchFetch: { // root type
-    first_air_date?: string | null; // String
     id: number; // Int!
     media_type?: string | null; // String
-    name?: string | null; // String
     poster_path?: string | null; // String
-    profile_path?: string | null; // String
     release_date?: string | null; // String
     title?: string | null; // String
     vote_average?: number | null; // Float
@@ -1241,6 +1238,7 @@ export interface NexusGenFieldTypes {
     check: NexusGenRootTypes['Alert'][]; // [Alert!]!
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
     detail: NexusGenRootTypes['DetailFetch']; // DetailFetch!
+    getReview: NexusGenRootTypes['Review'] | null; // Review
     getUserReview: NexusGenRootTypes['Review'] | null; // Review
     movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
     movies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
@@ -1270,12 +1268,9 @@ export interface NexusGenFieldTypes {
     writerId: number; // Int!
   }
   SearchFetch: { // field return type
-    first_air_date: string | null; // String
     id: number; // Int!
     media_type: string | null; // String
-    name: string | null; // String
     poster_path: string | null; // String
-    profile_path: string | null; // String
     release_date: string | null; // String
     title: string | null; // String
     vote_average: number | null; // Float
@@ -1461,6 +1456,7 @@ export interface NexusGenFieldTypeNames {
     check: 'Alert'
     comments: 'Comment'
     detail: 'DetailFetch'
+    getReview: 'Review'
     getUserReview: 'Review'
     movie: 'MovieFetch'
     movies: 'MovieFetch'
@@ -1490,12 +1486,9 @@ export interface NexusGenFieldTypeNames {
     writerId: 'Int'
   }
   SearchFetch: { // field return type name
-    first_air_date: 'String'
     id: 'Int'
     media_type: 'String'
-    name: 'String'
     poster_path: 'String'
-    profile_path: 'String'
     release_date: 'String'
     title: 'String'
     vote_average: 'Float'
@@ -1640,6 +1633,9 @@ export interface NexusGenArgTypes {
     detail: { // args
       id: string; // String!
       media_type: string; // String!
+    }
+    getReview: { // args
+      reviewId: string; // String!
     }
     getUserReview: { // args
       movieId: string; // String!

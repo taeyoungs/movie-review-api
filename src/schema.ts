@@ -302,13 +302,10 @@ const SearchFetch = objectType({
   definition(t) {
     t.nonNull.int('id');
     t.string('poster_path');
-    t.string('profile_path');
     t.string('media_type');
     t.string('title');
-    t.string('name');
     t.float('vote_average');
     t.string('release_date');
-    t.string('first_air_date');
   },
 });
 

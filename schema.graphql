@@ -626,6 +626,7 @@ type Query {
   check: [Alert!]!
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   detail(id: String!, media_type: String!): DetailFetch!
+  getReview(reviewId: String!): Review
   getUserReview(movieId: String!): Review
   movie(id: String!): MovieFetch!
   movies(page: Int!): [MovieFetch!]!
@@ -861,12 +862,9 @@ input ReviewWhereUniqueInput {
 }
 
 type SearchFetch {
-  first_air_date: String
   id: Int!
   media_type: String
-  name: String
   poster_path: String
-  profile_path: String
   release_date: String
   title: String
   vote_average: Float
