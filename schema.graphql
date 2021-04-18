@@ -347,7 +347,7 @@ type DetailFetch implements IFetch {
   total_results: Int!
   userReview: Review
   videos: [Video!]
-  vote_average: Float!
+  vote_average: Float
   vote_count: Int!
 }
 
@@ -407,7 +407,7 @@ interface IFetch {
   tagline: String
   total_pages: Int!
   total_results: Int!
-  vote_average: Float!
+  vote_average: Float
   vote_count: Int!
 }
 
@@ -429,14 +429,14 @@ type MovieFetch implements IFetch {
   media_type: String
   overview: String!
   poster_path: String
-  release_date: String!
+  release_date: String
   runtime: Int
   tagline: String
   title: String!
   total_pages: Int!
   total_results: Int!
   videos: [Video!]
-  vote_average: Float!
+  vote_average: Float
   vote_count: Int!
 }
 
@@ -549,6 +549,7 @@ input NullableStringFieldUpdateOperationsInput {
 
 type PersonFetch {
   id: Int!
+  known_for_department: String!
   name: String!
   profile_path: String
 }
@@ -626,6 +627,8 @@ type Query {
   check: [Alert!]!
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   detail(id: String!, media_type: String!): DetailFetch!
+  getPerson(personId: String!): PersonFetch
+  getPersonCredits(page: Int!, personId: String!): [MovieFetch!]!
   getReview(reviewId: String!): Review
   getUserReview(movieId: String!): Review
   movie(id: String!): MovieFetch!
@@ -885,7 +888,7 @@ type ShowFetch implements IFetch {
   total_pages: Int!
   total_results: Int!
   videos: [Video!]
-  vote_average: Float!
+  vote_average: Float
   vote_count: Int!
 }
 

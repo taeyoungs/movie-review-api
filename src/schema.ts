@@ -185,7 +185,7 @@ const IFetch = interfaceType({
     t.string('tagline');
     t.nonNull.string('overview');
     t.list.nonNull.field('genres', { type: 'Genre' });
-    t.nonNull.float('vote_average');
+    t.float('vote_average');
     t.nonNull.int('vote_count');
     t.nonNull.int('total_pages');
     t.nonNull.int('total_results');
@@ -215,7 +215,7 @@ const MovieFetch = objectType({
   definition(t) {
     t.implements('IFetch');
     t.nonNull.string('title');
-    t.nonNull.string('release_date');
+    t.string('release_date');
     t.int('runtime');
     t.list.nonNull.field('videos', {
       type: Video,
@@ -272,8 +272,9 @@ const PersonFetch = objectType({
   name: 'PersonFetch',
   definition(t) {
     t.nonNull.int('id');
-    t.string('profile_path');
     t.nonNull.string('name');
+    t.nonNull.string('known_for_department');
+    t.string('profile_path');
   },
 });
 

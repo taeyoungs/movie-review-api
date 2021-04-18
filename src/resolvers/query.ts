@@ -1,25 +1,7 @@
 import { UserInputError } from 'apollo-server-errors';
 import { intArg, nonNull, objectType, stringArg } from 'nexus';
 import api from '../api';
-
-interface ISimilarWorkProps {
-  id: number;
-  name: string;
-  vote_average: number;
-  poster_path: string | null;
-}
-
-interface ISearchProps {
-  id: number;
-  name?: string;
-  title?: string;
-  vote_average: number;
-  poster_path?: string | null;
-  profile_path?: string | null;
-  release_date?: string;
-  first_air_date?: string;
-  media_type?: string;
-}
+import { ICreditProps, ISearchProps, ISimilarWorkProps } from '../types';
 
 const Query = objectType({
   name: 'Query',
@@ -401,6 +383,64 @@ const Query = objectType({
         });
 
         return review;
+      },
+    });
+
+    t.field('getPerson', {
+      type: 'PersonFetch',
+      args: {
+        personId: nonNull(stringArg()),
+      },
+      resolve: async (_, { personId }, ctx) => {
+        const person = await api
+          .get(`/person/${personId}`)
+          .then((res) => res.data);
+
+        return person;
+      },
+    });
+
+    t.nonNull.list.nonNull.field('getPersonCredits', {
+      type: 'MovieFetch',
+      args: {
+        personId: nonNull(stringArg()),
+        page: nonNull(intArg()),
+      },
+      resolve: async (_, { personId, page }, ctx) => {
+        // size: 9
+        const credits = await api
+          .get(`/person/${personId}/combined_credits`)
+          .then((res) => {
+            return res.data.cast.map((work: ISearchProps) => {
+              return {
+                id: work.id,
+                ...(work.media_type && { media_type: work.media_type }),
+                ...(work.name && { title: work.name }),
+                ...(work.title && { title: work.title }),
+                ...(work.poster_path && { poster_path: work.poster_path }),
+                ...(work.release_date && {
+                  release_date: work.release_date,
+                }),
+                ...(work.first_air_date && {
+                  release_date: work.first_air_date,
+                }),
+                ...(work.vote_average && { vote_average: work.vote_average }),
+              };
+            });
+          });
+
+        const sortedCredits = credits.sort(
+          (a: ICreditProps, b: ICreditProps) => {
+            // const aYear = a.release_date ? +a.release_date.split('-')[0] : 0;
+            // const bYear = b.release_date ? +b.release_date.split('-')[0] : 0;
+            // return bYear - aYear;
+            const aDate = new Date(a.release_date).getTime();
+            const bDate = new Date(b.release_date).getTime();
+            return bDate - aDate;
+          }
+        );
+
+        return sortedCredits.slice(0, 9 * page);
       },
     });
   },
