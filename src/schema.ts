@@ -310,6 +310,27 @@ const SearchFetch = objectType({
   },
 });
 
+const Credits = objectType({
+  name: 'Credits',
+  definition(t) {
+    t.nonNull.int('id');
+    t.nonNull.string('title');
+    t.nonNull.string('media_type');
+    t.string('poster_path');
+    t.float('vote_average');
+  },
+});
+
+const CreditFetch = objectType({
+  name: 'CreditFetch',
+  definition(t) {
+    t.nonNull.list.nonNull.field('credits', {
+      type: 'Credits',
+    });
+    t.nonNull.int('totalCount');
+  },
+});
+
 const AuthPayload = objectType({
   name: 'AuthPayload',
   definition(t) {
@@ -335,6 +356,8 @@ export const schema = makeSchema({
     CastFetch,
     SimilarWorksFetch,
     SearchFetch,
+    Credits,
+    CreditFetch,
     AlertType,
     Alert,
     Comment,

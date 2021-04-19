@@ -5,6 +5,8 @@ import bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
 import { Social } from '.prisma/client';
 import { AuthenticationError, UserInputError } from 'apollo-server-errors';
+import api from '../api';
+import { ICreditProps, ISearchProps } from '../types';
 
 const Mutation = objectType({
   name: 'Mutation',
@@ -347,6 +349,50 @@ const Mutation = objectType({
           },
         });
         return review;
+      },
+    });
+
+    t.nonNull.list.nonNull.field('getMoreCredits', {
+      type: 'Credits',
+      args: {
+        personId: nonNull(stringArg()),
+        page: nonNull(intArg()),
+      },
+      resolve: async (_, { personId, page }, ctx) => {
+        // size: 9
+        const results = await api
+          .get(`/person/${personId}/combined_credits`)
+          .then((res) => {
+            return res.data.cast.map((work: ISearchProps) => {
+              return {
+                id: work.id,
+                ...(work.media_type && { media_type: work.media_type }),
+                ...(work.name && { title: work.name }),
+                ...(work.title && { title: work.title }),
+                ...(work.poster_path && { poster_path: work.poster_path }),
+                ...(work.release_date && {
+                  release_date: work.release_date,
+                }),
+                ...(work.first_air_date && {
+                  release_date: work.first_air_date,
+                }),
+                ...(work.vote_average && { vote_average: work.vote_average }),
+              };
+            });
+          });
+
+        const sortedCredits = results.sort(
+          (a: ICreditProps, b: ICreditProps) => {
+            // const aYear = a.release_date ? +a.release_date.split('-')[0] : 0;
+            // const bYear = b.release_date ? +b.release_date.split('-')[0] : 0;
+            // return bYear - aYear;
+            const aDate = new Date(a.release_date).getTime();
+            const bDate = new Date(b.release_date).getTime();
+            return bDate - aDate;
+          }
+        );
+
+        return sortedCredits.slice(9 * page, 9 * page + 9);
       },
     });
 

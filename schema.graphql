@@ -315,6 +315,19 @@ input CommentWhereUniqueInput {
   id: Int
 }
 
+type CreditFetch {
+  credits: [Credits!]!
+  totalCount: Int!
+}
+
+type Credits {
+  id: Int!
+  media_type: String!
+  poster_path: String
+  title: String!
+  vote_average: Float
+}
+
 scalar DateTime
 
 input DateTimeFieldUpdateOperationsInput {
@@ -446,6 +459,7 @@ type Mutation {
   deleteManyAlert(where: AlertWhereInput): BatchPayload!
   deleteOneComment(where: CommentWhereUniqueInput!): Comment
   deleteOneReview(where: ReviewWhereUniqueInput!): Review
+  getMoreCredits(page: Int!, personId: String!): [Credits!]!
   localLogin(login: String!, password: String!): AuthPayload
   localSignUp(login: String!, password: String!): AuthPayload
   logout: Boolean
@@ -628,7 +642,7 @@ type Query {
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   detail(id: String!, media_type: String!): DetailFetch!
   getPerson(personId: String!): PersonFetch
-  getPersonCredits(page: Int!, personId: String!): [MovieFetch!]!
+  getPersonCredits(page: Int!, personId: String!): CreditFetch!
   getReview(reviewId: String!): Review
   getUserReview(movieId: String!): Review
   movie(id: String!): MovieFetch!

@@ -400,15 +400,15 @@ const Query = objectType({
       },
     });
 
-    t.nonNull.list.nonNull.field('getPersonCredits', {
-      type: 'MovieFetch',
+    t.nonNull.field('getPersonCredits', {
+      type: 'CreditFetch',
       args: {
         personId: nonNull(stringArg()),
         page: nonNull(intArg()),
       },
       resolve: async (_, { personId, page }, ctx) => {
         // size: 9
-        const credits = await api
+        const results = await api
           .get(`/person/${personId}/combined_credits`)
           .then((res) => {
             return res.data.cast.map((work: ISearchProps) => {
@@ -429,7 +429,7 @@ const Query = objectType({
             });
           });
 
-        const sortedCredits = credits.sort(
+        const sortedCredits = results.sort(
           (a: ICreditProps, b: ICreditProps) => {
             // const aYear = a.release_date ? +a.release_date.split('-')[0] : 0;
             // const bYear = b.release_date ? +b.release_date.split('-')[0] : 0;
@@ -440,7 +440,13 @@ const Query = objectType({
           }
         );
 
-        return sortedCredits.slice(0, 9 * page);
+        const credits: ICreditProps[] = sortedCredits.slice(0, 9 * page);
+        const totalCount: Number = sortedCredits.length;
+
+        return {
+          credits,
+          totalCount,
+        };
       },
     });
   },

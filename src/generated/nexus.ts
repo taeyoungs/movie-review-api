@@ -995,6 +995,17 @@ export interface NexusGenObjects {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     writerId: number; // Int!
   }
+  CreditFetch: { // root type
+    credits: NexusGenRootTypes['Credits'][]; // [Credits!]!
+    totalCount: number; // Int!
+  }
+  Credits: { // root type
+    id: number; // Int!
+    media_type: string; // String!
+    poster_path?: string | null; // String
+    title: string; // String!
+    vote_average?: number | null; // Float
+  }
   DetailFetch: { // root type
     backdrop_path?: string | null; // String
     genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
@@ -1161,6 +1172,17 @@ export interface NexusGenFieldTypes {
     writer: NexusGenRootTypes['User']; // User!
     writerId: number; // Int!
   }
+  CreditFetch: { // field return type
+    credits: NexusGenRootTypes['Credits'][]; // [Credits!]!
+    totalCount: number; // Int!
+  }
+  Credits: { // field return type
+    id: number; // Int!
+    media_type: string; // String!
+    poster_path: string | null; // String
+    title: string; // String!
+    vote_average: number | null; // Float
+  }
   DetailFetch: { // field return type
     backdrop_path: string | null; // String
     genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
@@ -1206,6 +1228,7 @@ export interface NexusGenFieldTypes {
     deleteManyAlert: NexusGenRootTypes['BatchPayload']; // BatchPayload!
     deleteOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     deleteOneReview: NexusGenRootTypes['Review'] | null; // Review
+    getMoreCredits: NexusGenRootTypes['Credits'][]; // [Credits!]!
     localLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     localSignUp: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     logout: boolean | null; // Boolean
@@ -1241,7 +1264,7 @@ export interface NexusGenFieldTypes {
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
     detail: NexusGenRootTypes['DetailFetch']; // DetailFetch!
     getPerson: NexusGenRootTypes['PersonFetch'] | null; // PersonFetch
-    getPersonCredits: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
+    getPersonCredits: NexusGenRootTypes['CreditFetch']; // CreditFetch!
     getReview: NexusGenRootTypes['Review'] | null; // Review
     getUserReview: NexusGenRootTypes['Review'] | null; // Review
     movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
@@ -1382,6 +1405,17 @@ export interface NexusGenFieldTypeNames {
     writer: 'User'
     writerId: 'Int'
   }
+  CreditFetch: { // field return type name
+    credits: 'Credits'
+    totalCount: 'Int'
+  }
+  Credits: { // field return type name
+    id: 'Int'
+    media_type: 'String'
+    poster_path: 'String'
+    title: 'String'
+    vote_average: 'Float'
+  }
   DetailFetch: { // field return type name
     backdrop_path: 'String'
     genres: 'Genre'
@@ -1427,6 +1461,7 @@ export interface NexusGenFieldTypeNames {
     deleteManyAlert: 'BatchPayload'
     deleteOneComment: 'Comment'
     deleteOneReview: 'Review'
+    getMoreCredits: 'Credits'
     localLogin: 'AuthPayload'
     localSignUp: 'AuthPayload'
     logout: 'Boolean'
@@ -1462,7 +1497,7 @@ export interface NexusGenFieldTypeNames {
     comments: 'Comment'
     detail: 'DetailFetch'
     getPerson: 'PersonFetch'
-    getPersonCredits: 'MovieFetch'
+    getPersonCredits: 'CreditFetch'
     getReview: 'Review'
     getUserReview: 'Review'
     movie: 'MovieFetch'
@@ -1588,6 +1623,10 @@ export interface NexusGenArgTypes {
     }
     deleteOneReview: { // args
       where: NexusGenInputs['ReviewWhereUniqueInput']; // ReviewWhereUniqueInput!
+    }
+    getMoreCredits: { // args
+      page: number; // Int!
+      personId: string; // String!
     }
     localLogin: { // args
       login: string; // String!
