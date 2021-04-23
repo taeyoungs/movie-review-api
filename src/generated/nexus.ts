@@ -1084,7 +1084,7 @@ export interface NexusGenObjects {
   ShowFetch: { // root type
     backdrop_path?: string | null; // String
     episode_run_time?: number[] | null; // [Int!]
-    first_air_date: string; // String!
+    first_air_date?: string | null; // String
     genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
     media_type?: string | null; // String
@@ -1266,6 +1266,7 @@ export interface NexusGenFieldTypes {
     getPerson: NexusGenRootTypes['PersonFetch'] | null; // PersonFetch
     getPersonCredits: NexusGenRootTypes['CreditFetch']; // CreditFetch!
     getReview: NexusGenRootTypes['Review'] | null; // Review
+    getTrending: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
     getUserReview: NexusGenRootTypes['Review'] | null; // Review
     movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
     movies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
@@ -1276,8 +1277,6 @@ export interface NexusGenFieldTypes {
     show: NexusGenRootTypes['ShowFetch']; // ShowFetch!
     shows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
     similarWorks: NexusGenRootTypes['SimilarWorksFetch'][]; // [SimilarWorksFetch!]!
-    trendingMovies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
-    trendingShows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
     uncheckedAlertsCount: number; // Int!
     user: NexusGenRootTypes['User'] | null; // User
   }
@@ -1305,7 +1304,7 @@ export interface NexusGenFieldTypes {
   ShowFetch: { // field return type
     backdrop_path: string | null; // String
     episode_run_time: number[] | null; // [Int!]
-    first_air_date: string; // String!
+    first_air_date: string | null; // String
     genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
     id: number; // Int!
     media_type: string | null; // String
@@ -1499,6 +1498,7 @@ export interface NexusGenFieldTypeNames {
     getPerson: 'PersonFetch'
     getPersonCredits: 'CreditFetch'
     getReview: 'Review'
+    getTrending: 'SearchFetch'
     getUserReview: 'Review'
     movie: 'MovieFetch'
     movies: 'MovieFetch'
@@ -1509,8 +1509,6 @@ export interface NexusGenFieldTypeNames {
     show: 'ShowFetch'
     shows: 'ShowFetch'
     similarWorks: 'SimilarWorksFetch'
-    trendingMovies: 'MovieFetch'
-    trendingShows: 'ShowFetch'
     uncheckedAlertsCount: 'Int'
     user: 'User'
   }
@@ -1690,6 +1688,10 @@ export interface NexusGenArgTypes {
     getReview: { // args
       reviewId: string; // String!
     }
+    getTrending: { // args
+      mediaType: string; // String!
+      timeWindow: string; // String!
+    }
     getUserReview: { // args
       movieId: string; // String!
     }
@@ -1724,12 +1726,6 @@ export interface NexusGenArgTypes {
     similarWorks: { // args
       id: string; // String!
       media_type: string; // String!
-    }
-    trendingMovies: { // args
-      timeWindow: string; // String!
-    }
-    trendingShows: { // args
-      timeWindow: string; // String!
     }
     user: { // args
       where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!

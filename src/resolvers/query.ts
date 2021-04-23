@@ -75,31 +75,35 @@ const Query = objectType({
     });
 
     // Trending
-    t.nonNull.list.nonNull.field('trendingMovies', {
-      type: 'MovieFetch',
+    t.nonNull.list.nonNull.field('getTrending', {
+      type: 'SearchFetch',
       args: {
+        mediaType: nonNull(stringArg()),
         timeWindow: nonNull(stringArg()),
       },
-      resolve: async (_, args, ctx) => {
-        const timeWindow = args.timeWindow;
-        const trendingMovieList = await api
-          .get(`trending/movie/${timeWindow}`)
-          .then((res) => res.data.results);
-        return trendingMovieList;
-      },
-    });
-
-    t.nonNull.list.nonNull.field('trendingShows', {
-      type: 'ShowFetch',
-      args: {
-        timeWindow: nonNull(stringArg()),
-      },
-      resolve: async (_, args, ctx) => {
-        const timeWindow = args.timeWindow;
-        const trendingShowList = await api
-          .get(`trending/tv/${timeWindow}`)
-          .then((res) => res.data.results);
-        return trendingShowList;
+      resolve: async (_, { mediaType, timeWindow }, ctx) => {
+        const trendingList = await api
+          .get(`trending/${mediaType}/${timeWindow}`)
+          .then((res) => {
+            return res.data.results.map((work: ISearchProps) => {
+              return {
+                id: work.id,
+                ...(work.media_type && { media_type: work.media_type }),
+                ...(work.name && { title: work.name }),
+                ...(work.title && { title: work.title }),
+                ...(work.poster_path && { poster_path: work.poster_path }),
+                ...(work.profile_path && { poster_path: work.profile_path }),
+                ...(work.release_date && {
+                  release_date: work.release_date,
+                }),
+                ...(work.first_air_date && {
+                  release_date: work.first_air_date,
+                }),
+                ...(work.vote_average && { vote_average: work.vote_average }),
+              };
+            });
+          });
+        return trendingList;
       },
     });
 

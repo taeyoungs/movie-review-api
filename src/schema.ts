@@ -228,7 +228,7 @@ const ShowFetch = objectType({
   definition(t) {
     t.implements('IFetch');
     t.nonNull.string('name');
-    t.nonNull.string('first_air_date');
+    t.string('first_air_date');
     t.list.nonNull.int('episode_run_time');
     t.list.nonNull.field('networks', { type: 'Network' });
     t.list.nonNull.field('videos', {

@@ -644,6 +644,7 @@ type Query {
   getPerson(personId: String!): PersonFetch
   getPersonCredits(page: Int!, personId: String!): CreditFetch!
   getReview(reviewId: String!): Review
+  getTrending(mediaType: String!, timeWindow: String!): [SearchFetch!]!
   getUserReview(movieId: String!): Review
   movie(id: String!): MovieFetch!
   movies(page: Int!): [MovieFetch!]!
@@ -654,8 +655,6 @@ type Query {
   show(id: Int!): ShowFetch!
   shows(page: Int!): [ShowFetch!]!
   similarWorks(id: String!, media_type: String!): [SimilarWorksFetch!]!
-  trendingMovies(timeWindow: String!): [MovieFetch!]!
-  trendingShows(timeWindow: String!): [ShowFetch!]!
   uncheckedAlertsCount: Int!
   user(where: UserWhereUniqueInput!): User
 }
@@ -890,7 +889,7 @@ type SearchFetch {
 type ShowFetch implements IFetch {
   backdrop_path: String
   episode_run_time: [Int!]
-  first_air_date: String!
+  first_air_date: String
   genres: [Genre!]
   id: Int!
   media_type: String
