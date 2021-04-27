@@ -356,8 +356,6 @@ type DetailFetch implements IFetch {
   runtime: Int
   tagline: String
   title: String!
-  total_pages: Int!
-  total_results: Int!
   userReview: Review
   videos: [Video!]
   vote_average: Float
@@ -418,8 +416,6 @@ interface IFetch {
   overview: String!
   poster_path: String
   tagline: String
-  total_pages: Int!
-  total_results: Int!
   vote_average: Float
   vote_count: Int!
 }
@@ -435,24 +431,6 @@ input IntFilter {
   notIn: [Int!]
 }
 
-type MovieFetch implements IFetch {
-  backdrop_path: String
-  genres: [Genre!]
-  id: Int!
-  media_type: String
-  overview: String!
-  poster_path: String
-  release_date: String
-  runtime: Int
-  tagline: String
-  title: String!
-  total_pages: Int!
-  total_results: Int!
-  videos: [Video!]
-  vote_average: Float
-  vote_count: Int!
-}
-
 type Mutation {
   createOneComment(data: CommentCreateInput!): Comment!
   createReview(movieId: String!, movieTitle: String!, rating: Float!): Review!
@@ -460,6 +438,7 @@ type Mutation {
   deleteOneComment(where: CommentWhereUniqueInput!): Comment
   deleteOneReview(where: ReviewWhereUniqueInput!): Review
   getMoreCredits(page: Int!, personId: String!): [Credits!]!
+  getMoreWorks(contentType: String!, mediaType: String!, page: Int!): [WorkFetch!]!
   localLogin(login: String!, password: String!): AuthPayload
   localSignUp(login: String!, password: String!): AuthPayload
   logout: Boolean
@@ -646,13 +625,11 @@ type Query {
   getReview(reviewId: String!): Review
   getTrending(mediaType: String!, timeWindow: String!): [SearchFetch!]!
   getUserReview(movieId: String!): Review
-  movie(id: String!): MovieFetch!
-  movies(page: Int!): [MovieFetch!]!
+  getWorks(contentType: String!, mediaType: String!, page: Int!): Works!
   multiSearch(page: Int!, searchType: String!, term: String!): [SearchFetch!]!
   profile(where: ProfileWhereUniqueInput!): Profile
   review(where: ReviewWhereUniqueInput!): Review
   reviews(id: String!, size: Int!, skip: Int!): [Review!]!
-  show(id: Int!): ShowFetch!
   shows(page: Int!): [ShowFetch!]!
   similarWorks(id: String!, media_type: String!): [SimilarWorksFetch!]!
   uncheckedAlertsCount: Int!
@@ -898,8 +875,6 @@ type ShowFetch implements IFetch {
   overview: String!
   poster_path: String
   tagline: String
-  total_pages: Int!
-  total_results: Int!
   videos: [Video!]
   vote_average: Float
   vote_count: Int!
@@ -1332,6 +1307,21 @@ type Video {
   id: String!
   key: String!
   name: String!
+}
+
+type WorkFetch {
+  backdrop_path: String
+  id: Int!
+  overview: String!
+  poster_path: String
+  release_date: String
+  title: String!
+  vote_average: Float
+}
+
+type Works {
+  totalPage: Int!
+  works: [WorkFetch!]!
 }
 
 type Writer {

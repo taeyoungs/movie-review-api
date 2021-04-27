@@ -187,8 +187,6 @@ const IFetch = interfaceType({
     t.list.nonNull.field('genres', { type: 'Genre' });
     t.float('vote_average');
     t.nonNull.int('vote_count');
-    t.nonNull.int('total_pages');
-    t.nonNull.int('total_results');
   },
 });
 
@@ -210,16 +208,26 @@ const Network = objectType({
   },
 });
 
-const MovieFetch = objectType({
-  name: 'MovieFetch',
+const WorkFetch = objectType({
+  name: 'WorkFetch',
   definition(t) {
-    t.implements('IFetch');
+    t.nonNull.int('id');
     t.nonNull.string('title');
+    t.nonNull.string('overview');
+    t.string('backdrop_path');
+    t.string('poster_path');
     t.string('release_date');
-    t.int('runtime');
-    t.list.nonNull.field('videos', {
-      type: Video,
+    t.float('vote_average');
+  },
+});
+
+const Works = objectType({
+  name: 'Works',
+  definition(t) {
+    t.nonNull.list.nonNull.field('works', {
+      type: 'WorkFetch',
     });
+    t.nonNull.int('totalPage');
   },
 });
 
@@ -349,7 +357,8 @@ export const schema = makeSchema({
     Genre,
     IFetch,
     Network,
-    MovieFetch,
+    WorkFetch,
+    Works,
     ShowFetch,
     DetailFetch,
     PersonFetch,

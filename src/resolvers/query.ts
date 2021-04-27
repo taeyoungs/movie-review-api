@@ -1,7 +1,12 @@
 import { UserInputError } from 'apollo-server-errors';
 import { intArg, nonNull, objectType, stringArg } from 'nexus';
 import api from '../api';
-import { ICreditProps, ISearchProps, ISimilarWorkProps } from '../types';
+import {
+  ICreditProps,
+  IMovieProps,
+  ISearchProps,
+  ISimilarWorkProps,
+} from '../types';
 
 const Query = objectType({
   name: 'Query',
@@ -14,36 +19,53 @@ const Query = objectType({
     t.crud.comments();
 
     // Movie
-    t.nonNull.list.nonNull.field('movies', {
-      type: 'MovieFetch',
+    t.nonNull.field('getWorks', {
+      type: 'Works',
       args: {
         page: nonNull(intArg()),
+        contentType: nonNull(stringArg()),
+        mediaType: nonNull(stringArg()),
       },
-      resolve: async (_, args, ctx) => {
-        const page = args.page || 1;
-        const movieList = await api
-          .get(`movie/popular?page=${page}`)
-          .then((res) => res.data.results);
-        return movieList;
+      resolve: async (_, { page, contentType, mediaType }, ctx) => {
+        // upcoming, top_rated, popular, now_playing
+        let totalPage = 0;
+
+        const workList = await api
+          .get(`${mediaType}/${contentType}?page=${page}`)
+          .then(
+            (res: {
+              data: {
+                results: IMovieProps[];
+                total_pages: number;
+              };
+            }) => {
+              totalPage = res.data.total_pages;
+              return res.data.results.map((work) => {
+                return {
+                  id: work.id,
+                  overview: work.overview,
+                  ...(work.name && { title: work.name }),
+                  ...(work.title && { title: work.title }),
+                  ...(work.poster_path && { poster_path: work.poster_path }),
+                  ...(work.backdrop_path && {
+                    backdrop_path: work.backdrop_path,
+                  }),
+                  ...(work.release_date && {
+                    release_date: work.release_date,
+                  }),
+                  ...(work.first_air_date && {
+                    release_date: work.first_air_date,
+                  }),
+                  ...(work.vote_average && { vote_average: work.vote_average }),
+                };
+              });
+            }
+          );
+
+        return { works: workList, totalPage };
       },
     });
-    t.nonNull.field('movie', {
-      type: 'MovieFetch',
-      args: {
-        id: nonNull(stringArg()),
-      },
-      resolve: async (_, args, ctx) => {
-        const id = args.id;
-        const movie = await api
-          .get(`movie/${id}?append_to_response=videos`)
-          .then((res) => {
-            return res.data;
-          });
-        const videos = movie.videos.results;
-        movie.videos = videos;
-        return movie;
-      },
-    });
+
     // TV Show
     t.nonNull.list.nonNull.field('shows', {
       type: 'ShowFetch',
@@ -56,21 +78,6 @@ const Query = objectType({
           .get(`tv/popular?page=${page}`)
           .then((res) => res.data.results);
         return showList;
-      },
-    });
-    t.nonNull.field('show', {
-      type: 'ShowFetch',
-      args: {
-        id: nonNull(intArg()),
-      },
-      resolve: async (_, args, ctx) => {
-        const id = args.id;
-        const show = await api
-          .get(`tv/${id}?append_to_response=videos`)
-          .then((res) => res.data);
-        const videos = show.videos.results;
-        show.videos = videos;
-        return show;
       },
     });
 
@@ -445,7 +452,7 @@ const Query = objectType({
         );
 
         const credits: ICreditProps[] = sortedCredits.slice(0, 9 * page);
-        const totalCount: Number = sortedCredits.length;
+        const totalCount: number = sortedCredits.length;
 
         return {
           credits,

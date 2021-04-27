@@ -6,7 +6,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { Social } from '.prisma/client';
 import { AuthenticationError, UserInputError } from 'apollo-server-errors';
 import api from '../api';
-import { ICreditProps, ISearchProps } from '../types';
+import { ICreditProps, IMovieProps, ISearchProps } from '../types';
 
 const Mutation = objectType({
   name: 'Mutation',
@@ -393,6 +393,44 @@ const Mutation = objectType({
         );
 
         return sortedCredits.slice(9 * page, 9 * page + 9);
+      },
+    });
+
+    t.nonNull.list.nonNull.field('getMoreWorks', {
+      type: 'WorkFetch',
+      args: {
+        page: nonNull(intArg()),
+        contentType: nonNull(stringArg()),
+        mediaType: nonNull(stringArg()),
+      },
+      resolve: async (_, { page, contentType, mediaType }, ctx) => {
+        // size: 9
+        const workList = await api
+          .get(`${mediaType}/${contentType}?page=${page}`)
+          .then((res) => {
+            return res.data.results.map((work: IMovieProps) => {
+              return {
+                id: work.id,
+                overview: work.overview,
+                ...(work.name && { title: work.name }),
+                ...(work.title && { title: work.title }),
+                ...(work.poster_path && { poster_path: work.poster_path }),
+                ...(work.backdrop_path && {
+                  backdrop_path: work.backdrop_path,
+                }),
+                ...(work.release_date && {
+                  release_date: work.release_date,
+                }),
+                ...(work.first_air_date && {
+                  release_date: work.first_air_date,
+                }),
+                ...(work.vote_average && {
+                  vote_average: work.vote_average,
+                }),
+              };
+            });
+          });
+        return workList;
       },
     });
 

@@ -1017,8 +1017,6 @@ export interface NexusGenObjects {
     runtime?: number | null; // Int
     tagline?: string | null; // String
     title: string; // String!
-    total_pages: number; // Int!
-    total_results: number; // Int!
     videos?: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average?: number | null; // Float
     vote_count: number; // Int!
@@ -1026,23 +1024,6 @@ export interface NexusGenObjects {
   Genre: { // root type
     id: number; // Int!
     name: string; // String!
-  }
-  MovieFetch: { // root type
-    backdrop_path?: string | null; // String
-    genres?: NexusGenRootTypes['Genre'][] | null; // [Genre!]
-    id: number; // Int!
-    media_type?: string | null; // String
-    overview: string; // String!
-    poster_path?: string | null; // String
-    release_date?: string | null; // String
-    runtime?: number | null; // Int
-    tagline?: string | null; // String
-    title: string; // String!
-    total_pages: number; // Int!
-    total_results: number; // Int!
-    videos?: NexusGenRootTypes['Video'][] | null; // [Video!]
-    vote_average?: number | null; // Float
-    vote_count: number; // Int!
   }
   Mutation: {};
   Network: { // root type
@@ -1093,8 +1074,6 @@ export interface NexusGenObjects {
     overview: string; // String!
     poster_path?: string | null; // String
     tagline?: string | null; // String
-    total_pages: number; // Int!
-    total_results: number; // Int!
     videos?: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average?: number | null; // Float
     vote_count: number; // Int!
@@ -1122,6 +1101,19 @@ export interface NexusGenObjects {
     key: string; // String!
     name: string; // String!
   }
+  WorkFetch: { // root type
+    backdrop_path?: string | null; // String
+    id: number; // Int!
+    overview: string; // String!
+    poster_path?: string | null; // String
+    release_date?: string | null; // String
+    title: string; // String!
+    vote_average?: number | null; // Float
+  }
+  Works: { // root type
+    totalPage: number; // Int!
+    works: NexusGenRootTypes['WorkFetch'][]; // [WorkFetch!]!
+  }
   Writer: { // root type
     avatar?: string | null; // String
     name: string; // String!
@@ -1129,7 +1121,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  IFetch: NexusGenRootTypes['DetailFetch'] | NexusGenRootTypes['MovieFetch'] | NexusGenRootTypes['ShowFetch'];
+  IFetch: NexusGenRootTypes['DetailFetch'] | NexusGenRootTypes['ShowFetch'];
 }
 
 export interface NexusGenUnions {
@@ -1194,8 +1186,6 @@ export interface NexusGenFieldTypes {
     runtime: number | null; // Int
     tagline: string | null; // String
     title: string; // String!
-    total_pages: number; // Int!
-    total_results: number; // Int!
     userReview: NexusGenRootTypes['Review'] | null; // Review
     videos: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number | null; // Float
@@ -1205,23 +1195,6 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     name: string; // String!
   }
-  MovieFetch: { // field return type
-    backdrop_path: string | null; // String
-    genres: NexusGenRootTypes['Genre'][] | null; // [Genre!]
-    id: number; // Int!
-    media_type: string | null; // String
-    overview: string; // String!
-    poster_path: string | null; // String
-    release_date: string | null; // String
-    runtime: number | null; // Int
-    tagline: string | null; // String
-    title: string; // String!
-    total_pages: number; // Int!
-    total_results: number; // Int!
-    videos: NexusGenRootTypes['Video'][] | null; // [Video!]
-    vote_average: number | null; // Float
-    vote_count: number; // Int!
-  }
   Mutation: { // field return type
     createOneComment: NexusGenRootTypes['Comment']; // Comment!
     createReview: NexusGenRootTypes['Review']; // Review!
@@ -1229,6 +1202,7 @@ export interface NexusGenFieldTypes {
     deleteOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     deleteOneReview: NexusGenRootTypes['Review'] | null; // Review
     getMoreCredits: NexusGenRootTypes['Credits'][]; // [Credits!]!
+    getMoreWorks: NexusGenRootTypes['WorkFetch'][]; // [WorkFetch!]!
     localLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     localSignUp: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     logout: boolean | null; // Boolean
@@ -1268,13 +1242,11 @@ export interface NexusGenFieldTypes {
     getReview: NexusGenRootTypes['Review'] | null; // Review
     getTrending: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
     getUserReview: NexusGenRootTypes['Review'] | null; // Review
-    movie: NexusGenRootTypes['MovieFetch']; // MovieFetch!
-    movies: NexusGenRootTypes['MovieFetch'][]; // [MovieFetch!]!
+    getWorks: NexusGenRootTypes['Works']; // Works!
     multiSearch: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
     profile: NexusGenRootTypes['Profile'] | null; // Profile
     review: NexusGenRootTypes['Review'] | null; // Review
     reviews: NexusGenRootTypes['Review'][]; // [Review!]!
-    show: NexusGenRootTypes['ShowFetch']; // ShowFetch!
     shows: NexusGenRootTypes['ShowFetch'][]; // [ShowFetch!]!
     similarWorks: NexusGenRootTypes['SimilarWorksFetch'][]; // [SimilarWorksFetch!]!
     uncheckedAlertsCount: number; // Int!
@@ -1313,8 +1285,6 @@ export interface NexusGenFieldTypes {
     overview: string; // String!
     poster_path: string | null; // String
     tagline: string | null; // String
-    total_pages: number; // Int!
-    total_results: number; // Int!
     videos: NexusGenRootTypes['Video'][] | null; // [Video!]
     vote_average: number | null; // Float
     vote_count: number; // Int!
@@ -1352,6 +1322,19 @@ export interface NexusGenFieldTypes {
     key: string; // String!
     name: string; // String!
   }
+  WorkFetch: { // field return type
+    backdrop_path: string | null; // String
+    id: number; // Int!
+    overview: string; // String!
+    poster_path: string | null; // String
+    release_date: string | null; // String
+    title: string; // String!
+    vote_average: number | null; // Float
+  }
+  Works: { // field return type
+    totalPage: number; // Int!
+    works: NexusGenRootTypes['WorkFetch'][]; // [WorkFetch!]!
+  }
   Writer: { // field return type
     avatar: string | null; // String
     name: string; // String!
@@ -1364,8 +1347,6 @@ export interface NexusGenFieldTypes {
     overview: string; // String!
     poster_path: string | null; // String
     tagline: string | null; // String
-    total_pages: number; // Int!
-    total_results: number; // Int!
     vote_average: number | null; // Float
     vote_count: number; // Int!
   }
@@ -1426,8 +1407,6 @@ export interface NexusGenFieldTypeNames {
     runtime: 'Int'
     tagline: 'String'
     title: 'String'
-    total_pages: 'Int'
-    total_results: 'Int'
     userReview: 'Review'
     videos: 'Video'
     vote_average: 'Float'
@@ -1437,23 +1416,6 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     name: 'String'
   }
-  MovieFetch: { // field return type name
-    backdrop_path: 'String'
-    genres: 'Genre'
-    id: 'Int'
-    media_type: 'String'
-    overview: 'String'
-    poster_path: 'String'
-    release_date: 'String'
-    runtime: 'Int'
-    tagline: 'String'
-    title: 'String'
-    total_pages: 'Int'
-    total_results: 'Int'
-    videos: 'Video'
-    vote_average: 'Float'
-    vote_count: 'Int'
-  }
   Mutation: { // field return type name
     createOneComment: 'Comment'
     createReview: 'Review'
@@ -1461,6 +1423,7 @@ export interface NexusGenFieldTypeNames {
     deleteOneComment: 'Comment'
     deleteOneReview: 'Review'
     getMoreCredits: 'Credits'
+    getMoreWorks: 'WorkFetch'
     localLogin: 'AuthPayload'
     localSignUp: 'AuthPayload'
     logout: 'Boolean'
@@ -1500,13 +1463,11 @@ export interface NexusGenFieldTypeNames {
     getReview: 'Review'
     getTrending: 'SearchFetch'
     getUserReview: 'Review'
-    movie: 'MovieFetch'
-    movies: 'MovieFetch'
+    getWorks: 'Works'
     multiSearch: 'SearchFetch'
     profile: 'Profile'
     review: 'Review'
     reviews: 'Review'
-    show: 'ShowFetch'
     shows: 'ShowFetch'
     similarWorks: 'SimilarWorksFetch'
     uncheckedAlertsCount: 'Int'
@@ -1545,8 +1506,6 @@ export interface NexusGenFieldTypeNames {
     overview: 'String'
     poster_path: 'String'
     tagline: 'String'
-    total_pages: 'Int'
-    total_results: 'Int'
     videos: 'Video'
     vote_average: 'Float'
     vote_count: 'Int'
@@ -1584,6 +1543,19 @@ export interface NexusGenFieldTypeNames {
     key: 'String'
     name: 'String'
   }
+  WorkFetch: { // field return type name
+    backdrop_path: 'String'
+    id: 'Int'
+    overview: 'String'
+    poster_path: 'String'
+    release_date: 'String'
+    title: 'String'
+    vote_average: 'Float'
+  }
+  Works: { // field return type name
+    totalPage: 'Int'
+    works: 'WorkFetch'
+  }
   Writer: { // field return type name
     avatar: 'String'
     name: 'String'
@@ -1596,8 +1568,6 @@ export interface NexusGenFieldTypeNames {
     overview: 'String'
     poster_path: 'String'
     tagline: 'String'
-    total_pages: 'Int'
-    total_results: 'Int'
     vote_average: 'Float'
     vote_count: 'Int'
   }
@@ -1625,6 +1595,11 @@ export interface NexusGenArgTypes {
     getMoreCredits: { // args
       page: number; // Int!
       personId: string; // String!
+    }
+    getMoreWorks: { // args
+      contentType: string; // String!
+      mediaType: string; // String!
+      page: number; // Int!
     }
     localLogin: { // args
       login: string; // String!
@@ -1695,10 +1670,9 @@ export interface NexusGenArgTypes {
     getUserReview: { // args
       movieId: string; // String!
     }
-    movie: { // args
-      id: string; // String!
-    }
-    movies: { // args
+    getWorks: { // args
+      contentType: string; // String!
+      mediaType: string; // String!
       page: number; // Int!
     }
     multiSearch: { // args
@@ -1716,9 +1690,6 @@ export interface NexusGenArgTypes {
       id: string; // String!
       size: number; // Int!
       skip: number; // Int!
-    }
-    show: { // args
-      id: number; // Int!
     }
     shows: { // args
       page: number; // Int!
@@ -1760,12 +1731,11 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  IFetch: "DetailFetch" | "MovieFetch" | "ShowFetch"
+  IFetch: "DetailFetch" | "ShowFetch"
 }
 
 export interface NexusGenTypeInterfaces {
   DetailFetch: "IFetch"
-  MovieFetch: "IFetch"
   ShowFetch: "IFetch"
 }
 
