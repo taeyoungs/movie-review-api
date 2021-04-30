@@ -1054,6 +1054,10 @@ export interface NexusGenObjects {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     writerId: number; // Int!
   }
+  Search: { // root type
+    searches: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
+    totalPage: number; // Int!
+  }
   SearchFetch: { // root type
     id: number; // Int!
     media_type?: string | null; // String
@@ -1202,6 +1206,7 @@ export interface NexusGenFieldTypes {
     deleteOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     deleteOneReview: NexusGenRootTypes['Review'] | null; // Review
     getMoreCredits: NexusGenRootTypes['Credits'][]; // [Credits!]!
+    getMoreSearchData: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
     getMoreWorks: NexusGenRootTypes['WorkFetch'][]; // [WorkFetch!]!
     localLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     localSignUp: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
@@ -1243,7 +1248,7 @@ export interface NexusGenFieldTypes {
     getTrending: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
     getUserReview: NexusGenRootTypes['Review'] | null; // Review
     getWorks: NexusGenRootTypes['Works']; // Works!
-    multiSearch: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
+    multiSearch: NexusGenRootTypes['Search']; // Search!
     profile: NexusGenRootTypes['Profile'] | null; // Profile
     review: NexusGenRootTypes['Review'] | null; // Review
     reviews: NexusGenRootTypes['Review'][]; // [Review!]!
@@ -1264,6 +1269,10 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     writer: NexusGenRootTypes['Writer']; // Writer!
     writerId: number; // Int!
+  }
+  Search: { // field return type
+    searches: NexusGenRootTypes['SearchFetch'][]; // [SearchFetch!]!
+    totalPage: number; // Int!
   }
   SearchFetch: { // field return type
     id: number; // Int!
@@ -1423,6 +1432,7 @@ export interface NexusGenFieldTypeNames {
     deleteOneComment: 'Comment'
     deleteOneReview: 'Review'
     getMoreCredits: 'Credits'
+    getMoreSearchData: 'SearchFetch'
     getMoreWorks: 'WorkFetch'
     localLogin: 'AuthPayload'
     localSignUp: 'AuthPayload'
@@ -1464,7 +1474,7 @@ export interface NexusGenFieldTypeNames {
     getTrending: 'SearchFetch'
     getUserReview: 'Review'
     getWorks: 'Works'
-    multiSearch: 'SearchFetch'
+    multiSearch: 'Search'
     profile: 'Profile'
     review: 'Review'
     reviews: 'Review'
@@ -1485,6 +1495,10 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
     writer: 'Writer'
     writerId: 'Int'
+  }
+  Search: { // field return type name
+    searches: 'SearchFetch'
+    totalPage: 'Int'
   }
   SearchFetch: { // field return type name
     id: 'Int'
@@ -1595,6 +1609,11 @@ export interface NexusGenArgTypes {
     getMoreCredits: { // args
       page: number; // Int!
       personId: string; // String!
+    }
+    getMoreSearchData: { // args
+      page: number; // Int!
+      searchType: string; // String!
+      term: string; // String!
     }
     getMoreWorks: { // args
       contentType: string; // String!

@@ -306,6 +306,16 @@ const SimilarWorksFetch = objectType({
   },
 });
 
+const Search = objectType({
+  name: 'Search',
+  definition(t) {
+    t.nonNull.list.nonNull.field('searches', {
+      type: 'SearchFetch',
+    });
+    t.nonNull.int('totalPage');
+  },
+});
+
 const SearchFetch = objectType({
   name: 'SearchFetch',
   definition(t) {
@@ -364,6 +374,7 @@ export const schema = makeSchema({
     PersonFetch,
     CastFetch,
     SimilarWorksFetch,
+    Search,
     SearchFetch,
     Credits,
     CreditFetch,

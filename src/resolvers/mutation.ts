@@ -434,6 +434,96 @@ const Mutation = objectType({
       },
     });
 
+    t.nonNull.list.nonNull.field('getMoreSearchData', {
+      type: 'SearchFetch',
+      args: {
+        term: nonNull(stringArg()),
+        page: nonNull(intArg()),
+        searchType: nonNull(stringArg()),
+      },
+      resolve: async (_, args, ctx) => {
+        // id, media_type, title, poster_path, vote_average, release_date
+        const { term, page, searchType } = args;
+
+        if (
+          !(
+            searchType === 'multi' ||
+            searchType === 'movie' ||
+            searchType === 'tv' ||
+            searchType === 'person'
+          )
+        ) {
+          throw new UserInputError('존재하지 않는 검색 카테고리입니다.');
+        }
+
+        const searchResults = await api
+          .get(
+            `search/${searchType}?query=${encodeURIComponent(
+              term
+            )}&page=${page}`
+          )
+          .then((res) => {
+            if (searchType === 'multi') {
+              return res.data.results.map((work: ISearchProps) => {
+                return {
+                  id: work.id,
+                  ...(work.media_type && { media_type: work.media_type }),
+                  ...(work.name && { title: work.name }),
+                  ...(work.title && { title: work.title }),
+                  ...(work.poster_path && { poster_path: work.poster_path }),
+                  ...(work.profile_path && { poster_path: work.profile_path }),
+                  ...(work.release_date && {
+                    release_date: work.release_date,
+                  }),
+                  ...(work.first_air_date && {
+                    release_date: work.first_air_date,
+                  }),
+                  ...(work.vote_average && { vote_average: work.vote_average }),
+                };
+              });
+            } else if (searchType === 'movie') {
+              return res.data.results.map((work: ISearchProps) => {
+                return {
+                  id: work.id,
+                  media_type: searchType,
+                  ...(work.title && { title: work.title }),
+                  ...(work.poster_path && { poster_path: work.poster_path }),
+                  ...(work.release_date && {
+                    release_date: work.release_date,
+                  }),
+                  ...(work.vote_average && { vote_average: work.vote_average }),
+                };
+              });
+            } else if (searchType === 'tv') {
+              return res.data.results.map((work: ISearchProps) => {
+                return {
+                  id: work.id,
+                  media_type: searchType,
+                  ...(work.name && { title: work.name }),
+                  ...(work.poster_path && { poster_path: work.poster_path }),
+                  ...(work.first_air_date && {
+                    release_date: work.first_air_date,
+                  }),
+                  ...(work.vote_average && { vote_average: work.vote_average }),
+                };
+              });
+            } else if (searchType === 'person') {
+              return res.data.results.map((work: ISearchProps) => {
+                return {
+                  id: work.id,
+                  media_type: searchType,
+                  ...(work.name && { title: work.name }),
+                  ...(work.profile_path && { poster_path: work.profile_path }),
+                };
+              });
+            } else {
+              throw new UserInputError('존재하지 않는 검색 카테고리입니다.');
+            }
+          });
+        return searchResults;
+      },
+    });
+
     // 3. admin ?
     // 4. session login (X) ?
 

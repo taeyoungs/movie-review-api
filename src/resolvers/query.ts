@@ -197,8 +197,8 @@ const Query = objectType({
     });
 
     // Search
-    t.nonNull.list.nonNull.field('multiSearch', {
-      type: 'SearchFetch',
+    t.nonNull.field('multiSearch', {
+      type: 'Search',
       args: {
         term: nonNull(stringArg()),
         page: nonNull(intArg()),
@@ -218,6 +218,7 @@ const Query = objectType({
         ) {
           throw new UserInputError('존재하지 않는 검색 카테고리입니다.');
         }
+        let totalPage = 0;
 
         const searchResults = await api
           .get(
@@ -225,65 +226,86 @@ const Query = objectType({
               term
             )}&page=${page}`
           )
-          .then((res) => {
-            if (searchType === 'multi') {
-              return res.data.results.map((work: ISearchProps) => {
-                return {
-                  id: work.id,
-                  ...(work.media_type && { media_type: work.media_type }),
-                  ...(work.name && { title: work.name }),
-                  ...(work.title && { title: work.title }),
-                  ...(work.poster_path && { poster_path: work.poster_path }),
-                  ...(work.profile_path && { poster_path: work.profile_path }),
-                  ...(work.release_date && {
-                    release_date: work.release_date,
-                  }),
-                  ...(work.first_air_date && {
-                    release_date: work.first_air_date,
-                  }),
-                  ...(work.vote_average && { vote_average: work.vote_average }),
-                };
-              });
-            } else if (searchType === 'movie') {
-              return res.data.results.map((work: ISearchProps) => {
-                return {
-                  id: work.id,
-                  media_type: searchType,
-                  ...(work.title && { title: work.title }),
-                  ...(work.poster_path && { poster_path: work.poster_path }),
-                  ...(work.release_date && {
-                    release_date: work.release_date,
-                  }),
-                  ...(work.vote_average && { vote_average: work.vote_average }),
-                };
-              });
-            } else if (searchType === 'tv') {
-              return res.data.results.map((work: ISearchProps) => {
-                return {
-                  id: work.id,
-                  media_type: searchType,
-                  ...(work.name && { title: work.name }),
-                  ...(work.poster_path && { poster_path: work.poster_path }),
-                  ...(work.first_air_date && {
-                    release_date: work.first_air_date,
-                  }),
-                  ...(work.vote_average && { vote_average: work.vote_average }),
-                };
-              });
-            } else if (searchType === 'person') {
-              return res.data.results.map((work: ISearchProps) => {
-                return {
-                  id: work.id,
-                  media_type: searchType,
-                  ...(work.name && { title: work.name }),
-                  ...(work.profile_path && { poster_path: work.profile_path }),
-                };
-              });
-            } else {
-              throw new UserInputError('존재하지 않는 검색 카테고리입니다.');
+          .then(
+            (res: {
+              data: {
+                results: ISearchProps[];
+                total_pages: number;
+              };
+            }) => {
+              totalPage = res.data.total_pages;
+              if (searchType === 'multi') {
+                return res.data.results.map((work) => {
+                  return {
+                    id: work.id,
+                    ...(work.media_type && { media_type: work.media_type }),
+                    ...(work.name && { title: work.name }),
+                    ...(work.title && { title: work.title }),
+                    ...(work.poster_path && { poster_path: work.poster_path }),
+                    ...(work.profile_path && {
+                      poster_path: work.profile_path,
+                    }),
+                    ...(work.release_date && {
+                      release_date: work.release_date,
+                    }),
+                    ...(work.first_air_date && {
+                      release_date: work.first_air_date,
+                    }),
+                    ...(work.vote_average && {
+                      vote_average: work.vote_average,
+                    }),
+                  };
+                });
+              } else if (searchType === 'movie') {
+                return res.data.results.map((work: ISearchProps) => {
+                  return {
+                    id: work.id,
+                    media_type: searchType,
+                    ...(work.title && { title: work.title }),
+                    ...(work.poster_path && { poster_path: work.poster_path }),
+                    ...(work.release_date && {
+                      release_date: work.release_date,
+                    }),
+                    ...(work.vote_average && {
+                      vote_average: work.vote_average,
+                    }),
+                  };
+                });
+              } else if (searchType === 'tv') {
+                return res.data.results.map((work: ISearchProps) => {
+                  return {
+                    id: work.id,
+                    media_type: searchType,
+                    ...(work.name && { title: work.name }),
+                    ...(work.poster_path && { poster_path: work.poster_path }),
+                    ...(work.first_air_date && {
+                      release_date: work.first_air_date,
+                    }),
+                    ...(work.vote_average && {
+                      vote_average: work.vote_average,
+                    }),
+                  };
+                });
+              } else if (searchType === 'person') {
+                return res.data.results.map((work: ISearchProps) => {
+                  return {
+                    id: work.id,
+                    media_type: searchType,
+                    ...(work.name && { title: work.name }),
+                    ...(work.profile_path && {
+                      poster_path: work.profile_path,
+                    }),
+                  };
+                });
+              } else {
+                throw new UserInputError('존재하지 않는 검색 카테고리입니다.');
+              }
             }
-          });
-        return searchResults;
+          );
+        return {
+          searches: searchResults,
+          totalPage,
+        };
       },
     });
 
