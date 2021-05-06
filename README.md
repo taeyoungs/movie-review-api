@@ -1,22 +1,23 @@
 # Movie Review API
 
-GraphQL API of the Movie review site using Apollo, Prisma
+## Description
+
+GraphQL API of the Movie review website using Apollo Server, Prisma and Nexus
 
 ## Feature
 
-1. See Popular, Upcoming movies
-   (Using TMDB rest api)
-2. Token auth (google, github)
-3. crud review and comment
-
-<br />
+1. Manage review, rating
+2. Wrap TMDB api
+3. Set HttpOnly Cookie
 
 ## Stack
 
 1. Typescript
-2. Apollo
-3. Prisma 2
+2. Apollo Server
+3. Prisma
 4. Nexus
-5. Express
-6. Nodejs
-7. MySQL
+5. MySQL
+
+## FrontEnd Server
+
+https://github.com/taeyoungs/movie-review-client
